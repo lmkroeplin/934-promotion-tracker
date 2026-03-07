@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>934th CES - Promotion Eligibility Worksheet</title>
+<style>
+:root {
+  --af-blue: #00308F;
+  --af-blue-light: #1a4a9f;
+  --af-silver: #C0C0C0;
+  --af-silver-light: #E8E8E8;
+  --green: #2e7d32;
+  --yellow: #f57f17;
+  --red: #c62828;
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #555;
+  --border: #d0d0d0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--af-blue), var(--af-blue-light));
+  color: white;
+  padding: 24px 32px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+.header p { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+
+.container {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.card-header {
+  background: var(--af-blue);
+  color: white;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.card-body { padding: 20px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.form-group { display: flex; flex-direction: column; }
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: white;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--af-blue);
+  box-shadow: 0 0 0 2px rgba(0,48,143,0.15);
+}
+
+.scoring-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.scoring-table th {
+  text-align: left;
+  padding: 8px 12px;
+  background: var(--af-silver-light);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border);
+}
+.scoring-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+.scoring-table td:last-child { width: 80px; text-align: center; }
+.scoring-table tr:hover { background: #f9f9fb; }
+
+.scoring-table select {
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
+  min-width: 60px;
+}
+
+.subtotal-row {
+  font-weight: 700;
+  background: var(--af-silver-light) !important;
+}
+.subtotal-row td { border-top: 2px solid var(--af-blue); }
+
+.grand-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--af-blue);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.threshold-bar {
+  margin: 12px 0;
+  background: #e0e0e0;
+  border-radius: 6px;
+  height: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.threshold-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease, background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 40px;
+}
+.threshold-markers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+.threshold-status {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 12px;
+}
+.status-green { background: #e8f5e9; color: var(--green); border: 1px solid #a5d6a7; }
+.status-yellow { background: #fff8e1; color: var(--yellow); border: 1px solid #ffe082; }
+.status-red { background: #ffebee; color: var(--red); border: 1px solid #ef9a9a; }
+.status-na { background: #f5f5f5; color: var(--text-muted); border: 1px solid var(--border); }
+
+.checklist { list-style: none; }
+.checklist li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--af-blue);
+  cursor: pointer;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+.toggle-group:last-child { border-bottom: none; }
+.toggle-btns { display: flex; gap: 4px; }
+.toggle-btn {
+  padding: 4px 14px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  font-family: inherit;
+}
+.toggle-btn.active-yes { background: var(--green); color: white; border-color: var(--green); }
+.toggle-btn.active-no { background: var(--red); color: white; border-color: var(--red); }
+
+.notes-area {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+.btn:hover { opacity: 0.9; }
+.btn-primary { background: var(--af-blue); color: white; }
+.btn-secondary { background: var(--af-silver); color: var(--text); }
+
+.commanders-note {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.signature-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+.sig-line {
+  border-bottom: 1px solid var(--text);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  min-height: 24px;
+  font-size: 0.9rem;
+}
+.sig-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+
+.print-score {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 16px;
+  padding: 12px;
+  border: 2px solid var(--af-blue);
+  border-radius: 6px;
+}
+
+/* Print styles */
+@media print {
+  body { background: white; font-size: 11px; line-height: 1.3; }
+  .header { padding: 12px; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .header h1 { font-size: 14px; }
+  .header p { font-size: 10px; }
+  .container { margin: 0; padding: 0 8px; max-width: 100%; }
+  .card { box-shadow: none; margin-bottom: 8px; border: 1px solid #ccc; break-inside: avoid; }
+  .card-header { padding: 6px 12px; font-size: 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card-body { padding: 8px 12px; }
+  .scoring-table td, .scoring-table th { padding: 3px 8px; font-size: 10px; }
+  .scoring-table select { border: none; background: none; font-size: 10px; -webkit-appearance: none; appearance: none; }
+  .grand-total { padding: 8px 12px; font-size: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .btn-row { display: none !important; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .threshold-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .threshold-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .threshold-status { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .form-group input, .form-group select { border: none; border-bottom: 1px solid #999; border-radius: 0; padding: 2px 4px; font-size: 10px; }
+  .checklist input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .toggle-btn { font-size: 9px; padding: 2px 8px; }
+  .toggle-btn.active-yes, .toggle-btn.active-no { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .notes-area { border: 1px solid #999; font-size: 10px; min-height: 40px; }
+  .signature-block { margin-top: 8px; }
+  .commanders-note { font-size: 9px; }
+}
+
+.print-only { display: none; }
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.2rem; }
+  .signature-block { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>934th Civil Engineering Squadron</h1>
+  <p>Promotion Eligibility Worksheet — Air Force Reserve Command</p>
+</div>
+
+<div class="container">
+
+  <!-- Member Info -->
+  <div class="card">
+    <div class="card-header">Member Information</div>
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Member Name</label>
+          <input type="text" id="memberName" placeholder="Last, First MI">
+        </div>
+        <div class="form-group">
+          <label>Current Rank</label>
+          <select id="currentRank">
+            <option value="">Select Rank</option>
+            <option value="AB">AB (E-1)</option>
+            <option value="Amn">Amn (E-2)</option>
+            <option value="A1C">A1C (E-3)</option>
+            <option value="SrA">SrA (E-4)</option>
+            <option value="SSgt">SSgt (E-5)</option>
+            <option value="TSgt">TSgt (E-6)</option>
+            <option value="MSgt">MSgt (E-7)</option>
+            <option value="SMSgt">SMSgt (E-8)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>AFSC</label>
+          <select id="afsc">
+            <option value="">Select AFSC</option>
+            <option value="3E0X1">3E0X1 - Electrical Systems</option>
+            <option value="3E0X2">3E0X2 - Electrical Power Production</option>
+            <option value="3E1X1">3E1X1 - HVAC-R</option>
+            <option value="3E2X1">3E2X1 - Pavements & Construction Equipment</option>
+            <option value="3E3X1">3E3X1 - Structural</option>
+            <option value="3E4X1">3E4X1 - Water & Fuel Systems</option>
+            <option value="3E4X3">3E4X3 - Pest Management</option>
+            <option value="3E5X1">3E5X1 - Engineering</option>
+            <option value="3E7X1">3E7X1 - Fire Protection</option>
+            <option value="3E8X1">3E8X1 - EOD</option>
+            <option value="3E9X1">3E9X1 - Emergency Management</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Supervisor Name</label>
+          <input type="text" id="supervisorName" placeholder="Last, First MI">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="worksheetDate">
+        </div>
+        <div class="form-group"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTEGRITY -->
+  <div class="card">
+    <div class="card-header">Integrity First</div>
+    <div class="card-body">
+      <table class="scoring-table">
+        <thead>
+          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Positive attitude around subordinates; exhibits commitment to unit & duty</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Strong leadership & Intestinal Fortitude — can make unpopular decisions the troops will follow</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Understands and carries out orders; can explain virtue of those orders, regardless</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Has supervisor responsibilities and/or writes EPRs</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>3-year attendance record<br><small style="color:#777">0-2 absences = 3 | 3-4 absences = 2 | 5-6 absences = 1 | 7+ = 0</small></td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Participated in ARA, ORI, or Other Inspection in last three years</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Currently performs an additional squadron duty</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Outstanding military appearance and personal fitness</td>
+            <td><select class="score-input" data-section="integrity" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr class="subtotal-row">
+            <td></td>
+            <td>Integrity Subtotal</td>
+            <td id="integrityTotal">0 / 24</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SERVICE BEFORE SELF -->
+  <div class="card">
+    <div class="card-header">Service Before Self</div>
+    <div class="card-body">
+      <table class="scoring-table">
+        <thead>
+          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Handles adversity and personal situations maturely (finances, health, home, travel, work)</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>First to arrive & last to leave attitude</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>100% participation in last Bivouac</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>No delinquent or failed CDCs past 18 months (not voluntary courses)</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>7-level in current Duty AFSC</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Participated in last Silver Flag in the last three years</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Participated in an AEF deployment in last three years</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Initiates projects — exhibits and instills a sense of teamwork</td>
+            <td><select class="score-input" data-section="service" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr class="subtotal-row">
+            <td></td>
+            <td>Service Before Self Subtotal</td>
+            <td id="serviceTotal">0 / 16</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXCELLENCE IN ALL WE DO -->
+  <div class="card">
+    <div class="card-header">Excellence In All We Do</div>
+    <div class="card-body">
+      <table class="scoring-table">
+        <thead>
+          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Currently performs a shop additional duty</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Attended NCO LDP</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>2nd additional duty or Past additional duty within 3 years</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Participated in one Formal Military function in last three years (Ball, Dining In/Out)</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Completed NCO Academy (Course 6 or 9)</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Completed SNCO Academy (Course 5, 8, 12, or 14)</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Regularly uses vPC-GR, AFTR, ADLS, AF Portal</td>
+            <td><select class="score-input" data-section="excellence" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Technical competency — Expert in their field</td>
+            <td><select class="score-input" data-section="excellence" data-max="2">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr class="subtotal-row">
+            <td></td>
+            <td>Excellence Subtotal</td>
+            <td id="excellenceTotal">0 / 9</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BONUS POINTS -->
+  <div class="card">
+    <div class="card-header">Bonus Points</div>
+    <div class="card-body">
+      <table class="scoring-table">
+        <thead>
+          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Interview Points (by Commander request)</td>
+            <td><select class="score-input" data-section="bonus" data-max="3">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Participated in last UCI / worked on MICT checklist</td>
+            <td><select class="score-input" data-section="bonus" data-max="2">
+              <option value="0">0</option><option value="2">2</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>CCAF or College degree</td>
+            <td><select class="score-input" data-section="bonus" data-max="1">
+              <option value="0">0</option><option value="1">1</option>
+            </select></td>
+          </tr>
+          <tr class="subtotal-row">
+            <td></td>
+            <td>Bonus Subtotal</td>
+            <td id="bonusTotal">0 / 6</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Grand Total -->
+  <div class="card">
+    <div class="grand-total">
+      <span>GRAND TOTAL</span>
+      <span id="grandTotal">0 / 48</span>
+    </div>
+  </div>
+
+  <!-- Promotion Threshold -->
+  <div class="card">
+    <div class="card-header">Promotion Threshold Status</div>
+    <div class="card-body">
+      <div id="thresholdContent">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Select a rank above to see promotion threshold status.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AF Reserve General Requirements -->
+  <div class="card">
+    <div class="card-header">AF Reserve General Requirements (Informational)</div>
+    <div class="card-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="req-tig"><label for="req-tig">Time-in-Grade requirement met</label></li>
+        <li><input type="checkbox" id="req-tis"><label for="req-tis">Time-in-Service requirement met</label></li>
+        <li><input type="checkbox" id="req-pme"><label for="req-pme">PME complete for next grade</label></li>
+        <li><input type="checkbox" id="req-fitness"><label for="req-fitness">Fitness test current and passing</label></li>
+        <li><input type="checkbox" id="req-epr"><label for="req-epr">EPR eligible</label></li>
+        <li><input type="checkbox" id="req-skill"><label for="req-skill">Skill level appropriate for next grade</label></li>
+        <li><input type="checkbox" id="req-cc"><label for="req-cc">Commander recommendation received</label></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Behavioral Items -->
+  <div class="card">
+    <div class="card-header">Behavioral Assessment</div>
+    <div class="card-body">
+      <div class="toggle-group">
+        <span>Does the member always attend scheduled training?</span>
+        <div class="toggle-btns">
+          <button class="toggle-btn" data-field="behav-training" data-val="Y" onclick="toggleBehav(this)">Y</button>
+          <button class="toggle-btn" data-field="behav-training" data-val="N" onclick="toggleBehav(this)">N</button>
+        </div>
+      </div>
+      <div class="toggle-group">
+        <span>Does the member take notes to retain and pass on information?</span>
+        <div class="toggle-btns">
+          <button class="toggle-btn" data-field="behav-notes" data-val="Y" onclick="toggleBehav(this)">Y</button>
+          <button class="toggle-btn" data-field="behav-notes" data-val="N" onclick="toggleBehav(this)">N</button>
+        </div>
+      </div>
+      <div class="toggle-group">
+        <span>Does the member use the chain of command?</span>
+        <div class="toggle-btns">
+          <button class="toggle-btn" data-field="behav-coc" data-val="Y" onclick="toggleBehav(this)">Y</button>
+          <button class="toggle-btn" data-field="behav-coc" data-val="N" onclick="toggleBehav(this)">N</button>
+        </div>
+      </div>
+      <p class="commanders-note" style="margin-top: 12px;">
+        Members in overtime training may not be promoted.
+      </p>
+    </div>
+  </div>
+
+  <!-- AFSC-Specific Notes -->
+  <div class="card">
+    <div class="card-header">AFSC-Specific / Flight Notes</div>
+    <div class="card-body">
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
+        Add flight-specific requirements, CFETP notes, or other observations for this member.
+      </p>
+      <textarea class="notes-area" id="flightNotes" placeholder="Enter flight-specific notes, CFETP requirements, certifications, etc."></textarea>
+    </div>
+  </div>
+
+  <!-- Commander's Note -->
+  <div class="card">
+    <div class="card-body">
+      <div class="commanders-note">
+        <strong>Commander's Note:</strong> Good Attitude, Performance and Participation are not occasional,
+        convenient, or one time occurrences — they are continuous characteristics.
+      </div>
+    </div>
+  </div>
+
+  <!-- Signature Block (visible in print) -->
+  <div class="card print-only" id="signatureCard">
+    <div class="card-header">Signatures</div>
+    <div class="card-body">
+      <div class="print-score">
+        TOTAL SCORE: <span id="printScore">0</span> / 48
+      </div>
+      <div class="signature-block">
+        <div>
+          <div class="sig-line" id="printRatee"></div>
+          <div class="sig-label">Ratee (Print Name / Signature / Date)</div>
+        </div>
+        <div>
+          <div class="sig-line" id="printRater"></div>
+          <div class="sig-label">Rater (Print Name / Signature / Date)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row no-print">
+    <button class="btn btn-primary" onclick="printWorksheet()">🖨️ Print / Save PDF</button>
+    <button class="btn btn-secondary" onclick="resetForm()">↻ Reset All</button>
+  </div>
+
+</div>
+
+<script>
+// Auto-fill today's date
+document.getElementById('worksheetDate').valueAsDate = new Date();
+
+// Score calculation
+function calculateScores() {
+  const sections = { integrity: 0, service: 0, excellence: 0, bonus: 0 };
+
+  document.querySelectorAll('.score-input').forEach(sel => {
+    const section = sel.dataset.section;
+    sections[section] += parseInt(sel.value) || 0;
+  });
+
+  document.getElementById('integrityTotal').textContent = sections.integrity + ' / 24';
+  document.getElementById('serviceTotal').textContent = sections.service + ' / 16';
+  document.getElementById('excellenceTotal').textContent = sections.excellence + ' / 9';
+  document.getElementById('bonusTotal').textContent = sections.bonus + ' / 6';
+
+  const grand = sections.integrity + sections.service + sections.excellence + sections.bonus;
+  document.getElementById('grandTotal').textContent = grand + ' / 48';
+  document.getElementById('printScore').textContent = grand;
+
+  updateThreshold(grand);
+}
+
+function updateThreshold(score) {
+  const rank = document.getElementById('currentRank').value;
+  const container = document.getElementById('thresholdContent');
+
+  const thresholds = {
+    'SrA':   { next: 'SSgt (E-5)', min: null, pep: null, note: 'Local worksheet scoring applies E-6 and above.' },
+    'SSgt':  { next: 'TSgt (E-6)',  min: 26, pep: 32 },
+    'TSgt':  { next: 'MSgt (E-7)',  min: 32, pep: 38 },
+    'MSgt':  { next: 'SMSgt (E-8)', min: 38, pep: 44 },
+    'SMSgt': { next: 'CMSgt (E-9)', min: null, pep: null, note: 'CMSgt promotion is board-selected at HHQ level.' }
+  };
+
+  if (!rank || !thresholds[rank] || thresholds[rank].min === null) {
+    const note = (thresholds[rank] && thresholds[rank].note) || 'Select a rank (SSgt–MSgt) to see promotion thresholds.';
+    container.innerHTML = '<p class="threshold-status status-na">' + note + '</p>';
+    return;
+  }
+
+  const t = thresholds[rank];
+  const pct = Math.min((score / 48) * 100, 100);
+  const minPct = (t.min / 48) * 100;
+  const pepPct = (t.pep / 48) * 100;
+
+  let color, statusClass, statusText;
+  if (score >= t.pep) {
+    color = 'var(--green)';
+    statusClass = 'status-green';
+    statusText = '✓ Score ' + score + '/48 — Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
+  } else if (score >= t.min) {
+    color = 'var(--yellow)';
+    statusClass = 'status-yellow';
+    statusText = '⚠ Score ' + score + '/48 — Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' points below PEP threshold (' + t.pep + ').';
+  } else {
+    color = 'var(--red)';
+    statusClass = 'status-red';
+    statusText = '✗ Score ' + score + '/48 — Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more points.';
+  }
+
+  container.innerHTML =
+    '<div class="threshold-bar">' +
+      '<div class="threshold-fill" style="width:' + pct + '%;background:' + color + '">' + score + '</div>' +
+    '</div>' +
+    '<div class="threshold-markers">' +
+      '<span>0</span>' +
+      '<span style="position:absolute;left:' + minPct + '%;transform:translateX(-50%)">Min ' + t.min + '</span>' +
+      '<span style="position:absolute;left:' + pepPct + '%;transform:translateX(-50%)">PEP ' + t.pep + '</span>' +
+      '<span>48</span>' +
+    '</div>' +
+    '<div class="threshold-status ' + statusClass + '">' + statusText + '</div>';
+
+  // Fix markers container to relative
+  container.querySelector('.threshold-markers').style.position = 'relative';
+}
+
+// Attach listeners
+document.querySelectorAll('.score-input').forEach(sel => {
+  sel.addEventListener('change', calculateScores);
+});
+document.getElementById('currentRank').addEventListener('change', calculateScores);
+
+// Toggle behavioral Y/N
+function toggleBehav(btn) {
+  const field = btn.dataset.field;
+  const val = btn.dataset.val;
+  const siblings = btn.parentElement.querySelectorAll('.toggle-btn');
+  siblings.forEach(s => {
+    s.classList.remove('active-yes', 'active-no');
+  });
+  if (val === 'Y') btn.classList.add('active-yes');
+  else btn.classList.add('active-no');
+}
+
+// Print
+function printWorksheet() {
+  // Populate print signature fields
+  document.getElementById('printRatee').textContent = document.getElementById('memberName').value || '';
+  document.getElementById('printRater').textContent = document.getElementById('supervisorName').value || '';
+  document.getElementById('signatureCard').style.display = 'block';
+  window.print();
+}
+
+// Reset
+function resetForm() {
+  if (!confirm('Reset all fields? This cannot be undone.')) return;
+  document.querySelectorAll('.score-input').forEach(sel => sel.value = '0');
+  document.querySelectorAll('input[type="text"]').forEach(inp => inp.value = '');
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active-yes', 'active-no'));
+  document.getElementById('flightNotes').value = '';
+  document.getElementById('currentRank').value = '';
+  document.getElementById('afsc').value = '';
+  document.getElementById('worksheetDate').valueAsDate = new Date();
+  calculateScores();
+}
+
+// Initial calculation
+calculateScores();
+</script>
+
+</body>
+</html>
