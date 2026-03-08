@@ -50,8 +50,8 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .global-progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary-light));transition:width .4s ease}
 
 /* ===== HEADER ===== */
-.site-header{background:linear-gradient(135deg,#0a2647 0%,#1a4480 60%,#1e3a5f 100%);color:#fff;padding:1.25rem 1.5rem;position:relative;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;gap:1rem;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.25)}
-.header-emblem{width:44px;height:44px;flex-shrink:0;border:2px solid rgba(197,164,78,.6);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);font-size:1.6rem;line-height:1}
+.site-header{background:linear-gradient(135deg,#0b1d3a 0%,#152e54 40%,#1a4480 70%,#1e3a5f 100%);color:#fff;padding:1.25rem 1.5rem;position:relative;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;gap:1rem;text-align:center;box-shadow:0 2px 20px rgba(0,0,0,.3),inset 0 -1px 0 rgba(255,255,255,.05)}
+.header-emblem{width:48px;height:48px;flex-shrink:0;border:2px solid rgba(197,164,78,.5);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);font-size:1.6rem;line-height:1;box-shadow:0 0 12px rgba(197,164,78,.15)}
 .header-emblem img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .header-text{display:flex;flex-direction:column;align-items:center}
 .site-header h1{font-size:1.1rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,.3)}
@@ -77,7 +77,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   .section-nav a{display:flex;justify-content:space-between;align-items:center;padding:.45rem .6rem;border-radius:6px;text-decoration:none;font-size:.8rem;font-weight:500;color:var(--text-muted);transition:background .15s,color .15s}
   .section-nav a:hover,.section-nav a.active{background:var(--primary);color:#fff}
   .section-nav .nav-score{font-weight:700;font-size:.75rem}
-  .nav-total{margin-top:.75rem;padding:.75rem;background:var(--primary);color:#fff;border-radius:8px;text-align:center;font-weight:700;font-size:1rem}
+  .nav-total{margin-top:.75rem;padding:.85rem;background:var(--primary);color:#fff;border-radius:10px;text-align:center;font-weight:700;font-size:1.05rem}
   .nav-total small{display:block;font-size:.7rem;font-weight:400;opacity:.8}
   .nav-expand-btn{display:block;width:100%;margin-top:.5rem;padding:.4rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:.75rem;font-family:var(--font-body)}
   .nav-expand-btn:hover{background:var(--hover)}
@@ -85,15 +85,15 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 /* ===== MODE TOGGLE ===== */
 .mode-toggle{display:flex;justify-content:center;margin:0 0 1rem;gap:0}
-.mode-toggle button{padding:.65rem 1.5rem;font-size:.85rem;font-weight:600;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary);cursor:pointer;font-family:var(--font-body);transition:all .2s ease}
+.mode-toggle button{padding:.7rem 1.75rem;font-size:.82rem;font-weight:600;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary);cursor:pointer;font-family:var(--font-body);transition:all .25s ease;letter-spacing:.3px}
 .mode-toggle button:first-child{border-radius:10px 0 0 10px}
 .mode-toggle button:last-child{border-radius:0 10px 10px 0;border-left:none}
 .mode-toggle button.active{background:var(--primary);color:#fff}
 
 /* ===== ACCORDION SECTIONS ===== */
-.scoring-section{background:var(--surface);border-radius:12px;margin-bottom:.85rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.03);border:1px solid var(--border-light);transition:box-shadow .2s ease}
-.scoring-section:hover{box-shadow:0 2px 4px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.08)}
-.section-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:.85rem 1.15rem;background:var(--surface);color:var(--text);border:none;cursor:pointer;font-family:var(--font-body);font-size:.82rem;font-weight:700;text-align:left;letter-spacing:.5px;text-transform:uppercase;gap:.5rem;transition:background .15s ease}
+.scoring-section{background:var(--surface);border-radius:12px;margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.03);border:1px solid var(--border-light);transition:box-shadow .2s ease}
+.scoring-section:hover{box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06)}
+.section-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;background:var(--surface);color:var(--text);border:none;cursor:pointer;font-family:var(--font-body);font-size:.82rem;font-weight:700;text-align:left;letter-spacing:.5px;text-transform:uppercase;gap:.5rem;transition:background .15s ease}
 .section-header:hover{background:var(--hover)}
 .section-header:focus-visible{outline:3px solid var(--focus-ring);outline-offset:-3px}
 .section-meta{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
@@ -201,7 +201,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .section-notes textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(36,145,255,.15)}
 .section-notes textarea::placeholder{color:var(--text-muted);font-style:italic}
 /* ===== DISCLAIMER ===== */
-.disclaimer{font-size:.75rem;color:var(--text-muted);text-align:center;padding:.75rem 1rem;margin-top:.5rem;line-height:1.5;border:1px solid var(--border-light);border-radius:6px;background:var(--surface-alt)}
+.disclaimer{font-size:.72rem;color:var(--text-muted);text-align:center;padding:.85rem 1.25rem;margin-top:.75rem;line-height:1.6;border:1px solid var(--border-light);border-radius:12px;background:var(--surface-alt)}
 .disclaimer strong{color:var(--text)}
 /* ===== REFERENCES ===== */
 .req-references{margin-top:1rem;padding-top:.75rem;border-top:2px solid var(--border)}
@@ -211,14 +211,14 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .ref-link a:hover{text-decoration:underline}
 .ref-note{font-size:.72rem;color:var(--text-muted);font-style:italic;margin-top:.75rem;padding:.5rem;background:var(--surface-alt);border-radius:4px;line-height:1.5}
 /* ===== COMMANDERS NOTE ===== */
-.commanders-note{font-style:italic;color:var(--text-muted);font-size:.82rem;text-align:left;padding:1rem 1.25rem;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:0 6px 6px 0;background:var(--surface-alt);margin-top:.5rem}
+.commanders-note{font-style:italic;color:var(--text-muted);font-size:.85rem;text-align:center;padding:1.25rem 1.5rem;border:none;border-radius:12px;background:var(--surface-alt);margin-top:.5rem;letter-spacing:.2px;line-height:1.7}
 /* ===== SAVE INDICATOR ===== */
 .save-indicator{text-align:center;font-size:.75rem;color:var(--text-muted);padding:.25rem 0;transition:opacity .3s}
 
 /* ===== BUTTONS ===== */
 .btn-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
-.btn{padding:.65rem 1.5rem;border:none;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:var(--font-body);min-height:48px;transition:opacity .15s}
-.btn:hover{opacity:.88}
+.btn{padding:.7rem 1.75rem;border:none;border-radius:10px;font-size:.875rem;font-weight:600;cursor:pointer;font-family:var(--font-body);min-height:48px;transition:all .2s ease;letter-spacing:.2px}
+.btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-secondary{background:var(--border);color:var(--text)}
 .btn-danger{background:var(--error);color:#fff}
@@ -242,39 +242,48 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .print-header,.print-summary,.print-signatures,.print-detail-section,.print-comparison{display:none}
 @media print{
   *{color-adjust:exact!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  body{font-family:'Times New Roman',Times,serif;font-size:10pt;line-height:1.3;color:#000;background:#fff}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:10pt;line-height:1.4;color:#1d1d1f;background:#fff}
   .global-progress,.section-nav,.mobile-score-bar,.header-controls,.btn-row,.icon-btn,.no-print,.save-indicator,.mode-toggle{display:none!important}
 
-  .print-header{display:block!important;text-align:center;border-bottom:2px solid #000;padding-bottom:.4rem;margin-bottom:.5rem}
-  .print-header h1{font-size:12pt;text-transform:uppercase;letter-spacing:.05em}
-  .print-header p{font-size:8.5pt;margin-top:2px}
+  /* ---- Print Header: colored military band ---- */
+  .print-header{display:block!important;margin-bottom:.6rem}
+  .print-header-band{background:#0a2647;color:#fff;padding:12pt 16pt;margin:-0.6in -0.75in 0 -0.75in;width:calc(100% + 1.5in)}
+  .print-header-inner{text-align:center}
+  .print-header-title{font-size:9pt;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.85}
+  .print-header-unit{font-size:11pt;font-weight:800;letter-spacing:1px;margin-top:2pt}
+  .print-header-doc{text-align:center;padding-top:8pt;border-bottom:2pt solid #0a2647;padding-bottom:8pt}
+  .print-header-doc h1{font-size:13pt;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#0a2647;margin:0}
+  .print-header-meta{display:flex;justify-content:center;gap:16pt;margin-top:6pt;font-size:8.5pt;color:#555}
+  .print-header-meta strong{color:#1d1d1f}
+
   .site-header{display:none}
   .layout{display:block!important;max-width:100%;padding:0;margin:0}
 
   /* ---- Page 1: Member Info + Score Summary + Threshold ---- */
-  #sec-info{box-shadow:none;border:none;margin-bottom:.2rem}
+  #sec-info{box-shadow:none;border:none;margin-bottom:.3rem}
   #sec-info .section-header{display:none}
   #sec-info .section-content{display:block!important;grid-template-rows:1fr!important}
-  .form-group input,.form-group select{border:none;border-bottom:1px solid #999;border-radius:0;padding:2px 4px;font-size:8.5pt;background:transparent}
-  .form-row{display:grid!important;grid-template-columns:1fr 1fr!important}
-  .promoting-to{background:transparent;padding:2px 4px;font-size:8.5pt}
-  .form-group label{font-size:7.5pt}
+  .form-group input,.form-group select{border:none;border-bottom:1px solid #bbb;border-radius:0;padding:3px 4px;font-size:9pt;background:transparent;color:#1d1d1f}
+  .form-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6pt}
+  .promoting-to{background:transparent;padding:3px 4px;font-size:9pt}
+  .form-group label{font-size:7pt;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#86868b}
 
-  .tig-tis-display{display:grid!important;grid-template-columns:1fr 1fr;gap:4pt;margin-top:4pt}
-  .tig-tis-card{padding:4pt;border:1px solid #999;border-radius:0;background:transparent}
-  .tig-tis-label{font-size:7pt}
-  .tig-tis-value{font-size:9pt}
+  .tig-tis-display{display:grid!important;grid-template-columns:1fr 1fr;gap:6pt;margin-top:6pt}
+  .tig-tis-card{padding:6pt;border:1px solid #d2d2d7;border-radius:4pt;background:#f5f5f7}
+  .tig-tis-label{font-size:7pt;color:#86868b}
+  .tig-tis-value{font-size:10pt;font-weight:700}
   .tig-tis-req{font-size:7pt}
 
-  .print-summary{display:table!important;width:100%;border-collapse:collapse;margin-top:.4rem;break-inside:avoid}
-  .print-summary td,.print-summary th{border:1px solid #000;padding:3pt 6pt;font-size:9pt}
-  .print-summary th{background:#e0e0e0;text-align:left}
-  .print-summary tr:nth-child(even){background:#f5f5f5}
+  .print-summary{display:table!important;width:100%;border-collapse:collapse;margin-top:.5rem;break-inside:avoid}
+  .print-summary td,.print-summary th{border:1px solid #d2d2d7;padding:5pt 8pt;font-size:9.5pt}
+  .print-summary th{background:#0a2647;color:#fff;text-align:left;font-size:10pt;letter-spacing:.5px}
+  .print-summary tr:nth-child(even){background:#f5f5f7}
+  .print-summary tr:last-child td{border-top:2pt solid #0a2647}
 
   .print-comparison{display:none}
-  .print-comparison.has-data{display:table!important;width:100%;border-collapse:collapse;margin-top:.4rem;break-inside:avoid}
-  .print-comparison td,.print-comparison th{border:1px solid #000;padding:3pt 6pt;font-size:9pt}
-  .print-comparison th{background:#e0e0e0;text-align:center}
+  .print-comparison.has-data{display:table!important;width:100%;border-collapse:collapse;margin-top:.5rem;break-inside:avoid}
+  .print-comparison td,.print-comparison th{border:1px solid #d2d2d7;padding:4pt 6pt;font-size:9pt}
+  .print-comparison th{background:#0a2647;color:#fff;text-align:center;font-size:8.5pt;letter-spacing:.3px}
   .print-comparison td{text-align:center}
   .print-comparison td:first-child{text-align:left}
 
@@ -282,48 +291,53 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   #printPage1Break{display:block!important;break-after:page;height:0;margin:0;padding:0}
 
   /* ---- Page 2: Detailed Scoring ---- */
-  .print-detail-section{display:block!important;break-inside:avoid}
-  .print-detail-title{font-size:11pt;font-weight:700;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:2pt;margin-bottom:4pt;margin-top:8pt}
-  .print-detail-table{width:100%;border-collapse:collapse;margin-bottom:8pt}
-  .print-detail-table th{background:#e0e0e0;border:1px solid #000;padding:2pt 6pt;font-size:8pt;text-align:left;text-transform:uppercase}
-  .print-detail-table td{border:1px solid #ccc;padding:2pt 6pt;font-size:8.5pt}
-  .print-detail-table tr:nth-child(even){background:#f8f8f8}
+  .print-detail-section{display:block!important}
+  .print-detail-title{font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#0a2647;border-bottom:2pt solid #0a2647;padding-bottom:3pt;margin-bottom:6pt;margin-top:0}
+  .print-detail-table{width:100%;border-collapse:collapse;margin-bottom:10pt;break-inside:avoid}
+  .print-detail-table th{background:#0a2647;color:#fff;border:1px solid #0a2647;padding:3pt 8pt;font-size:8pt;text-align:left;text-transform:uppercase;letter-spacing:.3px}
+  .print-detail-table td{border:1px solid #d2d2d7;padding:3pt 8pt;font-size:8.5pt}
+  .print-detail-table tr:nth-child(even){background:#f5f5f7}
   .print-detail-table td:last-child{text-align:center;font-weight:700;width:60px}
 
-  .print-behavioral{display:block!important;margin-top:.4rem;break-inside:avoid}
-  .print-behavioral-title{font-size:9pt;font-weight:700;text-transform:uppercase;margin-bottom:2pt}
-  .print-behavioral-item{font-size:8.5pt;display:flex;gap:4pt}
+  .print-behavioral{display:block!important;margin-top:.5rem;break-inside:avoid;border:1px solid #d2d2d7;border-radius:4pt;padding:6pt 8pt}
+  .print-behavioral-title{font-size:9.5pt;font-weight:700;text-transform:uppercase;margin-bottom:4pt;color:#0a2647;letter-spacing:.3px}
+  .print-behavioral-item{font-size:8.5pt;display:flex;gap:4pt;padding:2pt 0;border-bottom:1px solid #e8e8ed}
+  .print-behavioral-item:last-child{border-bottom:none}
 
   .print-notes{display:block!important;margin-top:.5rem;break-inside:avoid}
-  .print-notes-title{font-size:10pt;font-weight:700;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:2pt;margin-bottom:4pt}
-  .print-note-item{margin-bottom:4pt;font-size:8.5pt;line-height:1.4}
-  .print-note-label{font-weight:700;font-size:8pt;text-transform:uppercase}
-  .print-note-text{padding-left:8pt;font-style:italic}
+  .print-notes-title{font-size:10pt;font-weight:700;text-transform:uppercase;color:#0a2647;border-bottom:2pt solid #0a2647;padding-bottom:3pt;margin-bottom:6pt;letter-spacing:.3px}
+  .print-note-item{margin-bottom:6pt;font-size:8.5pt;line-height:1.5;padding:4pt 6pt;background:#f5f5f7;border-radius:3pt}
+  .print-note-label{font-weight:700;font-size:8pt;text-transform:uppercase;color:#0a2647}
+  .print-note-text{padding-left:8pt;font-style:italic;margin-top:2pt;color:#333}
 
   #printPage2Break{display:block!important;break-after:page;height:0;margin:0;padding:0}
 
   /* ---- Page 3: AFSC Requirements + Signatures ---- */
-  #afscRequirements{display:block!important;box-shadow:none;border:none;margin-bottom:.2rem}
-  #afscRequirements .section-header{padding:3pt 0;font-size:9pt;border:none}
+  #afscRequirements{display:block!important;box-shadow:none;border:none;margin-bottom:.3rem}
+  #afscRequirements .section-header{padding:4pt 0;font-size:9.5pt;border:none;color:#0a2647}
   #afscRequirements .section-content{display:block!important;grid-template-rows:1fr!important}
   #afscRequirements .section-body{padding:2pt 0}
-  #afscRequirements .req-item input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #000;border-radius:2px;position:relative}
-  #afscRequirements .req-item input[type="checkbox"]:checked::after{content:'\2713';position:absolute;top:-2px;left:1px;font-size:12px;font-weight:700}
-  #afscRequirements .req-badge{border:1px solid #999;background:#e0e0e0!important;color:#000!important}
-  .req-references{border-top:1px solid #000;margin-top:8pt;padding-top:4pt}
-  .ref-link a{color:#000;text-decoration:none}
-  .ref-link a::after{content:" (" attr(href) ")";font-size:7pt;color:#666}
-  .ref-note{border:1px solid #999;padding:4pt;font-size:7pt}
+  #afscRequirements .req-item input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #0a2647;border-radius:2px;position:relative}
+  #afscRequirements .req-item input[type="checkbox"]:checked::after{content:'\2713';position:absolute;top:-2px;left:1px;font-size:12px;font-weight:700;color:#0a2647}
+  #afscRequirements .req-badge{border:1px solid #bbb;background:#e8e8ed!important;color:#1d1d1f!important;font-size:6pt}
+  #afscRequirements .req-category-title{color:#0a2647;border-bottom-color:#0a2647}
+  .req-references{border-top:1.5pt solid #0a2647;margin-top:8pt;padding-top:4pt}
+  .ref-link a{color:#1d1d1f;text-decoration:none;font-size:8pt}
+  .ref-link a::after{content:" (" attr(href) ")";font-size:6.5pt;color:#86868b}
+  .ref-note{border:1px solid #d2d2d7;padding:6pt;font-size:7pt;background:#f5f5f7;border-radius:3pt}
 
-  .disclaimer{display:block!important;margin-top:.4rem;font-size:7pt;text-align:center;border:1px solid #999;padding:4pt 8pt;background:transparent;border-radius:0}
+  .disclaimer{display:block!important;margin-top:.5rem;font-size:7.5pt;text-align:center;border:1.5pt solid #d2d2d7;padding:6pt 10pt;background:#f5f5f7;border-radius:4pt;color:#555}
+  .disclaimer strong{color:#1d1d1f}
 
-  .print-signatures{display:flex!important;justify-content:space-between;margin-top:.6rem;padding-top:.5rem}
-  .signature-line{width:42%;border-top:1px solid #000;padding-top:4pt;font-size:7.5pt}
+  /* Commander's note in print */
+  .commanders-note{display:block!important;margin-top:.3rem;font-size:8pt;text-align:center;padding:6pt;background:#f5f5f7;border:none;border-radius:4pt;border-left:none;color:#555}
 
-  /* Hide interactive scoring sections in print — they appear in print-detail-section instead */
+  .print-signatures{display:flex!important;justify-content:space-between;margin-top:.8rem;padding-top:.6rem}
+  .signature-line{width:42%;border-top:1.5pt solid #0a2647;padding-top:6pt;font-size:8pt;font-weight:600;color:#0a2647;text-transform:uppercase;letter-spacing:.3px}
+
+  /* Hide interactive scoring sections in print */
   #sec-integrity,#sec-service,#sec-excellence,#sec-bonus,#sec-behavioral,#sec-threshold{display:none!important}
-  .commanders-note{display:none!important}
-  .scoring-section:not(#sec-info):not(#afscRequirements){display:none!important}
+  .scoring-section:not(#sec-info):not(#afscRequirements):not(.print-commanders-note-section){display:none!important}
   .section-meta,.chevron{display:none}
 
   @page{size:letter;margin:.6in .75in}
@@ -368,17 +382,29 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
     <li><a href="#sec-threshold" data-target="sec-threshold" class="nav-link">Threshold</a></li>
   </ul>
   <div class="nav-total"><span id="navGrandTotal">0</span> / 48<small>Grand Total</small></div>
-  <button class="nav-expand-btn" id="expandAllBtn" onclick="toggleExpandAll()">Collapse All</button>
+  <button class="nav-expand-btn" id="expandAllBtn" onclick="toggleExpandAll()">Expand All</button>
 </nav>
 
 <!-- Main Content -->
 <main>
 
 <!-- Print Header -->
-<div class="print-header">
-  <p>DEPARTMENT OF THE AIR FORCE &bull; 934TH AIRLIFT WING (AFRC)</p>
-  <h1>Promotion Eligibility Scoring Worksheet</h1>
-  <p>Member: <span id="printName">_______________</span> &nbsp; Rank: <span id="printRank">_______</span> &nbsp; AFSC: <span id="printAfsc">_______</span> &nbsp; Date: <span id="printDate">_______________</span></p>
+<div class="print-header" id="printHeader">
+  <div class="print-header-band">
+    <div class="print-header-inner">
+      <div class="print-header-title">DEPARTMENT OF THE AIR FORCE</div>
+      <div class="print-header-unit">934th Civil Engineering Squadron &bull; Air Force Reserve Command</div>
+    </div>
+  </div>
+  <div class="print-header-doc">
+    <h1>Promotion Eligibility Scoring Worksheet</h1>
+    <div class="print-header-meta">
+      <span>Member: <strong id="printName">_______________</strong></span>
+      <span>Rank: <strong id="printRank">_______</strong></span>
+      <span>AFSC: <strong id="printAfsc">_______</strong></span>
+      <span>Date: <strong id="printDate">_______________</strong></span>
+    </div>
+  </div>
 </div>
 
 <!-- MEMBER INFORMATION -->
@@ -465,7 +491,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- AFSC REQUIREMENTS (dynamic) -->
 <section class="scoring-section" id="afscRequirements" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="afsc-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="afsc-content" onclick="toggleSection(this)">
     <span id="afscReqTitle">AFSC Requirements for Promotion</span>
     <span class="chevron">&#9660;</span>
   </button>
@@ -477,7 +503,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- INTEGRITY FIRST (8 items, 0-3) -->
 <section class="scoring-section" id="sec-integrity" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="integrity-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="integrity-content" onclick="toggleSection(this)">
     <span>Integrity First</span>
     <span class="section-meta">
       <span class="section-score" id="integrityScore" aria-live="polite">0 / 24</span>
@@ -493,7 +519,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- SERVICE BEFORE SELF (8 items, 0-2) -->
 <section class="scoring-section" id="sec-service" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="service-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="service-content" onclick="toggleSection(this)">
     <span>Service Before Self</span>
     <span class="section-meta">
       <span class="section-score" id="serviceScore" aria-live="polite">0 / 16</span>
@@ -509,7 +535,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- EXCELLENCE IN ALL WE DO (8 items, mixed) -->
 <section class="scoring-section" id="sec-excellence" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="excellence-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="excellence-content" onclick="toggleSection(this)">
     <span>Excellence In All We Do</span>
     <span class="section-meta">
       <span class="section-score" id="excellenceScore" aria-live="polite">0 / 9</span>
@@ -525,7 +551,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- BONUS POINTS -->
 <section class="scoring-section" id="sec-bonus" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="bonus-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="bonus-content" onclick="toggleSection(this)">
     <span>Bonus Points</span>
     <span class="section-meta">
       <span class="section-score" id="bonusScore" aria-live="polite">0 / 6</span>
@@ -541,7 +567,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- BEHAVIORAL ASSESSMENT -->
 <section class="scoring-section" id="sec-behavioral" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="behavioral-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="behavioral-content" onclick="toggleSection(this)">
     <span>Behavioral Assessment</span>
     <span class="section-meta"><span class="section-completion" id="behavComp">0/3</span><span class="chevron">&#9660;</span></span>
   </button>
@@ -552,7 +578,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- PROMOTION THRESHOLD -->
 <section class="scoring-section" id="sec-threshold" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="threshold-content" onclick="toggleSection(this)">
+  <button class="section-header" aria-expanded="false" aria-controls="threshold-content" onclick="toggleSection(this)">
     <span>Promotion Threshold Status</span>
     <span class="chevron">&#9660;</span>
   </button>
@@ -567,10 +593,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <div class="scoring-section" style="scroll-margin-top:1rem">
   <div style="padding:1rem">
     <p class="commanders-note" style="border-top:none;margin-top:0">
-      <strong>Commander&rsquo;s Note:</strong> Good Attitude, Performance and Participation are not occasional, convenient, or one time occurrences &mdash; they are continuous characteristics.
-    </p>
-    <p class="commanders-note" style="border-top:none;margin-top:.25rem">
-      Members in overtime training may not be promoted.
+      <strong>Remember:</strong> The two things you can control are attitude and effort.
     </p>
   </div>
 </div>
@@ -1535,11 +1558,10 @@ function updateAfscRequirements() {
     html += '<div class="ref-group-title">Certifications</div>';
     REFERENCES.certifications.forEach(function(r) {
       var show = false;
-      if (showCerts === 'fire' && (r.t.indexOf('IFSAC') >= 0 || r.t.indexOf('Pro Board') >= 0)) show = true;
       if (showCerts === 'epa' && r.t.indexOf('EPA') >= 0) show = true;
       if (showCerts === 'fema' && r.t.indexOf('FEMA') >= 0) show = true;
       if (showCerts === 'pest' && (r.t.indexOf('EPA') >= 0 || r.t.indexOf('4150.07') >= 0)) show = true;
-      if (showCerts === 'fire') show = true;
+      if (showCerts === 'fire' && (r.t.indexOf('IFSAC') >= 0 || r.t.indexOf('Pro Board') >= 0 || r.t.indexOf('FEMA') >= 0)) show = true;
       if (show) html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
     });
   }
