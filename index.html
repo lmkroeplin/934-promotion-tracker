@@ -130,6 +130,17 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .score-control.scale-2{grid-template-columns:repeat(2,1fr);min-width:104px}
 .score-control.scale-2w{grid-template-columns:1fr 1fr;min-width:104px}
 .score-control.scale-6{grid-template-columns:repeat(6,1fr);min-width:240px}
+.req-filter-row{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;margin-bottom:.5rem;border-bottom:1px solid var(--border-light);flex-wrap:wrap}
+.req-filter-toggle{font-size:.78rem;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:.35rem;font-family:var(--font-body)}
+.req-filter-toggle input{width:16px;height:16px;accent-color:var(--primary)}
+.req-progress-badge{font-size:.7rem;font-weight:700;color:var(--primary);background:var(--surface-alt);padding:2px 8px;border-radius:6px}
+.score-legend{display:flex;flex-wrap:wrap;gap:.15rem .6rem;margin-top:.2rem;font-size:.62rem;color:var(--text-muted);line-height:1.4}
+.score-legend-item b{color:var(--text);font-weight:700}
+@media print{.req-filter-row{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;margin-bottom:.5rem;border-bottom:1px solid var(--border-light);flex-wrap:wrap}
+.req-filter-toggle{font-size:.78rem;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:.35rem;font-family:var(--font-body)}
+.req-filter-toggle input{width:16px;height:16px;accent-color:var(--primary)}
+.req-progress-badge{font-size:.7rem;font-weight:700;color:var(--primary);background:var(--surface-alt);padding:2px 8px;border-radius:6px}
+.score-legend{display:none!important}}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 .score-control label{display:flex;align-items:center;justify-content:center;padding:.45rem .25rem;min-height:40px;min-width:40px;font-weight:600;font-size:.85rem;cursor:pointer;border:none;background:transparent;color:var(--text-muted);text-align:center;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;z-index:0;border-radius:9px}
 .score-control label:first-of-type{border-radius:9px}
@@ -383,6 +394,17 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   @page{size:letter;margin:.6in .75in}
 }
 
+
+/* ===== MOBILE SECTION JUMP ===== */
+.mobile-jump-fab{display:none}
+@media(max-width:767px){
+  .mobile-jump-fab{display:flex;position:fixed;bottom:calc(4rem + env(safe-area-inset-bottom,0px));right:.75rem;width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;align-items:center;justify-content:center;font-size:1.1rem;border:none;box-shadow:0 2px 12px rgba(0,0,0,.2);z-index:210;cursor:pointer;transition:transform .2s}
+  .mobile-jump-fab:active{transform:scale(.9)}
+  .mobile-jump-drawer{display:none;position:fixed;bottom:calc(5rem + env(safe-area-inset-bottom,0px));right:.75rem;background:var(--surface);border:1px solid var(--border-light);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.15);z-index:210;padding:.5rem 0;min-width:180px;max-height:60vh;overflow-y:auto}
+  .mobile-jump-drawer.open{display:block}
+  .mobile-jump-drawer a{display:block;padding:.6rem 1rem;font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;font-family:var(--font-body)}
+  .mobile-jump-drawer a:active{background:var(--hover)}
+}
 /* ===== SCROLLBAR ===== */
 .section-nav::-webkit-scrollbar{width:4px}
 .section-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -695,6 +717,19 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 </main>
 </div>
+
+<!-- Mobile Section Jump -->
+<button class="mobile-jump-fab" id="mobileJumpFab" onclick="document.getElementById('mobileJumpDrawer').classList.toggle('open')" aria-label="Jump to section">&#9776;</button>
+<nav class="mobile-jump-drawer" id="mobileJumpDrawer" role="navigation" aria-label="Section jump">
+  <a href="#sec-info" onclick="jumpToSection('sec-info');return false;">Member Info</a>
+  <a href="#afscRequirements" onclick="jumpToSection('afscRequirements');return false;">AFSC Requirements</a>
+  <a href="#sec-integrity" onclick="jumpToSection('sec-integrity');return false;">Integrity</a>
+  <a href="#sec-service" onclick="jumpToSection('sec-service');return false;">Service</a>
+  <a href="#sec-excellence" onclick="jumpToSection('sec-excellence');return false;">Excellence</a>
+  <a href="#sec-bonus" onclick="jumpToSection('sec-bonus');return false;">Bonus</a>
+  <a href="#sec-behavioral" onclick="jumpToSection('sec-behavioral');return false;">Behavioral</a>
+  <a href="#sec-threshold" onclick="jumpToSection('sec-threshold');return false;">Threshold</a>
+</nav>
 
 <!-- Mobile Bottom Score Bar -->
 <div class="mobile-score-bar" id="mobileBar">
@@ -1379,7 +1414,14 @@ function buildScoreControl(name, max, values, legendText) {
     html += '<label for="' + name + '-' + v + '" aria-label="Score ' + v + ' of ' + max + '"' + (tip ? ' data-tip="' + tip + '"' : '') + '>' + v + '</label>';
   });
   html += '</fieldset>';
-  return html;
+  // Compact inline legend
+  var legendParts = [];
+  vals.forEach(function(v) {
+    var tip = tips[v] || '';
+    if (tip) legendParts.push('<span class="score-legend-item"><b>' + v + '</b> ' + tip + '</span>');
+  });
+  var legend = legendParts.length ? '<div class="score-legend">' + legendParts.join('') + '</div>' : '';
+  return html + legend;
 }
 
 function buildBonusSection(prefix) {
@@ -1699,7 +1741,7 @@ function updateAfscRequirements() {
     cats[cat].forEach(function(req, i) {
       var checkId = 'afsc-req-' + afsc + '-' + transition + '-' + cat + '-' + i;
       var badge = req.r ? '<span class="req-badge req-badge-required">REQUIRED</span>' : (req.cn ? '<span class="req-badge req-badge-conditional">CONDITIONAL</span>' : '<span class="req-badge req-badge-optional">OPTIONAL</span>');
-      html += '<div class="req-item"><input type="checkbox" class="afsc-req-check" id="' + checkId + '" data-key="' + checkId + '"><label class="req-item-content" for="' + checkId + '"><div class="req-item-name">' + req.n + badge + '</div><div class="req-item-desc">' + req.d;
+      html += '<div class="req-item' + (req.r ? ' req-required' : ' req-optional') + '"><input type="checkbox" class="afsc-req-check" id="' + checkId + '" data-key="' + checkId + '"><label class="req-item-content" for="' + checkId + '"><div class="req-item-name">' + req.n + badge + '</div><div class="req-item-desc">' + req.d;
       if (req.cn) html += ' <em>(' + req.cn + ')</em>';
       html += '</div></label></div>';
     });
@@ -1752,6 +1794,18 @@ function updateAfscRequirements() {
   body.innerHTML = html;
   // restore checkbox state
   restoreAfscChecks();
+  // Required-only filter + progress badge
+  var reqTotal = 0, reqDone = 0;
+  trans.reqs.forEach(function(req) {
+    if (req.r) {
+      reqTotal++;
+      var checkKey = afsc + '_' + rank + '_' + req.n.replace(/[^a-zA-Z0-9]/g,'_');
+      var cb = document.querySelector('.afsc-req-check[data-key="' + checkKey + '"]');
+      if (cb && cb.checked) reqDone++;
+    }
+  });
+  var filterHtml = '<div class="req-filter-row"><label class="req-filter-toggle"><input type="checkbox" id="reqFilterRequired" onchange="filterAfscRequired(this.checked)"> Show required items only</label><span class="req-progress-badge">' + reqDone + '/' + reqTotal + ' required complete</span></div>';
+  body.insertAdjacentHTML('afterbegin', filterHtml);
 }
 
 // ===== ACCORDION =====
@@ -1762,6 +1816,27 @@ function syncAccordionState(btn) {
   content.inert = !expanded;
   content.setAttribute('aria-hidden', expanded ? 'false' : 'true');
 }
+
+
+function filterAfscRequired(showRequiredOnly) {
+  document.querySelectorAll('#afscReqBody .req-item').forEach(function(item) {
+    if (showRequiredOnly && item.classList.contains('req-optional')) {
+      item.style.display = 'none';
+    } else {
+      item.style.display = '';
+    }
+  });
+}
+
+function jumpToSection(id) {
+  var target = document.getElementById(id);
+  if (!target) return;
+  var header = target.querySelector('.section-header');
+  if (header && header.getAttribute('aria-expanded') === 'false') toggleSection(header);
+  target.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('mobileJumpDrawer').classList.remove('open');
+}
+
 function toggleSection(btn) {
   var expanded = btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
