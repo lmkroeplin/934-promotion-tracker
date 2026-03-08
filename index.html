@@ -1195,12 +1195,12 @@ var REFERENCES = {
     '3E9X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e9x1/cfetp3e9x1.pdf'
   },
   general:[
-    {t:'AFI 36-2502 — Enlisted Promotion & Demotion Programs',u:'https://static.e-publishing.af.mil/production/1/af_a1/publication/afi36-2502/afi36-2502.pdf'},
-    {t:'DAFI 32-2001 — Fire & Emergency Services Program',u:'https://static.e-publishing.af.mil/production/1/af_a4/publication/afi32-2001/dafi32-2001.pdf'},
-    {t:'Enlisted Force Structure (Sep 2025)',u:'https://www.airuniversity.af.edu/Portals/10/Foundational-Resources/Enlisted-Force-Structure-Sep2025.pdf'},
-    {t:'DoDM 6055.06 — DoD Fire & Emergency Services',u:'https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodm/605506m.pdf'},
-    {t:'DoDI 4150.07 — DoD Pest Management Program',u:'https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodi/415007p.pdf'},
-    {t:'e-Publishing (search all AF pubs)',u:'https://www.e-publishing.af.mil/'}
+    {id:'promotion',t:'AFI 36-2502 — Enlisted Promotion & Demotion Programs',u:'https://static.e-publishing.af.mil/production/1/af_a1/publication/afi36-2502/afi36-2502.pdf'},
+    {id:'fire-program',t:'DAFI 32-2001 — Fire & Emergency Services Program',u:'https://static.e-publishing.af.mil/production/1/af_a4/publication/afi32-2001/dafi32-2001.pdf'},
+    {id:'efs',t:'Enlisted Force Structure (Sep 2025)',u:'https://www.airuniversity.af.edu/Portals/10/Foundational-Resources/Enlisted-Force-Structure-Sep2025.pdf'},
+    {id:'fire-dodm',t:'DoDM 6055.06 — DoD Fire & Emergency Services',u:'https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodm/605506m.pdf'},
+    {id:'pest-dodi',t:'DoDI 4150.07 — DoD Pest Management Program',u:'https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodi/415007p.pdf'},
+    {id:'epub',t:'e-Publishing (search all AF pubs)',u:'https://www.e-publishing.af.mil/'}
   ],
   pme:[
     {t:'Barnes Center for Enlisted Education',u:'https://www.airuniversity.af.edu/Barnes/'},
@@ -1224,6 +1224,35 @@ var REFERENCES = {
     {t:'FEMA IS-800: National Response Framework',u:'https://training.fema.gov/is/courseoverview.aspx?code=IS-800.d'}
   ]
 };
+
+// ===== AFSC-SPECIFIC PUBLICATION PROFILES =====
+var AFSC_REFERENCE_PROFILE = {
+  default: {
+    keyPublications: ['promotion','efs','epub'],
+    certificationTrack: null
+  },
+  // Specialty publications
+  '3E7X1': {
+    keyPublications: ['promotion','efs','fire-program','fire-dodm','epub'],
+    certificationTrack: 'fire'
+  },
+  '3E4X3': {
+    keyPublications: ['promotion','efs','pest-dodi','epub'],
+    certificationTrack: 'pest'
+  },
+  '3E9X1': {
+    keyPublications: ['promotion','efs','epub'],
+    certificationTrack: 'fema'
+  },
+  '3E1X1': {
+    keyPublications: ['promotion','efs','epub'],
+    certificationTrack: 'epa'
+  }
+};
+
+function getAfscReferenceProfile(afsc) {
+  return AFSC_REFERENCE_PROFILE[afsc] || AFSC_REFERENCE_PROFILE.default;
+}
 
 // ===== DOM READY =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -1649,27 +1678,30 @@ function updateAfscRequirements() {
   if (cfetpUrl) {
     html += '<div class="ref-link"><a href="' + cfetpUrl + '" target="_blank" rel="noopener">CFETP ' + afsc + ' — ' + data.title + ' (PDF)</a></div>';
   }
-  // Relevant general references
+  // AFSC-tailored publications
+  var refProfile = getAfscReferenceProfile(afsc);
+
   html += '<div class="ref-group-title">Key Publications</div>';
   REFERENCES.general.forEach(function(r) {
-    html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
+    if (refProfile.keyPublications.indexOf(r.id) >= 0) {
+      html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
+    }
   });
-  // PME references (always relevant)
+
+  // PME references (still relevant for all AFSCs)
   html += '<div class="ref-group-title">PME (Professional Military Education)</div>';
   REFERENCES.pme.forEach(function(r) {
     html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
   });
-  // Training references
+
+  // Training references (still relevant for all CE AFSCs)
   html += '<div class="ref-group-title">Training Resources</div>';
   REFERENCES.training.forEach(function(r) {
     html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
   });
-  // AFSC-specific certification references
-  var showCerts = false;
-  if (['3E1X1'].indexOf(afsc) >= 0) showCerts = 'epa';
-  if (['3E7X1'].indexOf(afsc) >= 0) showCerts = 'fire';
-  if (['3E9X1'].indexOf(afsc) >= 0) showCerts = 'fema';
-  if (['3E4X3'].indexOf(afsc) >= 0) showCerts = 'pest';
+
+  // AFSC-specific certification references only
+  var showCerts = refProfile.certificationTrack;
   if (showCerts) {
     html += '<div class="ref-group-title">Certifications</div>';
     REFERENCES.certifications.forEach(function(r) {
@@ -1677,7 +1709,7 @@ function updateAfscRequirements() {
       if (showCerts === 'epa' && r.t.indexOf('EPA') >= 0) show = true;
       if (showCerts === 'fema' && r.t.indexOf('FEMA') >= 0) show = true;
       if (showCerts === 'pest' && (r.t.indexOf('EPA') >= 0 || r.t.indexOf('4150.07') >= 0)) show = true;
-      if (showCerts === 'fire' && (r.t.indexOf('IFSAC') >= 0 || r.t.indexOf('Pro Board') >= 0 || r.t.indexOf('FEMA') >= 0)) show = true;
+      if (showCerts === 'fire' && (r.t.indexOf('IFSAC') >= 0 || r.t.indexOf('Pro Board') >= 0)) show = true;
       if (show) html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
     });
   }
