@@ -114,7 +114,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .scoring-item{padding:.75rem 0;border-bottom:1px solid var(--border-light);display:flex;flex-direction:column;gap:.5rem}
 .scoring-item:last-child{border-bottom:none}
 @media(min-width:768px){
-  .scoring-item{flex-direction:row;align-items:center;gap:1rem}
+  .scoring-item{flex-direction:row;align-items:center;gap:1rem;flex-wrap:wrap}
   .item-label{flex:1}
 }
 .item-number{font-weight:800;color:var(--primary);font-size:.7rem;min-width:1.8rem;display:inline-flex;align-items:center;justify-content:center;background:var(--surface-alt);border-radius:4px;padding:2px 0;flex-shrink:0}
@@ -129,6 +129,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .score-control.scale-3{grid-template-columns:repeat(3,1fr);min-width:136px}
 .score-control.scale-2{grid-template-columns:repeat(2,1fr);min-width:104px}
 .score-control.scale-2w{grid-template-columns:1fr 1fr;min-width:104px}
+.score-control.scale-6{grid-template-columns:repeat(6,1fr);min-width:240px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 .score-control label{display:flex;align-items:center;justify-content:center;padding:.45rem .25rem;min-height:40px;min-width:40px;font-weight:600;font-size:.85rem;cursor:pointer;border:none;background:transparent;color:var(--text-muted);text-align:center;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;z-index:0;border-radius:9px}
 .score-control label:first-of-type{border-radius:9px}
@@ -142,6 +143,8 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .score-control input[value="1"]:checked+label{background:var(--score-1);color:#fff}
 .score-control input[value="2"]:checked+label{background:var(--score-2);color:#fff}
 .score-control input[value="3"]:checked+label{background:var(--score-3);color:#fff}
+.score-control input[value="4"]:checked+label{background:#5856d6;color:#fff}
+.score-control input[value="5"]:checked+label{background:#af52de;color:#fff}
 .score-control input[value="Y"]:checked+label{background:var(--score-3);color:#fff}
 .score-control input[value="N"]:checked+label{background:var(--score-0);color:var(--score-0-text)}
 [data-theme="dark"] .score-control{background:var(--border-light)}
@@ -150,6 +153,32 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .score-control label[data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) scale(.9);background:#1b1b1b;color:#fff;font-size:.65rem;font-weight:400;padding:4px 8px;border-radius:4px;white-space:nowrap;opacity:0;pointer-events:none;transition:all .2s ease;z-index:100}
 .score-control label[data-tip]:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
 @media(max-width:767px){.score-control label[data-tip]::after{display:none}}
+
+/* ===== RUBRIC INFO BUBBLES ===== */
+.rubric-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--surface-alt);color:var(--text-muted);font-size:.65rem;font-weight:700;font-style:normal;cursor:help;position:relative;flex-shrink:0;border:1px solid var(--border-light);transition:all .2s}
+.rubric-icon:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.rubric-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.6rem .75rem;min-width:240px;max-width:300px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:200;font-size:.72rem;font-weight:400;line-height:1.5;color:var(--text)}
+.rubric-icon:hover .rubric-tooltip,.rubric-icon:focus .rubric-tooltip{display:block}
+.rubric-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--border)}
+.rubric-row{display:flex;gap:.4rem;padding:2px 0;border-bottom:1px solid var(--border-light)}
+.rubric-row:last-child{border-bottom:none}
+.rubric-score{font-weight:700;color:var(--primary);min-width:16px}
+.rubric-desc{color:var(--text-muted)}
+@media(max-width:767px){
+  .rubric-tooltip{position:fixed;bottom:auto;top:50%;left:50%;transform:translate(-50%,-50%);min-width:280px;max-width:90vw}
+  .rubric-tooltip::after{display:none}
+}
+
+/* ===== WAIVER TOGGLE ===== */
+.waiver-toggle{font-size:.65rem;color:var(--text-muted);background:none;border:1px solid var(--border-light);border-radius:6px;padding:2px 8px;cursor:pointer;font-family:var(--font-body);font-weight:600;transition:all .2s;white-space:nowrap;align-self:center}
+.waiver-toggle:hover{border-color:var(--primary);color:var(--primary)}
+.waiver-toggle.active{background:var(--warning);color:#1d1d1f;border-color:var(--warning)}
+.scoring-item.waived .score-control{opacity:.3;pointer-events:none}
+.scoring-item.waived .item-label{opacity:.5}
+.waiver-reason{display:none;width:100%;margin-top:.25rem}
+.scoring-item.waived .waiver-reason{display:flex;gap:.5rem;align-items:center}
+.waiver-reason input{flex:1;padding:4px 8px;border:1px solid var(--border-light);border-radius:6px;font-size:.75rem;font-family:var(--font-body);background:var(--surface);color:var(--text)}
+.waiver-reason label{font-size:.65rem;color:var(--warning);font-weight:600;white-space:nowrap}
 
 /* ===== FORM CONTROLS ===== */
 .form-section .section-body{display:flex;flex-direction:column;gap:.75rem}
@@ -344,6 +373,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   #sec-integrity,#sec-service,#sec-excellence,#sec-bonus,#sec-behavioral,#sec-threshold{display:none!important}
   .scoring-section:not(#sec-info):not(#afscRequirements):not(.print-commanders-note-section){display:none!important}
   .section-meta,.chevron{display:none}
+  .rubric-icon,.waiver-toggle,.waiver-reason{display:none!important}
 
   @page{size:letter;margin:.6in .75in}
 }
@@ -381,12 +411,12 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
     <li><a href="#afscRequirements" data-target="afscRequirements" class="nav-link">AFSC Requirements <span class="nav-score" id="navAfsc"></span></a></li>
     <li><a href="#sec-integrity" data-target="sec-integrity" class="nav-link">Integrity <span class="nav-score" id="navIntegrity">0/24</span></a></li>
     <li><a href="#sec-service" data-target="sec-service" class="nav-link">Service <span class="nav-score" id="navService">0/16</span></a></li>
-    <li><a href="#sec-excellence" data-target="sec-excellence" class="nav-link">Excellence <span class="nav-score" id="navExcellence">0/9</span></a></li>
+    <li><a href="#sec-excellence" data-target="sec-excellence" class="nav-link">Excellence <span class="nav-score" id="navExcellence">0/12</span></a></li>
     <li><a href="#sec-bonus" data-target="sec-bonus" class="nav-link">Bonus <span class="nav-score" id="navBonus">0/6</span></a></li>
     <li><a href="#sec-behavioral" data-target="sec-behavioral" class="nav-link">Behavioral</a></li>
     <li><a href="#sec-threshold" data-target="sec-threshold" class="nav-link">Threshold</a></li>
   </ul>
-  <div class="nav-total"><span id="navGrandTotal">0</span> / 48<small>Grand Total</small></div>
+  <div class="nav-total"><span id="navGrandTotal">0</span> / 51<small>Grand Total</small></div>
   <button class="nav-expand-btn" id="expandAllBtn" onclick="toggleExpandAll()">Expand All</button>
 </nav>
 
@@ -410,6 +440,12 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
       <span>Date: <strong id="printDate">_______________</strong></span>
     </div>
   </div>
+</div>
+
+<!-- MODE TOGGLE (moved before Member Info) -->
+<div class="mode-toggle" id="modeToggle">
+  <button class="active" onclick="setMode('supervisor')">Supervisor Assessment</button>
+  <button onclick="setMode('self')">Self-Assessment</button>
 </div>
 
 <!-- MEMBER INFORMATION -->
@@ -488,12 +524,6 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   </div>
 </section>
 
-<!-- MODE TOGGLE -->
-<div class="mode-toggle" id="modeToggle">
-  <button class="active" onclick="setMode('supervisor')">Supervisor Assessment</button>
-  <button onclick="setMode('self')">Self-Assessment</button>
-</div>
-
 <!-- AFSC REQUIREMENTS (dynamic) -->
 <section class="scoring-section" id="afscRequirements" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="false" aria-controls="afsc-content" onclick="toggleSection(this)">
@@ -543,7 +573,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   <button class="section-header" aria-expanded="false" aria-controls="excellence-content" onclick="toggleSection(this)">
     <span>Excellence In All We Do</span>
     <span class="section-meta">
-      <span class="section-score" id="excellenceScore" aria-live="polite">0 / 9</span>
+      <span class="section-score" id="excellenceScore" aria-live="polite">0 / 12</span>
       <span class="section-progress-bar"><span class="section-progress-fill" id="excellenceBar" style="width:0"></span></span>
       <span class="section-completion" id="excellenceComp">0/8</span>
       <span class="chevron">&#9660;</span>
@@ -621,9 +651,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   <tr><th colspan="2" style="text-align:center;font-size:10pt">SCORING SUMMARY</th></tr>
   <tr><td>Integrity First (max 24)</td><td id="ps-integrity" style="text-align:center;font-weight:700">0</td></tr>
   <tr><td>Service Before Self (max 16)</td><td id="ps-service" style="text-align:center;font-weight:700">0</td></tr>
-  <tr><td>Excellence In All We Do (max 9)</td><td id="ps-excellence" style="text-align:center;font-weight:700">0</td></tr>
+  <tr><td>Excellence In All We Do (max 12)</td><td id="ps-excellence" style="text-align:center;font-weight:700">0</td></tr>
   <tr><td>Bonus Points (max 6)</td><td id="ps-bonus" style="text-align:center;font-weight:700">0</td></tr>
-  <tr style="background:#e0e0e0"><td style="font-weight:700">GRAND TOTAL (max 48)</td><td id="ps-grand" style="text-align:center;font-weight:700;font-size:11pt">0</td></tr>
+  <tr style="background:#e0e0e0"><td style="font-weight:700">GRAND TOTAL (max 51)</td><td id="ps-grand" style="text-align:center;font-weight:700;font-size:11pt">0</td></tr>
   <tr><td>Promotion Threshold</td><td id="ps-threshold" style="text-align:center;font-weight:700;font-size:9pt">—</td></tr>
 </table>
 
@@ -665,7 +695,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <div class="mobile-score-bar" id="mobileBar">
   <div>
     <div class="score-label">Grand Total</div>
-    <div class="score-value"><span id="mobileTotal">0</span> / 48</div>
+    <div class="score-value"><span id="mobileTotal">0</span> / 51</div>
   </div>
   <div id="mobileThreshold" class="threshold-mini"></div>
 </div>
@@ -699,39 +729,39 @@ function getRadioPrefix() {
 
 // ===== SCORING CRITERIA DATA =====
 var INTEGRITY_ITEMS = [
-  {id:'int1',text:'Positive attitude around subordinates; exhibits commitment to unit & duty',max:3},
-  {id:'int2',text:'Strong leadership & Intestinal Fortitude — can make unpopular decisions the troops will follow',max:3},
-  {id:'int3',text:'Understands and carries out orders; can explain virtue of those orders, regardless',max:3},
-  {id:'int4',text:'Has supervisor responsibilities and/or writes EPRs',max:3},
-  {id:'int5',text:'3-year attendance record',hint:'0–2 absences = 3 | 3–4 = 2 | 5–6 = 1 | 7+ = 0',max:3},
-  {id:'int6',text:'Participated in ARA, ORI, or Other Inspection in last three years',max:3},
-  {id:'int7',text:'Currently performs an additional squadron duty',max:3},
-  {id:'int8',text:'Outstanding military appearance and personal fitness',max:3}
+  {id:'int1',text:'Positive attitude around subordinates; exhibits commitment to unit & duty',max:3,rubric:{0:'Negative or disruptive attitude; disengaged from unit mission',1:'Inconsistent attitude; sometimes engaged',2:'Consistently positive; committed to unit and duty',3:'Role model; inspires commitment in others'}},
+  {id:'int2',text:'Strong leadership & Intestinal Fortitude — can make unpopular decisions the troops will follow',max:3,rubric:{0:'Avoids decisions; defers to others',1:'Makes easy decisions; avoids conflict',2:'Makes sound decisions including unpopular ones',3:'Decisive under pressure; troops trust and follow'}},
+  {id:'int3',text:'Understands and carries out orders; can explain virtue of those orders, regardless',max:3,rubric:{0:'Resistant to orders; undermines direction',1:'Complies but doesn\'t support or explain',2:'Carries out orders and supports rationale',3:'Champions direction; explains virtue to subordinates'}},
+  {id:'int4',text:'Has supervisor responsibilities and/or writes EPRs',max:3,rubric:{0:'No supervisory role',1:'Assigned supervision but struggles with EPRs/feedback',2:'Effective supervisor; writes adequate EPRs',3:'Mentor-level; writes strong EPRs that develop airmen'}},
+  {id:'int5',text:'3-year attendance record',hint:'0–2 absences = 3 | 3–4 = 2 | 5–6 = 1 | 7+ = 0',max:3,rubric:{0:'7+ absences',1:'5-6 absences',2:'3-4 absences',3:'0-2 absences'}},
+  {id:'int6',text:'Participated in ARA, ORI, or Other Inspection in last three years',max:3,rubric:{0:'No participation in inspections',1:'Participated but minimal contribution',2:'Solid performer during inspections',3:'Key contributor; led efforts or identified deficiencies'}},
+  {id:'int7',text:'Currently performs an additional squadron duty',max:3,rubric:{0:'No additional duty',1:'Assigned but minimal engagement',2:'Performs additional duty effectively',3:'Excels at additional duty; improves the program'}},
+  {id:'int8',text:'Outstanding military appearance and personal fitness',max:3,rubric:{0:'Below standards; fails fitness or appearance',1:'Marginal; meets minimums only',2:'Meets all standards consistently',3:'Exemplary; sets the standard for the shop'}}
 ];
 var SERVICE_ITEMS = [
-  {id:'svc1',text:'Handles adversity and personal situations maturely (finances, health, home, travel, work)',max:2},
-  {id:'svc2',text:'First to arrive & last to leave attitude',max:2},
-  {id:'svc3',text:'100% participation in last Bivouac',max:2},
-  {id:'svc4',text:'No delinquent or failed CDCs past 18 months (not voluntary courses)',max:2},
-  {id:'svc5',text:'7-level in current Duty AFSC',max:2},
-  {id:'svc6',text:'Participated in last Silver Flag in the last three years',max:2},
-  {id:'svc7',text:'Participated in an AEF deployment in last three years',max:2},
-  {id:'svc8',text:'Initiates projects — exhibits and instills a sense of teamwork',max:2}
+  {id:'svc1',text:'Handles adversity and personal situations maturely (finances, health, home, travel, work)',max:2,rubric:{0:'Struggles with adversity; impacts duty performance',1:'Generally handles situations but occasional issues',2:'Consistently mature; personal issues never impact duty'}},
+  {id:'svc2',text:'First to arrive & last to leave attitude',max:2,rubric:{0:'Frequently late or leaves early',1:'On time but doesn\'t go above minimum',2:'Consistently first in, last out; leads by example'}},
+  {id:'svc3',text:'100% participation in last Bivouac',max:2,rubric:{0:'Did not participate',1:'Partial participation',2:'100% participation'}},
+  {id:'svc4',text:'No delinquent or failed CDCs past 18 months (not voluntary courses)',max:2,rubric:{0:'Delinquent or failed CDCs',1:'Completed but with extensions or delays',2:'Completed on time; no delinquencies'}},
+  {id:'svc5',text:'7-level in current Duty AFSC',max:2,rubric:{0:'Does not hold 7-level',1:'In upgrade training toward 7-level',2:'Holds 7-level in current DAFSC'}},
+  {id:'svc6',text:'Participated in last Silver Flag in the last three years',max:2,rubric:{0:'Has not attended Silver Flag',1:'Attended but not within last 3 years',2:'Attended within last 3 years'}},
+  {id:'svc7',text:'Participated in an AEF deployment in last three years',max:2,rubric:{0:'No deployment in last 3 years',1:'Volunteered but not selected/deployed',2:'Deployed on AEF rotation in last 3 years'}},
+  {id:'svc8',text:'Initiates projects — exhibits and instills a sense of teamwork',max:2,rubric:{0:'Does not initiate; waits for direction',1:'Contributes when asked',2:'Self-starter; initiates projects and builds team cohesion'}}
 ];
 var EXCELLENCE_ITEMS = [
-  {id:'exc1',text:'Currently performs a shop additional duty',max:1},
-  {id:'exc2',text:'Attended NCO LDP',max:1},
-  {id:'exc3',text:'2nd additional duty or Past additional duty within 3 years',max:1},
-  {id:'exc4',text:'Participated in one Formal Military function in last three years (Ball, Dining In/Out)',max:1},
-  {id:'exc5',text:'Completed NCO Academy (Course 6 or 9)',max:1},
-  {id:'exc6',text:'Completed SNCO Academy (Course 5, 8, 12, or 14)',max:1},
-  {id:'exc7',text:'Regularly uses vPC-GR, AFTR, ADLS, AF Portal',max:1},
-  {id:'exc8',text:'Technical competency / Expert in their field',max:2}
+  {id:'exc1',text:'Currently performs a shop additional duty',max:1,rubric:{0:'No shop additional duty',1:'Currently performs a shop additional duty'}},
+  {id:'exc2',text:'Attended NCO LDP',max:1,rubric:{0:'Has not attended NCO LDP',1:'Completed NCO LDP'}},
+  {id:'exc3',text:'2nd additional duty or Past additional duty within 3 years',max:1,rubric:{0:'No additional duties beyond primary',1:'Holds 2nd duty or held one within 3 years'}},
+  {id:'exc4',text:'Participated in one Formal Military function in last three years (Ball, Dining In/Out)',max:1,rubric:{0:'No formal military function attendance',1:'Attended at least one in last 3 years'}},
+  {id:'exc5',text:'Completed NCO Academy (Course 6 or 9)',max:1,rubric:{0:'Has not completed NCOA',1:'Completed NCO Academy'}},
+  {id:'exc6',text:'Completed SNCO Academy (Course 5, 8, 12, or 14)',max:1,rubric:{0:'Has not completed SNCOA',1:'Completed SNCO Academy'}},
+  {id:'exc7',text:'Regularly uses vPC-GR, AFTR, ADLS, AF Portal',max:1,rubric:{0:'Rarely uses military systems',1:'Regularly uses vPC-GR, AFTR, ADLS, AF Portal'}},
+  {id:'exc8',text:'Technical competency / Expert in their field',max:5,rubric:{0:'Significant skill gaps',1:'Developing; needs mentoring',2:'Competent; performs independently',3:'Advanced; trains others',4:'Expert; go-to authority in the shop',5:'Subject matter expert; recognized beyond the unit'}}
 ];
 var BONUS_ITEMS = [
-  {id:'bon1',text:'Interview Points (by Commander request)',max:3},
-  {id:'bon2',text:'Participated in last UCI / worked on MICT checklist',max:2,values:[0,2]},
-  {id:'bon3',text:'CCAF or College degree',max:1}
+  {id:'bon1',text:'Interview Points (by Commander request)',max:3,rubric:{0:'No interview / not requested',1:'Below average interview',2:'Good interview',3:'Outstanding interview'}},
+  {id:'bon2',text:'Participated in last UCI / worked on MICT checklist',max:2,values:[0,2],rubric:{0:'No UCI/MICT participation',2:'Participated in UCI or worked MICT checklists'}},
+  {id:'bon3',text:'CCAF or College degree',max:1,rubric:{0:'No degree',1:'CCAF or college degree earned'}}
 ];
 var BEHAVIORAL_ITEMS = [
   {id:'beh1',text:'Does the member always attend scheduled training?'},
@@ -741,9 +771,9 @@ var BEHAVIORAL_ITEMS = [
 var SCORE_LIMITS = {
   integrity:24,
   service:16,
-  excellence:9,
+  excellence:12,
   bonus:6,
-  grand:48
+  grand:51
 };
 
 // ===== RANK MAP =====
@@ -758,9 +788,9 @@ var RANK_MAP = {
   E8:{abbr:'SMSgt',name:'Senior Master Sergeant',next:'CMSgt (E-9)',nextGrade:'E9'}
 };
 var THRESHOLDS = {
-  E5:{next:'TSgt (E-6)',min:26,pep:32},
-  E6:{next:'MSgt (E-7)',min:32,pep:38},
-  E7:{next:'SMSgt (E-8)',min:38,pep:44}
+  E5:{next:'TSgt (E-6)',min:28,pep:34},
+  E6:{next:'MSgt (E-7)',min:34,pep:41},
+  E7:{next:'SMSgt (E-8)',min:41,pep:47}
 };
 
 // ===== TIG/TIS REQUIREMENTS =====
@@ -1199,6 +1229,7 @@ var REFERENCES = {
 document.addEventListener('DOMContentLoaded', function() {
   buildScoringItems();
   loadState();
+  loadWaiverState();
   var worksheetDate = document.getElementById('worksheetDate');
   if (!worksheetDate.value) worksheetDate.valueAsDate = new Date();
   document.querySelectorAll('.section-header').forEach(syncAccordionState);
@@ -1214,7 +1245,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('worksheetDate').addEventListener('change', saveState);
   document.getElementById('dateOfRank').addEventListener('change', function(){ updateTigTis(); saveState(); });
   document.getElementById('tafmsDate').addEventListener('change', function(){ updateTigTis(); saveState(); });
-  // event delegation for score controls
+  // event delegation for score controls + waiver reasons
   document.body.addEventListener('change', function(e) {
     if (e.target.matches('.score-control input[type="radio"]') || e.target.matches('.behav-input')) {
       updateAll();
@@ -1222,6 +1253,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (e.target.matches('.afsc-req-check')) {
       saveState();
+    }
+  });
+  document.body.addEventListener('input', function(e){
+    if (e.target.matches('.waiver-reason input')) {
+      saveState();
+      updateAll();
+    }
+  });
+  // mobile tap/focus support for rubric icons
+  document.body.addEventListener('click', function(e){
+    var icon = e.target.closest('.rubric-icon');
+    if (icon) {
+      document.querySelectorAll('.rubric-icon').forEach(function(r){ if (r !== icon) r.blur(); });
+      icon.focus();
+      e.stopPropagation();
+    } else {
+      document.querySelectorAll('.rubric-icon').forEach(function(r){ r.blur(); });
     }
   });
   // nav link scrolling
@@ -1253,17 +1301,28 @@ function buildScoringItems() {
   buildBehavioralSection(prefix);
 }
 
+function buildRubricTooltip(rubric) {
+  if (!rubric) return '';
+  var keys = Object.keys(rubric).sort(function(a,b){ return parseInt(a,10) - parseInt(b,10); });
+  var rows = keys.map(function(k){
+    return '<div class="rubric-row"><span class="rubric-score">' + k + '</span><span class="rubric-desc">' + rubric[k] + '</span></div>';
+  }).join('');
+  return '<span class="rubric-icon" tabindex="0" aria-label="Scoring rubric">i<span class="rubric-tooltip">' + rows + '</span></span>';
+}
+
 function buildSection(containerId, items, prefix) {
   var c = document.getElementById(containerId);
   var sectionKey = containerId.replace('Body','');
   var html = '';
   items.forEach(function(item, i) {
     var radioName = prefix + item.id;
-    html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text;
+    html += '<div class="scoring-item" data-item-id="' + item.id + '"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text;
     if (item.hint) html += '<span class="item-hint">' + item.hint + '</span>';
-    html += '</span></div>';
+    html += '</span>' + buildRubricTooltip(item.rubric) + '</div>';
     html += buildScoreControl(radioName, item.max, null, item.text);
-    html += '<span class="score-print-value">\u2014</span></div>';
+    html += '<button class="waiver-toggle" onclick="toggleWaiver(\'' + item.id + '\')" title="Mark as N/A (waiver)">N/A</button>';
+    html += '<div class="waiver-reason"><label>Reason:</label><input type="text" placeholder="e.g., Deployed, Medical profile" data-waiver="' + item.id + '" oninput="saveState()"></div>';
+    html += '<span class="score-print-value">—</span></div>';
   });
   html += '<div class="section-notes"><label for="notes-' + sectionKey + '">Supervisor Notes</label>';
   html += '<textarea id="notes-' + sectionKey + '" class="supervisor-notes" data-section="' + sectionKey + '" placeholder="Add feedback or comments for this section..." oninput="saveState()"></textarea></div>';
@@ -1274,10 +1333,11 @@ function buildScoreControl(name, max, values, legendText) {
   var vals = values || [];
   if (!vals.length) for (var i = 0; i <= max; i++) vals.push(i);
   var cls = 'score-control scale-' + vals.length;
+  var tips6 = {0:'Significant gaps',1:'Developing',2:'Competent',3:'Advanced',4:'Expert',5:'SME'};
   var tips4 = {0:'Does not meet',1:'Below standard',2:'Meets standard',3:'Exceeds standard'};
   var tips3 = {0:'Does not meet',1:'Meets standard',2:'Exceeds standard'};
   var tips2 = {0:'No',1:'Yes'};
-  var tips = max >= 3 ? tips4 : max >= 2 ? tips3 : tips2;
+  var tips = max >= 5 ? tips6 : max >= 3 ? tips4 : max >= 2 ? tips3 : tips2;
   var html = '<fieldset class="' + cls + '" role="radiogroup" aria-label="' + (legendText||name).replace(/"/g,'&quot;') + '" data-max="' + max + '">';
   html += '<legend class="sr-only">' + (legendText||name) + '</legend>';
   vals.forEach(function(v) {
@@ -1294,9 +1354,11 @@ function buildBonusSection(prefix) {
   var html = '';
   BONUS_ITEMS.forEach(function(item, i) {
     var radioName = prefix + item.id;
-    html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text + '</span></div>';
+    html += '<div class="scoring-item" data-item-id="' + item.id + '"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text + '</span>' + buildRubricTooltip(item.rubric) + '</div>';
     html += buildScoreControl(radioName, item.max, item.values, item.text);
-    html += '<span class="score-print-value">\u2014</span></div>';
+    html += '<button class="waiver-toggle" onclick="toggleWaiver(\'' + item.id + '\')" title="Mark as N/A (waiver)">N/A</button>';
+    html += '<div class="waiver-reason"><label>Reason:</label><input type="text" placeholder="e.g., Deployed, Medical profile" data-waiver="' + item.id + '" oninput="saveState()"></div>';
+    html += '<span class="score-print-value">—</span></div>';
   });
   html += '<div class="section-notes"><label for="notes-bonus">Supervisor Notes</label>';
   html += '<textarea id="notes-bonus" class="supervisor-notes" data-section="bonus" placeholder="Add feedback or comments for this section..." oninput="saveState()"></textarea></div>';
@@ -1308,17 +1370,52 @@ function buildBehavioralSection(prefix) {
   var html = '';
   BEHAVIORAL_ITEMS.forEach(function(item, i) {
     var radioName = prefix + item.id;
-    html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + String.fromCharCode(97+i) + '.</span><span>' + item.text + '</span></div>';
+    html += '<div class="scoring-item" data-item-id="' + item.id + '"><div class="item-label"><span class="item-number">' + String.fromCharCode(97+i) + '.</span><span>' + item.text + '</span></div>';
     html += '<fieldset class="score-control scale-2w" role="radiogroup" aria-label="' + item.text.replace(/"/g,'&quot;') + '">';
     html += '<legend class="sr-only">' + item.text + '</legend>';
     html += '<input type="radio" name="' + radioName + '" value="Y" id="' + radioName + '-Y" class="sr-only behav-input"><label for="' + radioName + '-Y" aria-label="Yes" data-tip="Yes">Y</label>';
     html += '<input type="radio" name="' + radioName + '" value="N" id="' + radioName + '-N" class="sr-only behav-input"><label for="' + radioName + '-N" aria-label="No" data-tip="No">N</label>';
     html += '</fieldset>';
-    html += '<span class="score-print-value">\u2014</span></div>';
+    html += '<span class="score-print-value">—</span></div>';
   });
   html += '<div class="section-notes"><label for="notes-behavioral">Supervisor Notes</label>';
   html += '<textarea id="notes-behavioral" class="supervisor-notes" data-section="behavioral" placeholder="Add feedback or comments for this section..." oninput="saveState()"></textarea></div>';
   c.innerHTML = html;
+}
+
+// ===== WAIVER HANDLING =====
+function toggleWaiver(itemId) {
+  var row = document.querySelector('.scoring-item[data-item-id="' + itemId + '"]');
+  if (!row) return;
+  var nowWaived = !row.classList.contains('waived');
+  row.classList.toggle('waived', nowWaived);
+  var btn = row.querySelector('.waiver-toggle');
+  if (btn) btn.classList.toggle('active', nowWaived);
+  // clear selected score if waiving
+  if (nowWaived) {
+    row.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked = false; });
+  }
+  try { localStorage.setItem('_waiver_' + currentMode + '_' + itemId, nowWaived ? '1' : '0'); } catch(e) {}
+  saveState();
+  updateAll();
+}
+
+function isWaived(itemId) {
+  var row = document.querySelector('.scoring-item[data-item-id="' + itemId + '"]');
+  return !!(row && row.classList.contains('waived'));
+}
+
+function loadWaiverState() {
+  var allItems = INTEGRITY_ITEMS.concat(SERVICE_ITEMS, EXCELLENCE_ITEMS, BONUS_ITEMS);
+  allItems.forEach(function(item){
+    var row = document.querySelector('.scoring-item[data-item-id="' + item.id + '"]');
+    if (!row) return;
+    var waived = false;
+    try { waived = localStorage.getItem('_waiver_' + currentMode + '_' + item.id) === '1'; } catch(e) {}
+    row.classList.toggle('waived', waived);
+    var btn = row.querySelector('.waiver-toggle');
+    if (btn) btn.classList.toggle('active', waived);
+  });
 }
 
 // ===== TIG/TIS CALCULATOR =====
@@ -1345,9 +1442,9 @@ function updateTigTis() {
     var tigStatus = '';
     if (tigReq !== undefined) {
       if (tigMonths >= tigReq) {
-        tigStatus = '<div class="tig-tis-req tig-tis-met">\u2713 Meets TIG requirement (' + tigReq + ' mo)</div>';
+        tigStatus = '<div class="tig-tis-req tig-tis-met">✓ Meets TIG requirement (' + tigReq + ' mo)</div>';
       } else {
-        tigStatus = '<div class="tig-tis-req tig-tis-unmet">\u2717 Need ' + (tigReq - tigMonths) + ' more mo (req: ' + tigReq + ' mo)</div>';
+        tigStatus = '<div class="tig-tis-req tig-tis-unmet">✗ Need ' + (tigReq - tigMonths) + ' more mo (req: ' + tigReq + ' mo)</div>';
       }
     }
     html += '<div class="tig-tis-card"><div class="tig-tis-label">Time in Grade (TIG)</div><div class="tig-tis-value">' + tigYears + ' yr ' + tigRem + ' mo</div>' + tigStatus + '</div>';
@@ -1363,11 +1460,11 @@ function updateTigTis() {
     if (tisReqYears !== undefined) {
       var tisReqMonths = tisReqYears * 12;
       if (tisMonths >= tisReqMonths) {
-        tisStatus = '<div class="tig-tis-req tig-tis-met">\u2713 Meets TIS requirement (' + tisReqYears + ' yr)</div>';
+        tisStatus = '<div class="tig-tis-req tig-tis-met">✓ Meets TIS requirement (' + tisReqYears + ' yr)</div>';
       } else {
         var needYr = Math.floor((tisReqMonths - tisMonths) / 12);
         var needMo = (tisReqMonths - tisMonths) % 12;
-        tisStatus = '<div class="tig-tis-req tig-tis-unmet">\u2717 Need ' + (needYr > 0 ? needYr + ' yr ' : '') + needMo + ' mo more (req: ' + tisReqYears + ' yr)</div>';
+        tisStatus = '<div class="tig-tis-req tig-tis-unmet">✗ Need ' + (needYr > 0 ? needYr + ' yr ' : '') + needMo + ' mo more (req: ' + tisReqYears + ' yr)</div>';
       }
     }
     html += '<div class="tig-tis-card"><div class="tig-tis-label">Time in Service (TIS)</div><div class="tig-tis-value">' + tisYears + ' yr ' + tisRem + ' mo</div>' + tisStatus + '</div>';
@@ -1384,19 +1481,19 @@ function monthsBetween(d1, d2) {
 function updateAll() {
   var prefix = getRadioPrefix();
   var scores = calcScores(prefix);
-  updateSectionDisplay('integrity', scores.integrity, SCORE_LIMITS.integrity, INTEGRITY_ITEMS.length, scores.integrityDone);
-  updateSectionDisplay('service', scores.service, SCORE_LIMITS.service, SERVICE_ITEMS.length, scores.serviceDone);
-  updateSectionDisplay('excellence', scores.excellence, SCORE_LIMITS.excellence, EXCELLENCE_ITEMS.length, scores.excellenceDone);
-  updateSectionDisplay('bonus', scores.bonus, SCORE_LIMITS.bonus, BONUS_ITEMS.length, scores.bonusDone);
+  updateSectionDisplay('integrity', scores.integrity, scores.integrityMax, SCORE_LIMITS.integrity, INTEGRITY_ITEMS.length, scores.integrityDone, scores.integrityWaived);
+  updateSectionDisplay('service', scores.service, scores.serviceMax, SCORE_LIMITS.service, SERVICE_ITEMS.length, scores.serviceDone, scores.serviceWaived);
+  updateSectionDisplay('excellence', scores.excellence, scores.excellenceMax, SCORE_LIMITS.excellence, EXCELLENCE_ITEMS.length, scores.excellenceDone, scores.excellenceWaived);
+  updateSectionDisplay('bonus', scores.bonus, scores.bonusMax, SCORE_LIMITS.bonus, BONUS_ITEMS.length, scores.bonusDone, scores.bonusWaived);
   var grandRaw = scores.integrity + scores.service + scores.excellence + scores.bonus;
   var grand = Math.min(grandRaw, SCORE_LIMITS.grand);
   var totalDone = scores.integrityDone + scores.serviceDone + scores.excellenceDone + scores.bonusDone;
   var totalItems = INTEGRITY_ITEMS.length + SERVICE_ITEMS.length + EXCELLENCE_ITEMS.length + BONUS_ITEMS.length;
   // nav
-  document.getElementById('navIntegrity').textContent = scores.integrity + '/' + SCORE_LIMITS.integrity;
-  document.getElementById('navService').textContent = scores.service + '/' + SCORE_LIMITS.service;
-  document.getElementById('navExcellence').textContent = scores.excellence + '/' + SCORE_LIMITS.excellence;
-  document.getElementById('navBonus').textContent = scores.bonus + '/' + SCORE_LIMITS.bonus;
+  document.getElementById('navIntegrity').textContent = scores.integrity + '/' + scores.integrityMax;
+  document.getElementById('navService').textContent = scores.service + '/' + scores.serviceMax;
+  document.getElementById('navExcellence').textContent = scores.excellence + '/' + scores.excellenceMax;
+  document.getElementById('navBonus').textContent = scores.bonus + '/' + scores.bonusMax;
   document.getElementById('navGrandTotal').textContent = grand;
   // mobile
   document.getElementById('mobileTotal').textContent = grand;
@@ -1422,11 +1519,23 @@ function updateAll() {
 
 function calcScores(prefix) {
   if (!prefix) prefix = getRadioPrefix();
-  var r = {integrity:0,service:0,excellence:0,bonus:0,integrityDone:0,serviceDone:0,excellenceDone:0,bonusDone:0};
+  var r = {
+    integrity:0,service:0,excellence:0,bonus:0,
+    integrityDone:0,serviceDone:0,excellenceDone:0,bonusDone:0,
+    integrityMax:SCORE_LIMITS.integrity,serviceMax:SCORE_LIMITS.service,excellenceMax:SCORE_LIMITS.excellence,bonusMax:SCORE_LIMITS.bonus,
+    integrityWaived:0,serviceWaived:0,excellenceWaived:0,bonusWaived:0
+  };
   function sumSection(items, key) {
+    var maxKey = key + 'Max';
+    var waivedKey = key + 'Waived';
     items.forEach(function(item) {
+      if (isWaived(item.id)) {
+        r[maxKey] -= item.max;
+        r[waivedKey]++;
+        return;
+      }
       var checked = document.querySelector('input[name="' + prefix + item.id + '"]:checked');
-      if (checked) { r[key] += parseInt(checked.value); r[key+'Done']++; }
+      if (checked) { r[key] += parseInt(checked.value, 10); r[key+'Done']++; }
     });
   }
   sumSection(INTEGRITY_ITEMS, 'integrity');
@@ -1436,9 +1545,11 @@ function calcScores(prefix) {
   return r;
 }
 
-function updateSectionDisplay(section, score, max, total, done) {
-  document.getElementById(section + 'Score').textContent = score + ' / ' + max;
-  document.getElementById(section + 'Bar').style.width = (score / max * 100) + '%';
+function updateSectionDisplay(section, score, max, baseMax, total, done, waived) {
+  var scoreText = score + ' / ' + max;
+  if (waived > 0) scoreText += ' (' + waived + ' waived)';
+  document.getElementById(section + 'Score').textContent = scoreText;
+  document.getElementById(section + 'Bar').style.width = (max > 0 ? (score / max * 100) : 0) + '%';
   document.getElementById(section + 'Comp').textContent = done + '/' + total;
 }
 
@@ -1457,9 +1568,9 @@ function updateThreshold(score) {
   var container = document.getElementById('thresholdBody');
   var mobile = document.getElementById('mobileThreshold');
   if (!rank || !THRESHOLDS[rank]) {
-    var msg = 'Select a rank (SSgt\u2013MSgt) to see promotion thresholds.';
-    if (rank === 'E4') msg = 'Thresholds apply to SSgt (E-5) promotions and above. This scoring worksheet is designed for SSgt\u2013MSgt selections.';
-    if (['E1','E2','E3'].indexOf(rank) >= 0) msg = 'Promotion from ' + RANK_MAP[rank].abbr + ' to ' + RANK_MAP[rank].next + ' is time-based. This scoring worksheet is designed for SSgt\u2013MSgt selections.';
+    var msg = 'Select a rank (SSgt–MSgt) to see promotion thresholds.';
+    if (rank === 'E4') msg = 'Thresholds apply to SSgt (E-5) promotions and above. This scoring worksheet is designed for SSgt–MSgt selections.';
+    if (['E1','E2','E3'].indexOf(rank) >= 0) msg = 'Promotion from ' + RANK_MAP[rank].abbr + ' to ' + RANK_MAP[rank].next + ' is time-based. This scoring worksheet is designed for SSgt–MSgt selections.';
     if (rank === 'E8') msg = 'CMSgt promotion is board-selected at HHQ level.';
     container.innerHTML = '<p class="threshold-status status-na">' + msg + '</p>';
     mobile.textContent = '';
@@ -1473,15 +1584,15 @@ function updateThreshold(score) {
   var color, statusClass, statusText, mobileText;
   if (score >= t.pep) {
     color = 'var(--score-3)'; statusClass = 'status-green';
-    statusText = '\u2713 Score ' + score + '/' + SCORE_LIMITS.grand + ' \u2014 Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
+    statusText = '✓ Score ' + score + '/' + SCORE_LIMITS.grand + ' — Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
     mobileText = 'PEP'; mobile.style.background = '#2e6e2e'; mobile.style.color = '#fff';
   } else if (score >= t.min) {
     color = 'var(--score-1)'; statusClass = 'status-yellow';
-    statusText = '\u26A0 Score ' + score + '/' + SCORE_LIMITS.grand + ' \u2014 Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' pts below PEP (' + t.pep + ').';
+    statusText = '⚠ Score ' + score + '/' + SCORE_LIMITS.grand + ' — Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' pts below PEP (' + t.pep + ').';
     mobileText = 'MIN'; mobile.style.background = '#c05600'; mobile.style.color = '#fff';
   } else {
     color = 'var(--score-0)'; statusClass = 'status-red';
-    statusText = '\u2717 Score ' + score + '/' + SCORE_LIMITS.grand + ' \u2014 Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more pts.';
+    statusText = '✗ Score ' + score + '/' + SCORE_LIMITS.grand + ' — Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more pts.';
     mobileText = 'BELOW'; mobile.style.background = '#b50909'; mobile.style.color = '#fff';
   }
   container.innerHTML =
@@ -1507,7 +1618,7 @@ function updateAfscRequirements() {
   var trans = data.transitions[transition];
   if (!trans) { section.style.display = 'none'; return; }
   section.style.display = 'block';
-  title.textContent = afsc + ' ' + data.title + ' \u2014 Requirements for ' + RANK_MAP[rank].next;
+  title.textContent = afsc + ' ' + data.title + ' — Requirements for ' + RANK_MAP[rank].next;
   // Group by category
   var cats = {};
   var catOrder = ['certification','PME','training','administrative'];
@@ -1634,32 +1745,63 @@ function doPrint() {
   document.querySelectorAll('.scoring-item').forEach(function(item) {
     var printVal = item.querySelector('.score-print-value');
     if (!printVal) return;
+    if (item.classList.contains('waived')) {
+      var reasonInput = item.querySelector('.waiver-reason input');
+      var reason = reasonInput && reasonInput.value.trim() ? ' (' + reasonInput.value.trim() + ')' : '';
+      printVal.textContent = 'N/A' + reason;
+      return;
+    }
     var checked = item.querySelector('input[type="radio"]:checked');
-    printVal.textContent = checked ? checked.value : '\u2014';
+    printVal.textContent = checked ? checked.value : '—';
   });
   // populate print summary scores
   var scores = calcScores(prefix);
-  document.getElementById('ps-integrity').textContent = scores.integrity;
-  document.getElementById('ps-service').textContent = scores.service;
-  document.getElementById('ps-excellence').textContent = scores.excellence;
-  document.getElementById('ps-bonus').textContent = scores.bonus;
+  document.getElementById('ps-integrity').textContent = scores.integrity + ' / ' + scores.integrityMax + (scores.integrityWaived ? ' (' + scores.integrityWaived + ' waived)' : '');
+  document.getElementById('ps-service').textContent = scores.service + ' / ' + scores.serviceMax + (scores.serviceWaived ? ' (' + scores.serviceWaived + ' waived)' : '');
+  document.getElementById('ps-excellence').textContent = scores.excellence + ' / ' + scores.excellenceMax + (scores.excellenceWaived ? ' (' + scores.excellenceWaived + ' waived)' : '');
+  document.getElementById('ps-bonus').textContent = scores.bonus + ' / ' + scores.bonusMax + (scores.bonusWaived ? ' (' + scores.bonusWaived + ' waived)' : '');
   var grand = Math.min(scores.integrity + scores.service + scores.excellence + scores.bonus, SCORE_LIMITS.grand);
   document.getElementById('ps-grand').textContent = grand;
   // threshold status for print
   var rank = document.getElementById('currentRank').value;
   var t = THRESHOLDS[rank];
-  var thresholdText = '\u2014';
+  var thresholdText = '—';
   if (t) {
-    if (grand >= t.pep) thresholdText = '\u2713 PEP Eligible (' + t.pep + '+)';
+    if (grand >= t.pep) thresholdText = '✓ PEP Eligible (' + t.pep + '+)';
     else if (grand >= t.min) thresholdText = 'Meets Minimum (' + t.min + '+)';
     else thresholdText = 'Below Minimum (need ' + t.min + ')';
   }
   document.getElementById('ps-threshold').textContent = thresholdText;
 
   // Build comparison table if both modes have data
+  function getStoredModeScores(modePrefix) {
+    var modeKey = modePrefix === 'self_' ? 'ces934-worksheet-self' : 'ces934-worksheet';
+    var modeLabel = modePrefix === 'self_' ? 'self' : 'supervisor';
+    var modeData = {};
+    var shared = {};
+    try { modeData = JSON.parse(localStorage.getItem(modeKey) || '{}') || {}; } catch(e) { modeData = {}; }
+    try { shared = JSON.parse(localStorage.getItem('ces934-shared') || '{}') || {}; } catch(e) { shared = {}; }
+    var out = {integrity:0,service:0,excellence:0,bonus:0,integrityDone:0,serviceDone:0,excellenceDone:0,bonusDone:0};
+    function sum(items, key) {
+      items.forEach(function(item){
+        if (shared['_waiver_' + modeLabel + '_' + item.id] === '1') return;
+        var val = modeData[modePrefix + item.id];
+        if (val !== undefined && val !== null && val !== '') {
+          out[key] += parseInt(val, 10) || 0;
+          out[key + 'Done']++;
+        }
+      });
+    }
+    sum(INTEGRITY_ITEMS, 'integrity');
+    sum(SERVICE_ITEMS, 'service');
+    sum(EXCELLENCE_ITEMS, 'excellence');
+    sum(BONUS_ITEMS, 'bonus');
+    return out;
+  }
+
   var compTable = document.getElementById('printComparison');
-  var supScores = calcScores('');
-  var selfScores = calcScores('self_');
+  var supScores = getStoredModeScores('');
+  var selfScores = getStoredModeScores('self_');
   var supHasData = supScores.integrityDone + supScores.serviceDone + supScores.excellenceDone + supScores.bonusDone > 0;
   var selfHasData = selfScores.integrityDone + selfScores.serviceDone + selfScores.excellenceDone + selfScores.bonusDone > 0;
   if (supHasData && selfHasData) {
@@ -1688,19 +1830,27 @@ function doPrint() {
   // Build detailed scoring tables (Page 2)
   var detailDiv = document.getElementById('printDetailSection');
   var detailHtml = '<div class="print-detail-title">Detailed Scoring Breakdown</div>';
-  function buildDetailTable(title, items, pfx) {
+  function buildDetailTable(title, items, pfx, maxLabel) {
     detailHtml += '<table class="print-detail-table"><tr><th>#</th><th>' + title + '</th><th>Score</th></tr>';
     items.forEach(function(item, i) {
-      var checked = document.querySelector('input[name="' + pfx + item.id + '"]:checked');
-      var val = checked ? checked.value : '\u2014';
+      var row = document.querySelector('.scoring-item[data-item-id="' + item.id + '"]');
+      var val = '—';
+      if (row && row.classList.contains('waived')) {
+        var reasonInput = row.querySelector('.waiver-reason input');
+        var reason = reasonInput && reasonInput.value.trim() ? ' (' + reasonInput.value.trim() + ')' : '';
+        val = 'N/A' + reason;
+      } else {
+        var checked = document.querySelector('input[name="' + pfx + item.id + '"]:checked');
+        val = checked ? checked.value : '—';
+      }
       detailHtml += '<tr><td>' + (i+1) + '</td><td>' + item.text + '</td><td>' + val + '</td></tr>';
     });
     detailHtml += '</table>';
   }
-  buildDetailTable('Integrity First (0\u20133 each, max 24)', INTEGRITY_ITEMS, prefix);
-  buildDetailTable('Service Before Self (0\u20132 each, max 16)', SERVICE_ITEMS, prefix);
-  buildDetailTable('Excellence In All We Do (mixed, max 9)', EXCELLENCE_ITEMS, prefix);
-  buildDetailTable('Bonus Points (max 6)', BONUS_ITEMS, prefix);
+  buildDetailTable('Integrity First (0–3 each, max 24)', INTEGRITY_ITEMS, prefix, 24);
+  buildDetailTable('Service Before Self (0–2 each, max 16)', SERVICE_ITEMS, prefix, 16);
+  buildDetailTable('Excellence In All We Do (mixed, max 12)', EXCELLENCE_ITEMS, prefix, 12);
+  buildDetailTable('Bonus Points (max 6)', BONUS_ITEMS, prefix, 6);
   detailDiv.innerHTML = detailHtml;
 
   // populate print behavioral summary
@@ -1708,7 +1858,7 @@ function doPrint() {
   var behavHtml = '<div class="print-behavioral-title">Behavioral Assessment</div>';
   BEHAVIORAL_ITEMS.forEach(function(item) {
     var checked = document.querySelector('input[name="' + prefix + item.id + '"]:checked');
-    var val = checked ? checked.value : '\u2014';
+    var val = checked ? checked.value : '—';
     behavHtml += '<div class="print-behavioral-item"><span>' + item.text + ':</span> <strong>' + val + '</strong></div>';
   });
   behavDiv.innerHTML = behavHtml;
@@ -1740,7 +1890,6 @@ function getStorageKey() {
 
 function saveState() {
   try {
-    var prefix = getRadioPrefix();
     var data = {};
     // all radio inputs for current mode
     document.querySelectorAll('input[type="radio"]:checked').forEach(function(input) {
@@ -1763,6 +1912,13 @@ function saveState() {
     document.querySelectorAll('.supervisor-notes').forEach(function(ta) {
       if (ta.value.trim()) shared['_note_' + ta.dataset.section] = ta.value;
     });
+    // waiver reasons + status with _waiver_ prefix
+    document.querySelectorAll('.scoring-item[data-item-id]').forEach(function(row){
+      var itemId = row.dataset.itemId;
+      shared['_waiver_' + currentMode + '_' + itemId] = row.classList.contains('waived') ? '1' : '0';
+      var reasonInput = row.querySelector('.waiver-reason input');
+      if (reasonInput && reasonInput.value.trim()) shared['_waiver_reason_' + currentMode + '_' + itemId] = reasonInput.value.trim();
+    });
     // afsc requirement checkboxes
     document.querySelectorAll('.afsc-req-check:checked').forEach(function(cb) {
       shared['_check_' + cb.dataset.key] = true;
@@ -1780,7 +1936,7 @@ function saveState() {
     }
   } catch(e) {
     var indicator = document.getElementById('saveIndicator');
-    if (indicator) { indicator.textContent = '\u26A0 Save failed \u2014 storage may be full or blocked'; indicator.style.color = 'var(--error)'; }
+    if (indicator) { indicator.textContent = '⚠ Save failed — storage may be full or blocked'; indicator.style.color = 'var(--error)'; }
   }
 }
 
@@ -1825,6 +1981,19 @@ function loadState() {
             if (ta) ta.value = shared[key];
           }
         });
+        // waiver state + reasons
+        var allItems = INTEGRITY_ITEMS.concat(SERVICE_ITEMS, EXCELLENCE_ITEMS, BONUS_ITEMS);
+        allItems.forEach(function(item){
+          var row = document.querySelector('.scoring-item[data-item-id="' + item.id + '"]');
+          if (!row) return;
+          var waived = shared['_waiver_' + currentMode + '_' + item.id] === '1';
+          row.classList.toggle('waived', waived);
+          var btn = row.querySelector('.waiver-toggle');
+          if (btn) btn.classList.toggle('active', waived);
+          var reasonInput = row.querySelector('.waiver-reason input');
+          var reasonKey = '_waiver_reason_' + currentMode + '_' + item.id;
+          if (reasonInput && typeof shared[reasonKey] === 'string') reasonInput.value = shared[reasonKey];
+        });
       }
     }
     // Load mode-specific scoring data
@@ -1842,7 +2011,7 @@ function loadState() {
   } catch(e) {
     var indicator = document.getElementById('saveIndicator');
     if (indicator) {
-      indicator.textContent = '\u26A0 Saved worksheet data was invalid and has been cleared';
+      indicator.textContent = '⚠ Saved worksheet data was invalid and has been cleared';
       indicator.style.color = 'var(--error)';
     }
   }
@@ -1868,6 +2037,9 @@ function resetForm() {
   document.querySelectorAll('input[type="date"]').forEach(function(r) { r.value = ''; });
   document.querySelectorAll('.afsc-req-check').forEach(function(r) { r.checked = false; });
   document.querySelectorAll('.supervisor-notes').forEach(function(r) { r.value = ''; });
+  document.querySelectorAll('.waiver-reason input').forEach(function(r){ r.value = ''; });
+  document.querySelectorAll('.scoring-item.waived').forEach(function(r){ r.classList.remove('waived'); });
+  document.querySelectorAll('.waiver-toggle.active').forEach(function(r){ r.classList.remove('active'); });
   document.getElementById('currentRank').value = '';
   document.getElementById('afsc').value = '';
   document.getElementById('worksheetDate').valueAsDate = new Date();
@@ -1880,6 +2052,8 @@ function clearSaved() {
     localStorage.removeItem('ces934-worksheet');
     localStorage.removeItem('ces934-worksheet-self');
     localStorage.removeItem('ces934-shared');
+    // clear waiver keys
+    Object.keys(localStorage).forEach(function(k){ if (k.indexOf('_waiver_') === 0) localStorage.removeItem(k); });
   } catch(e) {}
 }
 </script>
