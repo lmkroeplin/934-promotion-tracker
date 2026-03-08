@@ -303,6 +303,23 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
   .site-header{display:none}
   .layout{display:block!important;max-width:100%;padding:0;margin:0}
+  /* Print content order: header → info → summary → commander → disclaimer → break → detail → behavioral → notes → AFSC → signatures */
+  main{display:flex!important;flex-direction:column}
+  main>.print-header{order:1}
+  main>#sec-info{order:2}
+  main>.mode-toggle{order:3}
+  main>#printSummary{order:4}
+  main>#printComparison{order:5}
+  main>.print-commanders-note-section{order:6}
+  main>#promotionDisclaimer{order:7}
+  main>#printPage1Break{order:8}
+  main>.print-detail-section{order:9}
+  main>#printBehavioral{order:10}
+  main>#printNotes{order:11}
+  main>#afscRequirements{order:12}
+  main>.print-signatures{order:13}
+  main>#printPage2Break{order:99}
+  main>.save-indicator,main>.btn-row{order:99}
 
   /* ---- Page 1: Member Info + Score Summary + Threshold ---- */
   #sec-info{box-shadow:none;border:none;margin-bottom:.3rem}
@@ -360,21 +377,26 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   .print-note-label{font-weight:700;font-size:8pt;text-transform:uppercase;color:#0a2647}
   .print-note-text{padding-left:8pt;font-style:italic;margin-top:2pt;color:#333}
 
-  #printPage2Break{display:block!important;break-after:page;height:0;margin:0;padding:0}
+  #printPage2Break{display:none!important}
 
   /* ---- Page 3: AFSC Requirements + Signatures ---- */
-  #afscRequirements{display:block!important;box-shadow:none;border:none;margin-bottom:.3rem}
+  #afscRequirements{display:block!important;box-shadow:none;border:none;margin-bottom:.3rem;break-before:avoid}
   #afscRequirements .section-header{padding:4pt 0;font-size:9.5pt;border:none;color:#0a2647}
   #afscRequirements .section-content{display:block!important;grid-template-rows:1fr!important}
   #afscRequirements .section-body{padding:2pt 0}
   #afscRequirements .req-item input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #0a2647;border-radius:2px;position:relative}
   #afscRequirements .req-item input[type="checkbox"]:checked::after{content:'\2713';position:absolute;top:-2px;left:1px;font-size:12px;font-weight:700;color:#0a2647}
   #afscRequirements .req-badge{border:1px solid #bbb;background:#e8e8ed!important;color:#1d1d1f!important;font-size:6pt}
-  #afscRequirements .req-category-title{color:#0a2647;border-bottom-color:#0a2647}
+  #afscRequirements .req-category-title{color:#0a2647;border-bottom-color:#0a2647;break-after:avoid;page-break-after:avoid}
+  #afscRequirements .req-item{break-inside:avoid;page-break-inside:avoid}
   .req-references{border-top:1.5pt solid #0a2647;margin-top:8pt;padding-top:4pt}
-  .ref-link a{color:#1d1d1f;text-decoration:none;font-size:8pt}
-  .ref-link a::after{content:" (" attr(href) ")";font-size:6.5pt;color:#86868b}
-  .ref-note{border:1px solid #d2d2d7;padding:6pt;font-size:7pt;background:#f5f5f7;border-radius:3pt}
+  .req-filter-row{display:none!important}
+  .ref-link{padding:1pt 0}
+  .ref-link a{color:#1d1d1f;text-decoration:none;font-size:7.5pt}
+  .ref-link a::after{content:" (" attr(href) ")";font-size:6pt;color:#86868b}
+  .ref-group-title{font-size:7.5pt;margin-top:4pt;margin-bottom:1pt}
+  .ref-note{border:1px solid #d2d2d7;padding:4pt;font-size:7pt;background:#f5f5f7;border-radius:3pt}
+  .req-references{break-inside:avoid;page-break-inside:avoid}
 
   .disclaimer{display:block!important;margin-top:.5rem;font-size:7.5pt;text-align:center;border:1.5pt solid #d2d2d7;padding:6pt 10pt;background:#f5f5f7;border-radius:4pt;color:#555}
   .disclaimer strong{color:#1d1d1f}
@@ -382,7 +404,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   /* Commander's note in print */
   .commanders-note{display:block!important;margin-top:.3rem;font-size:8pt;text-align:center;padding:6pt;background:#f5f5f7;border:none;border-radius:4pt;border-left:none;color:#555}
 
-  .print-signatures{display:flex!important;justify-content:space-between;margin-top:.8rem;padding-top:.6rem;break-inside:avoid;page-break-inside:avoid;gap:18pt}
+  .print-signatures{display:flex!important;justify-content:space-between;margin-top:.8rem;padding-top:.6rem;break-inside:avoid;page-break-inside:avoid;break-before:avoid;page-break-before:avoid;gap:18pt}
   .signature-line{width:48%;border-top:1.5pt solid #0a2647;padding-top:6pt;min-height:44pt;line-height:1.4;font-size:8pt;font-weight:600;color:#0a2647;text-transform:uppercase;letter-spacing:.3px}
 
   /* Hide interactive scoring sections in print */
