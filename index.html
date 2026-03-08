@@ -10,7 +10,7 @@
 :root{
   --primary:#1a4480;--primary-light:#2672de;--primary-vivid:#0050d8;
   --score-0:#b50909;--score-0-text:#fff;
-  --score-1:#c05600;--score-2:#0d7ea2;--score-3:#2e6e2e;
+  --score-1:#9a4400;--score-2:#0a6580;--score-3:#2e6e2e;
   --surface:#ffffff;--surface-alt:#f0f0f0;
   --text:#1b1b1b;--text-muted:#565c65;
   --border:#c9c9c9;--border-light:#e6e6e6;
@@ -50,12 +50,17 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .global-progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary-light));transition:width .4s ease}
 
 /* ===== HEADER ===== */
-.site-header{background:var(--primary);color:#fff;padding:1.25rem 1.5rem;text-align:center;position:relative}
-.site-header h1{font-size:1.35rem;font-weight:700;letter-spacing:.3px}
-.site-header p{font-size:.85rem;opacity:.85;margin-top:2px}
+.site-header{background:linear-gradient(135deg,#0a2647 0%,#1a4480 60%,#1e3a5f 100%);color:#fff;padding:1.25rem 1.5rem;position:relative;border-bottom:3px solid #c5a44e;display:flex;align-items:center;justify-content:center;gap:1rem;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.header-emblem{width:52px;height:52px;flex-shrink:0;border:2px solid rgba(197,164,78,.6);border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);font-size:1.6rem;line-height:1}
+.header-emblem img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.header-text{display:flex;flex-direction:column;align-items:center}
+.site-header h1{font-size:1.1rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.site-header .header-subtitle{font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;opacity:.7;margin-top:2px;font-weight:400}
+.site-header .header-doc-title{font-size:.85rem;font-weight:600;opacity:.9;margin-top:4px;letter-spacing:.3px}
 .header-controls{position:absolute;right:1rem;top:50%;transform:translateY(-50%);display:flex;gap:.5rem}
-.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:6px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
-.icon-btn:hover{background:rgba(255,255,255,.25)}
+.icon-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:36px;height:36px;border-radius:6px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .2s ease}
+.icon-btn:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
+[data-theme="dark"] .site-header{background:linear-gradient(135deg,#0a1628 0%,#162d50 60%,#0e1f38 100%);border-bottom-color:#8b7332}
 
 /* ===== LAYOUT ===== */
 .layout{max-width:960px;margin:0 auto;padding:.75rem}
@@ -79,52 +84,61 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 }
 
 /* ===== ACCORDION SECTIONS ===== */
-.scoring-section{background:var(--surface);border-radius:8px;margin-bottom:.75rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.section-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:var(--primary);color:#fff;border:none;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;text-align:left;letter-spacing:.2px;text-transform:uppercase;gap:.5rem}
+.scoring-section{background:var(--surface);border-radius:10px;margin-bottom:.85rem;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.06);border:1px solid var(--border-light);transition:box-shadow .2s ease}
+.scoring-section:hover{box-shadow:0 2px 4px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.08)}
+.section-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:.85rem 1.15rem;background:var(--surface);color:var(--text);border:none;border-left:4px solid var(--primary);cursor:pointer;font-family:var(--font-body);font-size:.82rem;font-weight:700;text-align:left;letter-spacing:.5px;text-transform:uppercase;gap:.5rem;transition:background .15s ease}
+.section-header:hover{background:var(--hover)}
 .section-header:focus-visible{outline:3px solid var(--focus-ring);outline-offset:-3px}
+.section-icon{font-size:1rem;margin-right:.35rem;flex-shrink:0}
 .section-meta{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
-.section-score{font-weight:700;font-size:.85rem}
-.section-progress-bar{width:50px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden}
-.section-progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .3s ease}
-.section-completion{font-size:.7rem;opacity:.8}
-.chevron{transition:transform .2s ease;font-size:.7rem}
+.section-score{font-weight:800;font-size:.8rem;color:var(--primary);background:var(--surface-alt);padding:2px 8px;border-radius:4px}
+.section-progress-bar{width:50px;height:4px;background:var(--border-light);border-radius:2px;overflow:hidden}
+.section-progress-fill{height:100%;background:var(--primary);border-radius:2px;transition:width .3s ease}
+.section-completion{font-size:.7rem;color:var(--text-muted)}
+.chevron{transition:transform .3s cubic-bezier(.4,0,.2,1);font-size:.65rem;color:var(--text-muted)}
 .section-header[aria-expanded="true"] .chevron{transform:rotate(180deg)}
-.section-content{max-height:0;overflow:hidden;transition:max-height .3s ease-out}
-.section-header[aria-expanded="true"]+.section-content{max-height:5000px}
-.section-body{padding:.75rem 1rem 1rem}
+.section-content{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1)}
+.section-header[aria-expanded="true"]+.section-content{grid-template-rows:1fr}
+.section-content>.section-body,.section-content>.threshold-section{overflow:hidden}
+.section-body{padding:.75rem 1.15rem 1rem}
 
 /* ===== SCORING ITEMS ===== */
-.scoring-item{padding:.65rem 0;border-bottom:1px solid var(--border-light);display:flex;flex-direction:column;gap:.4rem}
+.scoring-item{padding:.75rem 0;border-bottom:1px solid var(--border-light);display:flex;flex-direction:column;gap:.5rem}
 .scoring-item:last-child{border-bottom:none}
 @media(min-width:768px){
   .scoring-item{flex-direction:row;align-items:center;gap:1rem}
   .item-label{flex:1}
 }
-.item-number{font-weight:700;color:var(--text-muted);font-size:.8rem;min-width:1.5rem}
-.item-label{font-size:.875rem;font-weight:500;line-height:1.4;display:flex;gap:.4rem;align-items:baseline}
-.item-hint{display:block;font-size:.75rem;color:var(--text-muted);font-weight:400}
+.item-number{font-weight:800;color:var(--primary);font-size:.7rem;min-width:1.8rem;display:inline-flex;align-items:center;justify-content:center;background:var(--surface-alt);border-radius:4px;padding:2px 0;flex-shrink:0}
+.item-label{font-size:.875rem;font-weight:500;line-height:1.6;display:flex;gap:.5rem;align-items:baseline}
+.item-hint{display:block;font-size:.72rem;color:var(--text-muted);font-weight:400;line-height:1.5;margin-top:2px;padding-left:.5rem;border-left:2px solid var(--border-light)}
 .score-print-value{display:none}
 
 /* ===== SEGMENTED SCORE CONTROLS ===== */
-.score-control{display:grid;gap:2px;flex-shrink:0}
-.score-control.scale-4{grid-template-columns:repeat(4,1fr);min-width:160px}
-.score-control.scale-3{grid-template-columns:repeat(3,1fr);min-width:120px}
-.score-control.scale-2{grid-template-columns:repeat(2,1fr);min-width:90px}
-.score-control.scale-2w{grid-template-columns:1fr 1fr;min-width:90px}
+.score-control{display:grid;gap:0;flex-shrink:0}
+.score-control.scale-4{grid-template-columns:repeat(4,1fr);min-width:176px}
+.score-control.scale-3{grid-template-columns:repeat(3,1fr);min-width:132px}
+.score-control.scale-2{grid-template-columns:repeat(2,1fr);min-width:100px}
+.score-control.scale-2w{grid-template-columns:1fr 1fr;min-width:100px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-.score-control label{display:flex;align-items:center;justify-content:center;padding:.5rem .25rem;min-height:44px;min-width:44px;font-weight:600;font-size:.85rem;cursor:pointer;border:2px solid var(--border);background:var(--surface);text-align:center;user-select:none;-webkit-tap-highlight-color:transparent;transition:background .15s,border-color .15s,color .15s}
-.score-control label:first-of-type{border-radius:6px 0 0 6px}
-.score-control label:last-of-type{border-radius:0 6px 6px 0}
-.score-control label:hover{background:var(--hover)}
-.score-control input:focus-visible+label{outline:3px solid var(--focus-ring);outline-offset:-3px;z-index:1}
+.score-control label{display:flex;align-items:center;justify-content:center;padding:.5rem .25rem;min-height:44px;min-width:44px;font-weight:600;font-size:.85rem;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);text-align:center;user-select:none;-webkit-tap-highlight-color:transparent;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;z-index:0}
+.score-control label:first-of-type{border-radius:8px 0 0 8px}
+.score-control label:last-of-type{border-radius:0 8px 8px 0}
+.score-control label+label{border-left:none}
+.score-control label:hover{background:var(--hover);transform:scaleY(1.04);z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.score-control label:active{transform:scale(.96);transition-duration:.1s}
+.score-control input:focus-visible+label{outline:3px solid var(--focus-ring);outline-offset:-3px;z-index:2}
+.score-control input:checked+label{z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.2);transform:scale(1.02);border-color:transparent}
 .score-control input[value="0"]:checked+label{background:var(--score-0);color:var(--score-0-text);border-color:var(--score-0)}
 .score-control input[value="1"]:checked+label{background:var(--score-1);color:#fff;border-color:var(--score-1)}
 .score-control input[value="2"]:checked+label{background:var(--score-2);color:#fff;border-color:var(--score-2)}
 .score-control input[value="3"]:checked+label{background:var(--score-3);color:#fff;border-color:var(--score-3)}
-
-/* Y/N toggle */
 .score-control input[value="Y"]:checked+label{background:var(--score-3);color:#fff;border-color:var(--score-3)}
 .score-control input[value="N"]:checked+label{background:var(--score-0);color:var(--score-0-text);border-color:var(--score-0)}
+/* Score tooltips */
+.score-control label[data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) scale(.9);background:#1b1b1b;color:#fff;font-size:.65rem;font-weight:400;padding:4px 8px;border-radius:4px;white-space:nowrap;opacity:0;pointer-events:none;transition:all .2s ease;z-index:100}
+.score-control label[data-tip]:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
+@media(max-width:767px){.score-control label[data-tip]::after{display:none}}
 
 /* ===== FORM CONTROLS ===== */
 .form-section .section-body{display:flex;flex-direction:column;gap:.75rem}
@@ -166,7 +180,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .req-badge-conditional{background:var(--warning);color:#1b1b1b}
 
 /* ===== COMMANDERS NOTE ===== */
-.commanders-note{font-style:italic;color:var(--text-muted);font-size:.82rem;text-align:center;padding:.75rem;border-top:1px solid var(--border-light);margin-top:.5rem}
+.commanders-note{font-style:italic;color:var(--text-muted);font-size:.82rem;text-align:left;padding:1rem 1.25rem;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:0 6px 6px 0;background:var(--surface-alt);margin-top:.5rem}
+/* ===== SAVE INDICATOR ===== */
+.save-indicator{text-align:center;font-size:.75rem;color:var(--text-muted);padding:.25rem 0;transition:opacity .3s}
 
 /* ===== BUTTONS ===== */
 .btn-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
@@ -179,11 +195,11 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 /* ===== MOBILE BOTTOM BAR ===== */
 .mobile-score-bar{display:none}
 @media(max-width:767px){
-  .mobile-score-bar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--primary);padding:.6rem 1rem;justify-content:space-between;align-items:center;z-index:200;box-shadow:0 -2px 8px rgba(0,0,0,.1)}
+  .mobile-score-bar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--primary);padding:.6rem 1rem;padding-bottom:calc(.6rem + env(safe-area-inset-bottom,0px));justify-content:space-between;align-items:center;z-index:200;box-shadow:0 -2px 8px rgba(0,0,0,.1)}
   .mobile-score-bar .score-label{font-size:.75rem;color:var(--text-muted)}
   .mobile-score-bar .score-value{font-size:1.2rem;font-weight:700;color:var(--primary)}
   .mobile-score-bar .threshold-mini{font-size:.7rem;font-weight:600;padding:3px 8px;border-radius:4px}
-  main{padding-bottom:4.5rem}
+  main{padding-bottom:calc(4.5rem + env(safe-area-inset-bottom,0px))}
 }
 
 /* ===== PRINT ===== */
@@ -191,7 +207,12 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 @media print{
   *{color-adjust:exact!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{font-family:'Times New Roman',Times,serif;font-size:10pt;line-height:1.3;color:#000;background:#fff}
-  .global-progress,.section-nav,.mobile-score-bar,.header-controls,.btn-row,.icon-btn,.no-print,#afscRequirements{display:none!important}
+  .global-progress,.section-nav,.mobile-score-bar,.header-controls,.btn-row,.icon-btn,.no-print,.save-indicator{display:none!important}
+  #afscRequirements{display:block!important}
+  #afscRequirements .section-content{display:block!important}
+  #afscRequirements .req-item input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #000;border-radius:2px;position:relative}
+  #afscRequirements .req-item input[type="checkbox"]:checked::after{content:'\2713';position:absolute;top:-2px;left:1px;font-size:12px;font-weight:700}
+  #afscRequirements .req-badge{border:1px solid #999;background:#e0e0e0!important;color:#000!important}
   .print-header{display:block!important;text-align:center;border-bottom:2px solid #000;padding-bottom:.5rem;margin-bottom:.75rem}
   .print-header h1{font-size:13pt;text-transform:uppercase;letter-spacing:.05em}
   .print-header p{font-size:9pt;margin-top:2px}
@@ -229,8 +250,12 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- Header -->
 <header class="site-header">
-  <h1>934th Civil Engineering Squadron</h1>
-  <p>Promotion Eligibility Worksheet &mdash; Air Force Reserve Command</p>
+  <div class="header-emblem"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/934th_Airlift_Wing.png" alt="934th Airlift Wing Emblem" loading="eager" onerror="this.style.display='none';this.parentElement.textContent='★'"></div>
+  <div class="header-text">
+    <p class="header-subtitle">Air Force Reserve Command</p>
+    <h1>934th Civil Engineering Squadron</h1>
+    <p class="header-doc-title">Promotion Eligibility Worksheet</p>
+  </div>
   <div class="header-controls">
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#9790;</button>
     <button class="icon-btn" onclick="doPrint()" title="Print / Save PDF" aria-label="Print">&#9113;</button>
@@ -268,7 +293,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- MEMBER INFORMATION -->
 <section class="scoring-section form-section" id="sec-info" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="info-content" onclick="toggleSection(this)">
-    <span>Member Information</span>
+    <span><span class="section-icon">📋</span>Member Information</span>
     <span class="chevron">&#9660;</span>
   </button>
   <div class="section-content" id="info-content">
@@ -333,7 +358,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- AFSC REQUIREMENTS (dynamic) -->
 <section class="scoring-section" id="afscRequirements" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="afsc-content" onclick="toggleSection(this)">
-    <span id="afscReqTitle">AFSC Requirements for Promotion</span>
+    <span id="afscReqTitle"><span class="section-icon">🎯</span>AFSC Requirements for Promotion</span>
     <span class="chevron">&#9660;</span>
   </button>
   <div class="section-content" id="afsc-content">
@@ -345,9 +370,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- INTEGRITY FIRST (8 items, 0-3) -->
 <section class="scoring-section" id="sec-integrity" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="integrity-content" onclick="toggleSection(this)">
-    <span>Integrity First</span>
+    <span><span class="section-icon">⚖️</span>Integrity First</span>
     <span class="section-meta">
-      <span class="section-score" id="integrityScore">0 / 24</span>
+      <span class="section-score" id="integrityScore" aria-live="polite">0 / 24</span>
       <span class="section-progress-bar"><span class="section-progress-fill" id="integrityBar" style="width:0"></span></span>
       <span class="section-completion" id="integrityComp">0/8</span>
       <span class="chevron">&#9660;</span>
@@ -361,9 +386,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- SERVICE BEFORE SELF (8 items, 0-2) -->
 <section class="scoring-section" id="sec-service" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="service-content" onclick="toggleSection(this)">
-    <span>Service Before Self</span>
+    <span><span class="section-icon">🎖️</span>Service Before Self</span>
     <span class="section-meta">
-      <span class="section-score" id="serviceScore">0 / 16</span>
+      <span class="section-score" id="serviceScore" aria-live="polite">0 / 16</span>
       <span class="section-progress-bar"><span class="section-progress-fill" id="serviceBar" style="width:0"></span></span>
       <span class="section-completion" id="serviceComp">0/8</span>
       <span class="chevron">&#9660;</span>
@@ -377,9 +402,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- EXCELLENCE IN ALL WE DO (8 items, mixed) -->
 <section class="scoring-section" id="sec-excellence" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="excellence-content" onclick="toggleSection(this)">
-    <span>Excellence In All We Do</span>
+    <span><span class="section-icon">⭐</span>Excellence In All We Do</span>
     <span class="section-meta">
-      <span class="section-score" id="excellenceScore">0 / 9</span>
+      <span class="section-score" id="excellenceScore" aria-live="polite">0 / 9</span>
       <span class="section-progress-bar"><span class="section-progress-fill" id="excellenceBar" style="width:0"></span></span>
       <span class="section-completion" id="excellenceComp">0/8</span>
       <span class="chevron">&#9660;</span>
@@ -393,9 +418,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- BONUS POINTS -->
 <section class="scoring-section" id="sec-bonus" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="bonus-content" onclick="toggleSection(this)">
-    <span>Bonus Points</span>
+    <span><span class="section-icon">🏆</span>Bonus Points</span>
     <span class="section-meta">
-      <span class="section-score" id="bonusScore">0 / 6</span>
+      <span class="section-score" id="bonusScore" aria-live="polite">0 / 6</span>
       <span class="section-progress-bar"><span class="section-progress-fill" id="bonusBar" style="width:0"></span></span>
       <span class="section-completion" id="bonusComp">0/3</span>
       <span class="chevron">&#9660;</span>
@@ -409,7 +434,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- BEHAVIORAL ASSESSMENT -->
 <section class="scoring-section" id="sec-behavioral" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="behavioral-content" onclick="toggleSection(this)">
-    <span>Behavioral Assessment</span>
+    <span><span class="section-icon">📊</span>Behavioral Assessment</span>
     <span class="section-meta"><span class="section-completion" id="behavComp">0/3</span><span class="chevron">&#9660;</span></span>
   </button>
   <div class="section-content" id="behavioral-content">
@@ -420,11 +445,11 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- PROMOTION THRESHOLD -->
 <section class="scoring-section" id="sec-threshold" style="scroll-margin-top:1rem">
   <button class="section-header" aria-expanded="true" aria-controls="threshold-content" onclick="toggleSection(this)">
-    <span>Promotion Threshold Status</span>
+    <span><span class="section-icon">📈</span>Promotion Threshold Status</span>
     <span class="chevron">&#9660;</span>
   </button>
   <div class="section-content" id="threshold-content">
-    <div class="threshold-section" id="thresholdBody">
+    <div class="threshold-section" id="thresholdBody" aria-live="polite">
       <p class="threshold-status status-na">Select a rank (SSgt&ndash;MSgt) to see promotion thresholds.</p>
     </div>
   </div>
@@ -443,6 +468,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 </div>
 
 <!-- BUTTONS -->
+<div id="saveIndicator" class="save-indicator" aria-live="polite"></div>
 <div class="btn-row no-print">
   <button class="btn btn-primary" onclick="doPrint()">Print / Save PDF</button>
   <button class="btn btn-secondary" onclick="resetForm()">Reset All</button>
@@ -929,6 +955,9 @@ document.addEventListener('DOMContentLoaded', function() {
   loadState();
   document.getElementById('worksheetDate').valueAsDate = new Date();
   updateAll();
+  // storage check
+  try { localStorage.setItem('ces934-test','1'); localStorage.removeItem('ces934-test'); }
+  catch(e) { var ind = document.getElementById('saveIndicator'); if(ind){ind.textContent='\u26A0 Browser storage unavailable \u2014 data will not persist. Avoid private/incognito mode.';ind.style.color='var(--error)';} }
   // attach listeners
   document.getElementById('currentRank').addEventListener('change', function(){ updateAll(); saveState(); });
   document.getElementById('afsc').addEventListener('change', function(){ updateAll(); saveState(); });
@@ -975,20 +1004,26 @@ function buildSection(containerId, items) {
     html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text;
     if (item.hint) html += '<span class="item-hint">' + item.hint + '</span>';
     html += '</span></div>';
-    html += buildScoreControl(item.id, item.max);
+    html += buildScoreControl(item.id, item.max, null, item.text);
     html += '<span class="score-print-value">—</span></div>';
   });
   c.innerHTML = html;
 }
 
-function buildScoreControl(name, max, values) {
+function buildScoreControl(name, max, values, legendText) {
   var vals = values || [];
   if (!vals.length) for (var i = 0; i <= max; i++) vals.push(i);
   var cls = 'score-control scale-' + vals.length;
-  var html = '<fieldset class="' + cls + '" role="radiogroup" data-max="' + max + '">';
+  var tips4 = {0:'Does not meet',1:'Below standard',2:'Meets standard',3:'Exceeds standard'};
+  var tips3 = {0:'Does not meet',1:'Meets standard',2:'Exceeds standard'};
+  var tips2 = {0:'No',1:'Yes'};
+  var tips = max >= 3 ? tips4 : max >= 2 ? tips3 : tips2;
+  var html = '<fieldset class="' + cls + '" role="radiogroup" aria-label="' + (legendText||name).replace(/"/g,'&quot;') + '" data-max="' + max + '">';
+  html += '<legend class="sr-only">' + (legendText||name) + '</legend>';
   vals.forEach(function(v) {
+    var tip = tips[v] || '';
     html += '<input type="radio" name="' + name + '" value="' + v + '" id="' + name + '-' + v + '" class="sr-only">';
-    html += '<label for="' + name + '-' + v + '">' + v + '</label>';
+    html += '<label for="' + name + '-' + v + '" aria-label="Score ' + v + ' of ' + max + '"' + (tip ? ' data-tip="' + tip + '"' : '') + '>' + v + '</label>';
   });
   html += '</fieldset>';
   return html;
@@ -999,7 +1034,7 @@ function buildBonusSection() {
   var html = '';
   BONUS_ITEMS.forEach(function(item, i) {
     html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text + '</span></div>';
-    html += buildScoreControl(item.id, item.max, item.values);
+    html += buildScoreControl(item.id, item.max, item.values, item.text);
     html += '<span class="score-print-value">—</span></div>';
   });
   c.innerHTML = html;
@@ -1010,9 +1045,10 @@ function buildBehavioralSection() {
   var html = '';
   BEHAVIORAL_ITEMS.forEach(function(item, i) {
     html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + String.fromCharCode(97+i) + '.</span><span>' + item.text + '</span></div>';
-    html += '<fieldset class="score-control scale-2w" role="radiogroup">';
-    html += '<input type="radio" name="' + item.id + '" value="Y" id="' + item.id + '-Y" class="sr-only behav-input"><label for="' + item.id + '-Y">Y</label>';
-    html += '<input type="radio" name="' + item.id + '" value="N" id="' + item.id + '-N" class="sr-only behav-input"><label for="' + item.id + '-N">N</label>';
+    html += '<fieldset class="score-control scale-2w" role="radiogroup" aria-label="' + item.text.replace(/"/g,'&quot;') + '">';
+    html += '<legend class="sr-only">' + item.text + '</legend>';
+    html += '<input type="radio" name="' + item.id + '" value="Y" id="' + item.id + '-Y" class="sr-only behav-input"><label for="' + item.id + '-Y" aria-label="Yes" data-tip="Yes">Y</label>';
+    html += '<input type="radio" name="' + item.id + '" value="N" id="' + item.id + '-N" class="sr-only behav-input"><label for="' + item.id + '-N" aria-label="No" data-tip="No">N</label>';
     html += '</fieldset>';
     html += '<span class="score-print-value">—</span></div>';
   });
@@ -1030,7 +1066,6 @@ function updateAll() {
   var totalDone = scores.integrityDone + scores.serviceDone + scores.excellenceDone + scores.bonusDone;
   var totalItems = INTEGRITY_ITEMS.length + SERVICE_ITEMS.length + EXCELLENCE_ITEMS.length + BONUS_ITEMS.length;
   // nav
-  var e = document.getElementById;
   document.getElementById('navIntegrity').textContent = scores.integrity + '/24';
   document.getElementById('navService').textContent = scores.service + '/16';
   document.getElementById('navExcellence').textContent = scores.excellence + '/9';
@@ -1093,7 +1128,8 @@ function updateThreshold(score) {
   var mobile = document.getElementById('mobileThreshold');
   if (!rank || !THRESHOLDS[rank]) {
     var msg = 'Select a rank (SSgt\u2013MSgt) to see promotion thresholds.';
-    if (rank === 'E4') msg = 'Local worksheet thresholds apply E-5 (TSgt) and above.';
+    if (rank === 'E4') msg = 'Thresholds apply to SSgt (E-5) promotions and above. This scoring worksheet is designed for SSgt\u2013MSgt selections.';
+    if (['E1','E2','E3'].indexOf(rank) >= 0) msg = 'Promotion from ' + RANK_MAP[rank].abbr + ' to ' + RANK_MAP[rank].next + ' is time-based. This scoring worksheet is designed for SSgt\u2013MSgt selections.';
     if (rank === 'E8') msg = 'CMSgt promotion is board-selected at HHQ level.';
     container.innerHTML = '<p class="threshold-status status-na">' + msg + '</p>';
     mobile.textContent = '';
@@ -1140,7 +1176,7 @@ function updateAfscRequirements() {
   var data = AFSC_DATA[afsc];
   var trans = data.transitions[transition];
   if (!trans) { section.style.display = 'none'; return; }
-  section.style.display = '';
+  section.style.display = 'block';
   title.textContent = afsc + ' ' + data.title + ' \u2014 Requirements for ' + RANK_MAP[rank].next;
   // Group by category
   var cats = {};
@@ -1173,12 +1209,18 @@ function updateAfscRequirements() {
 function toggleSection(btn) {
   var expanded = btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', !expanded);
+  var content = btn.nextElementSibling;
+  if (content) content.inert = expanded;
 }
 function toggleExpandAll() {
   var btn = document.getElementById('expandAllBtn');
   var headers = document.querySelectorAll('.section-header');
   var expanding = btn.textContent.trim().indexOf('Expand') === 0;
-  headers.forEach(function(h) { h.setAttribute('aria-expanded', expanding); });
+  headers.forEach(function(h) {
+    h.setAttribute('aria-expanded', expanding);
+    var content = h.nextElementSibling;
+    if (content) content.inert = !expanding;
+  });
   btn.textContent = expanding ? 'Collapse All' : 'Expand All';
 }
 
@@ -1238,7 +1280,16 @@ function saveState() {
       data['_check_' + cb.dataset.key] = true;
     });
     localStorage.setItem('ces934-worksheet', JSON.stringify(data));
-  } catch(e) {}
+    var indicator = document.getElementById('saveIndicator');
+    if (indicator) {
+      var now = new Date();
+      indicator.textContent = 'Auto-saved ' + now.toLocaleTimeString();
+      indicator.style.color = '';
+    }
+  } catch(e) {
+    var indicator = document.getElementById('saveIndicator');
+    if (indicator) { indicator.textContent = '\u26A0 Save failed \u2014 storage may be full or blocked'; indicator.style.color = 'var(--error)'; }
+  }
 }
 
 function loadState() {
