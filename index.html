@@ -1263,7 +1263,6 @@ function getAfscReferenceProfile(afsc) {
 document.addEventListener('DOMContentLoaded', function() {
   buildScoringItems();
   loadState();
-  loadWaiverState();
   var worksheetDate = document.getElementById('worksheetDate');
   if (!worksheetDate.value) worksheetDate.valueAsDate = new Date();
   document.querySelectorAll('.section-header').forEach(syncAccordionState);
@@ -1564,7 +1563,8 @@ function updateAll() {
   });
   document.getElementById('behavComp').textContent = behavDone + '/3';
   // threshold
-  updateThreshold(grand);
+  var effectiveMax = scores.integrityMax + scores.serviceMax + scores.excellenceMax + scores.bonusMax;
+  updateThreshold(grand, effectiveMax, grandRaw);
   // promoting to
   updatePromotingTo();
   // afsc requirements
@@ -1622,7 +1622,7 @@ function updatePromotingTo() {
   }
 }
 
-function updateThreshold(score) {
+function updateThreshold(score, effectiveMax, rawScore) {
   var rank = document.getElementById('currentRank').value;
   var container = document.getElementById('thresholdBody');
   var mobile = document.getElementById('mobileThreshold');
@@ -1637,25 +1637,29 @@ function updateThreshold(score) {
     return;
   }
   var t = THRESHOLDS[rank];
-  var pct = Math.min((score / SCORE_LIMITS.grand) * 100, 100);
+  var normalized = score;
+  if (effectiveMax && effectiveMax > 0 && effectiveMax < SCORE_LIMITS.grand) {
+    normalized = Math.round(((rawScore || score) / effectiveMax) * SCORE_LIMITS.grand);
+  }
+  var pct = Math.min((normalized / SCORE_LIMITS.grand) * 100, 100);
   var minPct = (t.min / SCORE_LIMITS.grand) * 100;
   var pepPct = (t.pep / SCORE_LIMITS.grand) * 100;
   var color, statusClass, statusText, mobileText;
-  if (score >= t.pep) {
+  if (normalized >= t.pep) {
     color = 'var(--score-3)'; statusClass = 'status-green';
-    statusText = '✓ Score ' + score + '/' + SCORE_LIMITS.grand + ' — Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
+    statusText = '✓ Score ' + normalized + '/' + SCORE_LIMITS.grand + ' — Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.' + (effectiveMax && effectiveMax < SCORE_LIMITS.grand ? ' (normalized from ' + (rawScore || score) + '/' + effectiveMax + ')' : '');
     mobileText = 'PEP'; mobile.style.background = '#2e6e2e'; mobile.style.color = '#fff';
-  } else if (score >= t.min) {
+  } else if (normalized >= t.min) {
     color = 'var(--score-1)'; statusClass = 'status-yellow';
-    statusText = '⚠ Score ' + score + '/' + SCORE_LIMITS.grand + ' — Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' pts below PEP (' + t.pep + ').';
+    statusText = '⚠ Score ' + normalized + '/' + SCORE_LIMITS.grand + ' — Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - normalized) + ' pts below PEP (' + t.pep + ').' + (effectiveMax && effectiveMax < SCORE_LIMITS.grand ? ' (normalized from ' + (rawScore || score) + '/' + effectiveMax + ')' : '');
     mobileText = 'MIN'; mobile.style.background = '#c05600'; mobile.style.color = '#fff';
   } else {
     color = 'var(--score-0)'; statusClass = 'status-red';
-    statusText = '✗ Score ' + score + '/' + SCORE_LIMITS.grand + ' — Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more pts.';
+    statusText = '✗ Score ' + normalized + '/' + SCORE_LIMITS.grand + ' — Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - normalized) + ' more pts.' + (effectiveMax && effectiveMax < SCORE_LIMITS.grand ? ' (normalized from ' + (rawScore || score) + '/' + effectiveMax + ')' : '');
     mobileText = 'BELOW'; mobile.style.background = '#b50909'; mobile.style.color = '#fff';
   }
   container.innerHTML =
-    '<div class="threshold-bar"><div class="threshold-fill" style="width:' + pct + '%;background:' + color + '">' + score + '</div></div>' +
+    '<div class="threshold-bar"><div class="threshold-fill" style="width:' + pct + '%;background:' + color + '">' + normalized + '</div></div>' +
     '<div class="threshold-markers"><span>0</span><span class="threshold-marker" style="left:' + minPct + '%">Min ' + t.min + '</span><span class="threshold-marker" style="left:' + pepPct + '%">PEP ' + t.pep + '</span><span>' + SCORE_LIMITS.grand + '</span></div>' +
     '<div class="threshold-status ' + statusClass + '">' + statusText + '</div>';
   mobile.textContent = mobileText;
@@ -1864,16 +1868,19 @@ function doPrint() {
   document.getElementById('ps-service').textContent = scores.service + ' / ' + scores.serviceMax + (scores.serviceWaived ? ' (' + scores.serviceWaived + ' waived)' : '');
   document.getElementById('ps-excellence').textContent = scores.excellence + ' / ' + scores.excellenceMax + (scores.excellenceWaived ? ' (' + scores.excellenceWaived + ' waived)' : '');
   document.getElementById('ps-bonus').textContent = scores.bonus + ' / ' + scores.bonusMax + (scores.bonusWaived ? ' (' + scores.bonusWaived + ' waived)' : '');
-  var grand = Math.min(scores.integrity + scores.service + scores.excellence + scores.bonus, SCORE_LIMITS.grand);
+  var grandRaw = scores.integrity + scores.service + scores.excellence + scores.bonus;
+  var grand = Math.min(grandRaw, SCORE_LIMITS.grand);
   document.getElementById('ps-grand').textContent = grand;
-  // threshold status for print
+  // threshold status for print (normalized when waivers reduce effective max)
   var rank = document.getElementById('currentRank').value;
   var t = THRESHOLDS[rank];
   var thresholdText = '—';
   if (t) {
-    if (grand >= t.pep) thresholdText = '✓ PEP Eligible (' + t.pep + '+)';
-    else if (grand >= t.min) thresholdText = 'Meets Minimum (' + t.min + '+)';
-    else thresholdText = 'Below Minimum (need ' + t.min + ')';
+    var effectiveMax = scores.integrityMax + scores.serviceMax + scores.excellenceMax + scores.bonusMax;
+    var normalized = (effectiveMax > 0 && effectiveMax < SCORE_LIMITS.grand) ? Math.round((grandRaw / effectiveMax) * SCORE_LIMITS.grand) : grand;
+    if (normalized >= t.pep) thresholdText = '✓ PEP Eligible (' + t.pep + '+)' + (effectiveMax < SCORE_LIMITS.grand ? ' [normalized from ' + grandRaw + '/' + effectiveMax + ']' : '');
+    else if (normalized >= t.min) thresholdText = 'Meets Minimum (' + t.min + '+)' + (effectiveMax < SCORE_LIMITS.grand ? ' [normalized from ' + grandRaw + '/' + effectiveMax + ']' : '');
+    else thresholdText = 'Below Minimum (need ' + t.min + ')' + (effectiveMax < SCORE_LIMITS.grand ? ' [normalized from ' + grandRaw + '/' + effectiveMax + ']' : '');
   }
   document.getElementById('ps-threshold').textContent = thresholdText;
 
@@ -2003,8 +2010,15 @@ function saveState() {
         data[input.name] = input.value;
       }
     });
-    // text inputs (shared across modes)
+    // text inputs (shared across modes) - merge existing so opposite-mode waiver data is preserved
     var shared = {};
+    try { shared = JSON.parse(localStorage.getItem('ces934-shared') || '{}') || {}; } catch(e) { shared = {}; }
+    // clear dynamic shared keys we are about to rebuild
+    Object.keys(shared).forEach(function(k){
+      if (k.indexOf('_note_') === 0 || k.indexOf('_check_') === 0 || k.indexOf('_waiver_' + currentMode + '_') === 0 || k.indexOf('_waiver_reason_' + currentMode + '_') === 0) {
+        delete shared[k];
+      }
+    });
     shared._memberName = document.getElementById('memberName').value;
     shared._supervisorName = document.getElementById('supervisorName').value;
     shared._currentRank = document.getElementById('currentRank').value;
@@ -2136,6 +2150,7 @@ function restoreAfscChecks() {
 // ===== RESET =====
 function resetForm() {
   if (!confirm('Reset all fields and scores? This cannot be undone.')) return;
+  try { localStorage.removeItem('ces934-worksheet'); localStorage.removeItem('ces934-worksheet-self'); localStorage.removeItem('ces934-shared'); } catch(e) {}
   document.querySelectorAll('input[type="radio"]').forEach(function(r) { r.checked = false; });
   document.querySelectorAll('input[type="text"]').forEach(function(r) { r.value = ''; });
   document.querySelectorAll('input[type="date"]').forEach(function(r) { r.value = ''; });
