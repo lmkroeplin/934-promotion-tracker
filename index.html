@@ -179,6 +179,13 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .req-badge-optional{background:var(--border);color:var(--text-muted)}
 .req-badge-conditional{background:var(--warning);color:#1b1b1b}
 
+/* ===== REFERENCES ===== */
+.req-references{margin-top:1rem;padding-top:.75rem;border-top:2px solid var(--border)}
+.ref-group-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-top:.75rem;margin-bottom:.25rem}
+.ref-link{padding:.3rem 0;font-size:.82rem}
+.ref-link a{color:var(--primary);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem}
+.ref-link a:hover{text-decoration:underline}
+.ref-note{font-size:.72rem;color:var(--text-muted);font-style:italic;margin-top:.75rem;padding:.5rem;background:var(--surface-alt);border-radius:4px;line-height:1.5}
 /* ===== COMMANDERS NOTE ===== */
 .commanders-note{font-style:italic;color:var(--text-muted);font-size:.82rem;text-align:left;padding:1rem 1.25rem;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:0 6px 6px 0;background:var(--surface-alt);margin-top:.5rem}
 /* ===== SAVE INDICATOR ===== */
@@ -218,6 +225,10 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   #afscRequirements .req-item input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #000;border-radius:2px;position:relative}
   #afscRequirements .req-item input[type="checkbox"]:checked::after{content:'\2713';position:absolute;top:-2px;left:1px;font-size:12px;font-weight:700}
   #afscRequirements .req-badge{border:1px solid #999;background:#e0e0e0!important;color:#000!important}
+  .req-references{border-top:1px solid #000;margin-top:8pt;padding-top:4pt}
+  .ref-link a{color:#000;text-decoration:none}
+  .ref-link a::after{content:" (" attr(href) ")";font-size:7pt;color:#666}
+  .ref-note{border:1px solid #999;padding:4pt;font-size:7pt}
   .print-header{display:block!important;text-align:center;border-bottom:2px solid #000;padding-bottom:.5rem;margin-bottom:.75rem}
   .print-header h1{font-size:13pt;text-transform:uppercase;letter-spacing:.05em}
   .print-header p{font-size:9pt;margin-top:2px}
@@ -961,6 +972,52 @@ const AFSC_DATA = {
 }}
 };
 
+// ===== REFERENCE LINKS =====
+const REFERENCES = {
+  cfetp:{
+    '3E0X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e0x1/cfetp3e0x1.pdf',
+    '3E0X2':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e0x2wg/cfetp3e0x2wg.pdf',
+    '3E1X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e1x1wg/cfetp3e1x1wg.pdf',
+    '3E2X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e2x1/cfetp3e2x1.pdf',
+    '3E3X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e3x1/cfetp3e3x1.pdf',
+    '3E4X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e4x1wg/cfetp3e4x1wg.pdf',
+    '3E4X3':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e4x3/cfetp3e4x3.pdf',
+    '3E5X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e5x1/cfetp3e5x1.pdf',
+    '3E7X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e7x1/cfetp3e7x1.pdf',
+    '3E8X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e8x1/cfetp3e8x1.pdf',
+    '3E9X1':'https://static.e-publishing.af.mil/production/1/af_a4/publication/cfetp3e9x1/cfetp3e9x1.pdf'
+  },
+  general:[
+    {t:'AFI 36-2502 — Enlisted Promotion & Demotion Programs',u:'https://static.e-publishing.af.mil/production/1/af_a1/publication/afi36-2502/afi36-2502.pdf'},
+    {t:'DAFI 32-2001 — Fire & Emergency Services Program',u:'https://static.e-publishing.af.mil/production/1/af_a4/publication/afi32-2001/dafi32-2001.pdf'},
+    {t:'Enlisted Force Structure (Sep 2025)',u:'https://www.airuniversity.af.edu/Portals/10/Foundational-Resources/Enlisted-Force-Structure-Sep2025.pdf'},
+    {t:'DoDM 6055.06 — DoD Fire & Emergency Services',u:'https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodm/605506m.pdf'},
+    {t:'DoDI 4150.07 — DoD Pest Management Program',u:'https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodi/415007p.pdf'},
+    {t:'e-Publishing (search all AF pubs)',u:'https://www.e-publishing.af.mil/'}
+  ],
+  pme:[
+    {t:'Barnes Center for Enlisted Education',u:'https://www.airuniversity.af.edu/Barnes/'},
+    {t:'Airman Leadership School (ALS)',u:'https://www.airuniversity.af.edu/Barnes/Airman-Leadership-School/'},
+    {t:'NCO Academy (NCOA)',u:'https://www.airuniversity.af.edu/Barnes/NCO-Academy/'},
+    {t:'Senior NCO Academy (SNCOA)',u:'https://www.airuniversity.af.edu/Barnes/AFSNCOA/'},
+    {t:'Community College of the Air Force (CCAF)',u:'https://www.airuniversity.af.edu/CCAF/'}
+  ],
+  training:[
+    {t:'AFIT Civil Engineer School',u:'https://www.afit.edu/CE/'},
+    {t:'AFIT CE Course Catalog',u:'https://www.afit.edu/CE/course_list.cfm'},
+    {t:'Silver Flag (Tyndall AFB)',u:'https://www.tyndall.af.mil/Units/Silver-Flag/'}
+  ],
+  certifications:[
+    {t:'EPA Section 608 Technician Certification',u:'https://www.epa.gov/section608/section-608-technician-certification'},
+    {t:'IFSAC (Fire Service Accreditation)',u:'https://ifsac.org/'},
+    {t:'Pro Board (Fire Service Professional Qualifications)',u:'https://theproboard.org/'},
+    {t:'FEMA IS-100: Intro to ICS',u:'https://training.fema.gov/is/courseoverview.aspx?code=is-100.c'},
+    {t:'FEMA IS-200: Basic ICS',u:'https://training.fema.gov/is/courseoverview.aspx?code=IS-200.c'},
+    {t:'FEMA IS-700: NIMS Introduction',u:'https://training.fema.gov/is/courseoverview.aspx?code=IS-700.b'},
+    {t:'FEMA IS-800: National Response Framework',u:'https://training.fema.gov/is/courseoverview.aspx?code=IS-800.d'}
+  ]
+};
+
 // ===== DOM READY =====
 document.addEventListener('DOMContentLoaded', function() {
   buildScoringItems();
@@ -1220,6 +1277,49 @@ function updateAfscRequirements() {
       html += '</div></label></div>';
     });
   });
+  // Add references section
+  html += '<div class="req-references">';
+  html += '<div class="req-category-title" style="margin-top:1rem">📚 References & Resources</div>';
+  // CFETP link for this AFSC
+  var cfetpUrl = REFERENCES.cfetp[afsc];
+  if (cfetpUrl) {
+    html += '<div class="ref-link"><a href="' + cfetpUrl + '" target="_blank" rel="noopener">📋 CFETP ' + afsc + ' — ' + data.title + ' (PDF)</a></div>';
+  }
+  // Relevant general references
+  html += '<div class="ref-group-title">Key Publications</div>';
+  REFERENCES.general.forEach(function(r) {
+    html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
+  });
+  // PME references (always relevant)
+  html += '<div class="ref-group-title">PME (Professional Military Education)</div>';
+  REFERENCES.pme.forEach(function(r) {
+    html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
+  });
+  // Training references
+  html += '<div class="ref-group-title">Training Resources</div>';
+  REFERENCES.training.forEach(function(r) {
+    html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
+  });
+  // AFSC-specific certification references
+  var showCerts = false;
+  if (['3E1X1'].indexOf(afsc) >= 0) showCerts = 'epa';
+  if (['3E7X1'].indexOf(afsc) >= 0) showCerts = 'fire';
+  if (['3E9X1'].indexOf(afsc) >= 0) showCerts = 'fema';
+  if (['3E4X3'].indexOf(afsc) >= 0) showCerts = 'pest';
+  if (showCerts) {
+    html += '<div class="ref-group-title">Certifications</div>';
+    REFERENCES.certifications.forEach(function(r) {
+      var show = false;
+      if (showCerts === 'fire' && (r.t.indexOf('IFSAC') >= 0 || r.t.indexOf('Pro Board') >= 0)) show = true;
+      if (showCerts === 'epa' && r.t.indexOf('EPA') >= 0) show = true;
+      if (showCerts === 'fema' && r.t.indexOf('FEMA') >= 0) show = true;
+      if (showCerts === 'pest' && (r.t.indexOf('EPA') >= 0 || r.t.indexOf('4150.07') >= 0)) show = true;
+      if (showCerts === 'fire') show = true; // Fire gets all cert links
+      if (show) html += '<div class="ref-link"><a href="' + r.u + '" target="_blank" rel="noopener">' + r.t + '</a></div>';
+    });
+  }
+  html += '<div class="ref-note">Note: Some .mil links require CAC/DoD login. CFETP documents are the authoritative source for all training requirements. Always verify against the current CFETP on e-Publishing.</div>';
+  html += '</div>';
   body.innerHTML = html;
   // restore checkbox state
   restoreAfscChecks();
