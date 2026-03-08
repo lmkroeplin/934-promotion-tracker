@@ -171,7 +171,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .req-item{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border-light);font-size:.85rem}
 .req-item:last-child{border-bottom:none}
 .req-item input[type="checkbox"]{width:20px;height:20px;margin-top:2px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
-.req-item-content{flex:1}
+.req-item-content{flex:1;display:block;cursor:pointer}
 .req-item-name{font-weight:600}
 .req-item-desc{font-size:.78rem;color:var(--text-muted);margin-top:2px}
 .req-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:.4rem;vertical-align:middle}
@@ -201,6 +201,11 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   .mobile-score-bar .threshold-mini{font-size:.7rem;font-weight:600;padding:3px 8px;border-radius:4px}
   main{padding-bottom:calc(4.5rem + env(safe-area-inset-bottom,0px))}
 }
+@media(max-width:520px){
+  .site-header{justify-content:flex-start;text-align:left;padding-right:4.5rem}
+  .header-text{align-items:flex-start}
+  .header-controls{right:.45rem;top:.45rem;transform:none}
+}
 
 /* ===== PRINT ===== */
 .print-header,.print-summary,.print-signatures{display:none}
@@ -220,7 +225,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   .layout{display:block!important;max-width:100%;padding:0;margin:0}
   .scoring-section{box-shadow:none;border:1px solid #000;margin-bottom:.4rem;break-inside:avoid}
   .section-header{padding:4pt 8pt;font-size:9pt;background:#d0d0d0!important;color:#000!important}
-  .section-content{max-height:none!important;overflow:visible!important}
+  .section-content{display:block!important;grid-template-rows:1fr!important;max-height:none!important;overflow:visible!important}
   .section-meta,.chevron{display:none}
   .section-body{padding:4pt 8pt}
   .scoring-item{padding:3pt 0;display:grid!important;grid-template-columns:1fr 80px;gap:4pt;flex-direction:row!important}
@@ -268,7 +273,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <nav class="section-nav" id="sectionNav" aria-label="Worksheet sections">
   <ul>
     <li><a href="#sec-info" data-target="sec-info" class="nav-link">Member Info</a></li>
-    <li><a href="#sec-afsc" data-target="sec-afsc" class="nav-link">AFSC Requirements <span class="nav-score" id="navAfsc"></span></a></li>
+    <li><a href="#afscRequirements" data-target="afscRequirements" class="nav-link">AFSC Requirements <span class="nav-score" id="navAfsc"></span></a></li>
     <li><a href="#sec-integrity" data-target="sec-integrity" class="nav-link">Integrity <span class="nav-score" id="navIntegrity">0/24</span></a></li>
     <li><a href="#sec-service" data-target="sec-service" class="nav-link">Service <span class="nav-score" id="navService">0/16</span></a></li>
     <li><a href="#sec-excellence" data-target="sec-excellence" class="nav-link">Excellence <span class="nav-score" id="navExcellence">0/9</span></a></li>
@@ -549,6 +554,13 @@ const BEHAVIORAL_ITEMS = [
   {id:'beh2',text:'Does the member take notes to retain and pass on information?'},
   {id:'beh3',text:'Does the member use the chain of command?'}
 ];
+const SCORE_LIMITS = {
+  integrity:24,
+  service:16,
+  excellence:9,
+  bonus:6,
+  grand:48
+};
 
 // ===== RANK MAP =====
 const RANK_MAP = {
@@ -953,7 +965,9 @@ const AFSC_DATA = {
 document.addEventListener('DOMContentLoaded', function() {
   buildScoringItems();
   loadState();
-  document.getElementById('worksheetDate').valueAsDate = new Date();
+  var worksheetDate = document.getElementById('worksheetDate');
+  if (!worksheetDate.value) worksheetDate.valueAsDate = new Date();
+  document.querySelectorAll('.section-header').forEach(syncAccordionState);
   updateAll();
   // storage check
   try { localStorage.setItem('ces934-test','1'); localStorage.removeItem('ces934-test'); }
@@ -983,6 +997,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var header = target.querySelector('.section-header');
         if (header && header.getAttribute('aria-expanded') === 'false') toggleSection(header);
         target.scrollIntoView({behavior:'smooth',block:'start'});
+        if (header) {
+          setTimeout(function() {
+            header.focus({preventScroll:true});
+          }, 220);
+        }
       }
     });
   });
@@ -1058,18 +1077,19 @@ function buildBehavioralSection() {
 // ===== UPDATE ALL =====
 function updateAll() {
   var scores = calcScores();
-  updateSectionDisplay('integrity', scores.integrity, 24, INTEGRITY_ITEMS.length, scores.integrityDone);
-  updateSectionDisplay('service', scores.service, 16, SERVICE_ITEMS.length, scores.serviceDone);
-  updateSectionDisplay('excellence', scores.excellence, 9, EXCELLENCE_ITEMS.length, scores.excellenceDone);
-  updateSectionDisplay('bonus', scores.bonus, 6, BONUS_ITEMS.length, scores.bonusDone);
-  var grand = scores.integrity + scores.service + scores.excellence + scores.bonus;
+  updateSectionDisplay('integrity', scores.integrity, SCORE_LIMITS.integrity, INTEGRITY_ITEMS.length, scores.integrityDone);
+  updateSectionDisplay('service', scores.service, SCORE_LIMITS.service, SERVICE_ITEMS.length, scores.serviceDone);
+  updateSectionDisplay('excellence', scores.excellence, SCORE_LIMITS.excellence, EXCELLENCE_ITEMS.length, scores.excellenceDone);
+  updateSectionDisplay('bonus', scores.bonus, SCORE_LIMITS.bonus, BONUS_ITEMS.length, scores.bonusDone);
+  var grandRaw = scores.integrity + scores.service + scores.excellence + scores.bonus;
+  var grand = Math.min(grandRaw, SCORE_LIMITS.grand);
   var totalDone = scores.integrityDone + scores.serviceDone + scores.excellenceDone + scores.bonusDone;
   var totalItems = INTEGRITY_ITEMS.length + SERVICE_ITEMS.length + EXCELLENCE_ITEMS.length + BONUS_ITEMS.length;
   // nav
-  document.getElementById('navIntegrity').textContent = scores.integrity + '/24';
-  document.getElementById('navService').textContent = scores.service + '/16';
-  document.getElementById('navExcellence').textContent = scores.excellence + '/9';
-  document.getElementById('navBonus').textContent = scores.bonus + '/6';
+  document.getElementById('navIntegrity').textContent = scores.integrity + '/' + SCORE_LIMITS.integrity;
+  document.getElementById('navService').textContent = scores.service + '/' + SCORE_LIMITS.service;
+  document.getElementById('navExcellence').textContent = scores.excellence + '/' + SCORE_LIMITS.excellence;
+  document.getElementById('navBonus').textContent = scores.bonus + '/' + SCORE_LIMITS.bonus;
   document.getElementById('navGrandTotal').textContent = grand;
   // mobile
   document.getElementById('mobileTotal').textContent = grand;
@@ -1137,26 +1157,26 @@ function updateThreshold(score) {
     return;
   }
   var t = THRESHOLDS[rank];
-  var pct = Math.min((score / 48) * 100, 100);
-  var minPct = (t.min / 48) * 100;
-  var pepPct = (t.pep / 48) * 100;
+  var pct = Math.min((score / SCORE_LIMITS.grand) * 100, 100);
+  var minPct = (t.min / SCORE_LIMITS.grand) * 100;
+  var pepPct = (t.pep / SCORE_LIMITS.grand) * 100;
   var color, statusClass, statusText, mobileText;
   if (score >= t.pep) {
     color = 'var(--score-3)'; statusClass = 'status-green';
-    statusText = '\u2713 Score ' + score + '/48 \u2014 Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
+    statusText = '\u2713 Score ' + score + '/' + SCORE_LIMITS.grand + ' \u2014 Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
     mobileText = 'PEP'; mobile.style.background = '#2e6e2e'; mobile.style.color = '#fff';
   } else if (score >= t.min) {
     color = 'var(--score-1)'; statusClass = 'status-yellow';
-    statusText = '\u26A0 Score ' + score + '/48 \u2014 Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' pts below PEP (' + t.pep + ').';
+    statusText = '\u26A0 Score ' + score + '/' + SCORE_LIMITS.grand + ' \u2014 Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' pts below PEP (' + t.pep + ').';
     mobileText = 'MIN'; mobile.style.background = '#c05600'; mobile.style.color = '#fff';
   } else {
     color = 'var(--score-0)'; statusClass = 'status-red';
-    statusText = '\u2717 Score ' + score + '/48 \u2014 Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more pts.';
+    statusText = '\u2717 Score ' + score + '/' + SCORE_LIMITS.grand + ' \u2014 Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more pts.';
     mobileText = 'BELOW'; mobile.style.background = '#b50909'; mobile.style.color = '#fff';
   }
   container.innerHTML =
     '<div class="threshold-bar"><div class="threshold-fill" style="width:' + pct + '%;background:' + color + '">' + score + '</div></div>' +
-    '<div class="threshold-markers"><span>0</span><span class="threshold-marker" style="left:' + minPct + '%">Min ' + t.min + '</span><span class="threshold-marker" style="left:' + pepPct + '%">PEP ' + t.pep + '</span><span>48</span></div>' +
+    '<div class="threshold-markers"><span>0</span><span class="threshold-marker" style="left:' + minPct + '%">Min ' + t.min + '</span><span class="threshold-marker" style="left:' + pepPct + '%">PEP ' + t.pep + '</span><span>' + SCORE_LIMITS.grand + '</span></div>' +
     '<div class="threshold-status ' + statusClass + '">' + statusText + '</div>';
   mobile.textContent = mobileText;
 }
@@ -1193,11 +1213,11 @@ function updateAfscRequirements() {
     if (!cats[cat]) return;
     html += '<div class="req-category-title">' + (catLabels[cat] || cat) + '</div>';
     cats[cat].forEach(function(req, i) {
-      var checkId = 'afsc-req-' + transition + '-' + cat + '-' + i;
+      var checkId = 'afsc-req-' + afsc + '-' + transition + '-' + cat + '-' + i;
       var badge = req.r ? '<span class="req-badge req-badge-required">REQUIRED</span>' : (req.cn ? '<span class="req-badge req-badge-conditional">CONDITIONAL</span>' : '<span class="req-badge req-badge-optional">OPTIONAL</span>');
-      html += '<div class="req-item"><input type="checkbox" class="afsc-req-check" id="' + checkId + '" data-key="' + checkId + '"><div class="req-item-content"><div class="req-item-name">' + req.n + badge + '</div><div class="req-item-desc">' + req.d;
+      html += '<div class="req-item"><input type="checkbox" class="afsc-req-check" id="' + checkId + '" data-key="' + checkId + '"><label class="req-item-content" for="' + checkId + '"><div class="req-item-name">' + req.n + badge + '</div><div class="req-item-desc">' + req.d;
       if (req.cn) html += ' <em>(' + req.cn + ')</em>';
-      html += '</div></div></div>';
+      html += '</div></label></div>';
     });
   });
   body.innerHTML = html;
@@ -1206,20 +1226,25 @@ function updateAfscRequirements() {
 }
 
 // ===== ACCORDION =====
+function syncAccordionState(btn) {
+  var content = btn.nextElementSibling;
+  if (!content) return;
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  content.inert = !expanded;
+  content.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+}
 function toggleSection(btn) {
   var expanded = btn.getAttribute('aria-expanded') === 'true';
-  btn.setAttribute('aria-expanded', !expanded);
-  var content = btn.nextElementSibling;
-  if (content) content.inert = expanded;
+  btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+  syncAccordionState(btn);
 }
 function toggleExpandAll() {
   var btn = document.getElementById('expandAllBtn');
   var headers = document.querySelectorAll('.section-header');
   var expanding = btn.textContent.trim().indexOf('Expand') === 0;
   headers.forEach(function(h) {
-    h.setAttribute('aria-expanded', expanding);
-    var content = h.nextElementSibling;
-    if (content) content.inert = !expanding;
+    h.setAttribute('aria-expanded', expanding ? 'true' : 'false');
+    syncAccordionState(h);
   });
   btn.textContent = expanding ? 'Collapse All' : 'Expand All';
 }
@@ -1297,19 +1322,27 @@ function loadState() {
     var raw = localStorage.getItem('ces934-worksheet');
     if (!raw) return;
     var data = JSON.parse(raw);
+    if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid saved data');
     // text fields
-    if (data._memberName) document.getElementById('memberName').value = data._memberName;
-    if (data._supervisorName) document.getElementById('supervisorName').value = data._supervisorName;
-    if (data._currentRank) document.getElementById('currentRank').value = data._currentRank;
-    if (data._afsc) document.getElementById('afsc').value = data._afsc;
-    if (data._worksheetDate) document.getElementById('worksheetDate').value = data._worksheetDate;
+    if (typeof data._memberName === 'string') document.getElementById('memberName').value = data._memberName;
+    if (typeof data._supervisorName === 'string') document.getElementById('supervisorName').value = data._supervisorName;
+    if (typeof data._currentRank === 'string') document.getElementById('currentRank').value = data._currentRank;
+    if (typeof data._afsc === 'string') document.getElementById('afsc').value = data._afsc;
+    if (typeof data._worksheetDate === 'string') document.getElementById('worksheetDate').value = data._worksheetDate;
     // radio inputs
     Object.keys(data).forEach(function(key) {
       if (key.charAt(0) === '_') return;
       var input = document.querySelector('input[name="' + key + '"][value="' + data[key] + '"]');
       if (input) input.checked = true;
     });
-  } catch(e) {}
+  } catch(e) {
+    try { localStorage.removeItem('ces934-worksheet'); } catch(ignore) {}
+    var indicator = document.getElementById('saveIndicator');
+    if (indicator) {
+      indicator.textContent = '\u26A0 Saved worksheet data was invalid and has been cleared';
+      indicator.style.color = 'var(--error)';
+    }
+  }
 }
 
 function restoreAfscChecks() {
@@ -1317,6 +1350,7 @@ function restoreAfscChecks() {
     var raw = localStorage.getItem('ces934-worksheet');
     if (!raw) return;
     var data = JSON.parse(raw);
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return;
     document.querySelectorAll('.afsc-req-check').forEach(function(cb) {
       if (data['_check_' + cb.dataset.key]) cb.checked = true;
     });
