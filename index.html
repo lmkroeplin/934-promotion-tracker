@@ -179,6 +179,15 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 .req-badge-optional{background:var(--border);color:var(--text-muted)}
 .req-badge-conditional{background:var(--warning);color:#1b1b1b}
 
+/* ===== SUPERVISOR NOTES ===== */
+.section-notes{margin-top:.75rem;padding-top:.5rem;border-top:1px dashed var(--border-light)}
+.section-notes label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:.25rem}
+.section-notes textarea{width:100%;min-height:60px;padding:.5rem;font-family:var(--font-body);font-size:.82rem;line-height:1.5;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);resize:vertical;transition:border-color .2s ease}
+.section-notes textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(36,145,255,.15)}
+.section-notes textarea::placeholder{color:var(--text-muted);font-style:italic}
+/* ===== DISCLAIMER ===== */
+.disclaimer{font-size:.75rem;color:var(--text-muted);text-align:center;padding:.75rem 1rem;margin-top:.5rem;line-height:1.5;border:1px solid var(--border-light);border-radius:6px;background:var(--surface-alt)}
+.disclaimer strong{color:var(--text)}
 /* ===== REFERENCES ===== */
 .req-references{margin-top:1rem;padding-top:.75rem;border-top:2px solid var(--border)}
 .ref-group-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-top:.75rem;margin-bottom:.25rem}
@@ -229,29 +238,58 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   .ref-link a{color:#000;text-decoration:none}
   .ref-link a::after{content:" (" attr(href) ")";font-size:7pt;color:#666}
   .ref-note{border:1px solid #999;padding:4pt;font-size:7pt}
-  .print-header{display:block!important;text-align:center;border-bottom:2px solid #000;padding-bottom:.5rem;margin-bottom:.75rem}
-  .print-header h1{font-size:13pt;text-transform:uppercase;letter-spacing:.05em}
-  .print-header p{font-size:9pt;margin-top:2px}
+  .print-header{display:block!important;text-align:center;border-bottom:2px solid #000;padding-bottom:.4rem;margin-bottom:.5rem}
+  .print-header h1{font-size:12pt;text-transform:uppercase;letter-spacing:.05em}
+  .print-header p{font-size:8.5pt;margin-top:2px}
   .site-header{display:none}
   .layout{display:block!important;max-width:100%;padding:0;margin:0}
-  .scoring-section{box-shadow:none;border:1px solid #000;margin-bottom:.4rem;break-inside:avoid}
-  .section-header{padding:4pt 8pt;font-size:9pt;background:#d0d0d0!important;color:#000!important}
-  .section-content{display:block!important;grid-template-rows:1fr!important;max-height:none!important;overflow:visible!important}
-  .section-meta,.chevron{display:none}
-  .section-body{padding:4pt 8pt}
-  .scoring-item{padding:3pt 0;display:grid!important;grid-template-columns:1fr 80px;gap:4pt;flex-direction:row!important}
-  .score-control{display:none!important}
-  .score-print-value{display:block!important;text-align:center;font-weight:700;font-size:10pt}
-  .form-group input,.form-group select{border:none;border-bottom:1px solid #999;border-radius:0;padding:2px 4px;font-size:9pt;background:transparent}
+  /* Hide all scoring sections + AFSC requirements — summary table replaces them */
+  #sec-integrity,#sec-service,#sec-excellence,#sec-bonus,#sec-behavioral,#sec-threshold,#afscRequirements{display:none!important}
+  /* Show member info compactly */
+  #sec-info{box-shadow:none;border:none;margin-bottom:.2rem}
+  #sec-info .section-header{display:none}
+  #sec-info .section-content{display:block!important;grid-template-rows:1fr!important}
+  .form-group input,.form-group select{border:none;border-bottom:1px solid #999;border-radius:0;padding:2px 4px;font-size:8.5pt;background:transparent}
   .form-row{display:grid!important;grid-template-columns:1fr 1fr!important}
-  .promoting-to{background:transparent;padding:2px 4px}
-  .print-summary{display:table!important;width:100%;border-collapse:collapse;margin-top:.75rem;break-inside:avoid}
+  .promoting-to{background:transparent;padding:2px 4px;font-size:8.5pt}
+  .form-group label{font-size:7.5pt}
+  /* Score summary table — the star of the one-pager */
+  .print-summary{display:table!important;width:100%;border-collapse:collapse;margin-top:.4rem;break-inside:avoid}
   .print-summary td,.print-summary th{border:1px solid #000;padding:3pt 6pt;font-size:9pt}
   .print-summary th{background:#e0e0e0;text-align:left}
-  .print-signatures{display:flex!important;justify-content:space-between;margin-top:1.5rem;padding-top:.75rem}
-  .signature-line{width:42%;border-top:1px solid #000;padding-top:4pt;font-size:8pt}
+  /* Print notes section */
+  .print-notes{display:block!important;margin-top:.5rem;break-inside:avoid}
+  .print-notes-title{font-size:10pt;font-weight:700;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:2pt;margin-bottom:4pt}
+  .print-note-item{margin-bottom:4pt;font-size:8.5pt;line-height:1.4}
+  .print-note-label{font-weight:700;font-size:8pt;text-transform:uppercase}
+  .print-note-text{padding-left:8pt;font-style:italic}
+  /* Behavioral summary for print */
+  .print-behavioral{display:block!important;margin-top:.4rem;break-inside:avoid}
+  .print-behavioral-title{font-size:9pt;font-weight:700;text-transform:uppercase;margin-bottom:2pt}
+  .print-behavioral-item{font-size:8.5pt;display:flex;gap:4pt}
+  /* Disclaimer in print */
+  .disclaimer{display:block!important;margin-top:.4rem;font-size:7pt;text-align:center;border:1px solid #999;padding:4pt 8pt;background:transparent;border-radius:0}
+  /* Signatures */
+  .print-signatures{display:flex!important;justify-content:space-between;margin-top:.6rem;padding-top:.5rem}
+  .signature-line{width:42%;border-top:1px solid #000;padding-top:4pt;font-size:7.5pt}
+  /* Hide commander's note section in print — content is in disclaimer */
+  .commanders-note{display:none!important}
+  /* Hide things not needed */
+  .scoring-section{box-shadow:none;border:none}
+  .section-meta,.chevron,.section-icon{display:none}
+  .section-header{padding:3pt 0;font-size:8.5pt;border:none;border-left:none}
+  .section-content{display:block!important;grid-template-rows:1fr!important;max-height:none!important;overflow:visible!important}
+  .section-body{padding:2pt 0}
+  .score-control{display:none!important}
+  .score-print-value{display:block!important;text-align:center;font-weight:700;font-size:9pt}
   .threshold-section{display:none}
-  @page{size:letter;margin:.75in}
+  .section-notes,.req-references{display:none!important}
+  /* Hide the inline scoring section containers that wrap the commander note */
+  .scoring-section:not(#sec-info){display:none!important}
+  /* But show print-specific elements */
+  .print-summary,.print-behavioral,.print-notes,.print-signatures,.disclaimer,.print-header{display:block!important}
+  .print-signatures{display:flex!important}
+  @page{size:letter;margin:.6in .75in}
 }
 
 /* ===== SCROLLBAR ===== */
@@ -483,6 +521,11 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
   </div>
 </div>
 
+<!-- DISCLAIMER -->
+<div class="disclaimer" id="promotionDisclaimer">
+  <strong>Disclaimer:</strong> Completion of all requirements and meeting or exceeding the minimum promotion score does not guarantee selection for promotion. Air Force Reserve promotions are vacancy-based and subject to available positions, unit manning, fiscal constraints, and commander discretion. This worksheet is a supervisory assessment tool and does not constitute an official promotion recommendation or commitment.
+</div>
+
 <!-- BUTTONS -->
 <div id="saveIndicator" class="save-indicator" aria-live="polite"></div>
 <div class="btn-row no-print">
@@ -493,13 +536,20 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- Print Summary Table -->
 <table class="print-summary" id="printSummary">
-  <tr><th colspan="2" style="text-align:center;font-size:11pt">SCORING SUMMARY</th></tr>
+  <tr><th colspan="2" style="text-align:center;font-size:10pt">SCORING SUMMARY</th></tr>
   <tr><td>Integrity First (max 24)</td><td id="ps-integrity" style="text-align:center;font-weight:700">0</td></tr>
   <tr><td>Service Before Self (max 16)</td><td id="ps-service" style="text-align:center;font-weight:700">0</td></tr>
   <tr><td>Excellence In All We Do (max 9)</td><td id="ps-excellence" style="text-align:center;font-weight:700">0</td></tr>
   <tr><td>Bonus Points (max 6)</td><td id="ps-bonus" style="text-align:center;font-weight:700">0</td></tr>
-  <tr style="background:#e0e0e0"><td style="font-weight:700">GRAND TOTAL (max 48)</td><td id="ps-grand" style="text-align:center;font-weight:700;font-size:12pt">0</td></tr>
+  <tr style="background:#e0e0e0"><td style="font-weight:700">GRAND TOTAL (max 48)</td><td id="ps-grand" style="text-align:center;font-weight:700;font-size:11pt">0</td></tr>
+  <tr><td>Promotion Threshold</td><td id="ps-threshold" style="text-align:center;font-weight:700;font-size:9pt">—</td></tr>
 </table>
+
+<!-- Print Behavioral Summary -->
+<div class="print-behavioral" id="printBehavioral" style="display:none"></div>
+
+<!-- Print Notes -->
+<div class="print-notes" id="printNotes" style="display:none"></div>
 
 <!-- Print Signatures -->
 <div class="print-signatures">
@@ -1075,6 +1125,7 @@ function buildScoringItems() {
 
 function buildSection(containerId, items) {
   var c = document.getElementById(containerId);
+  var sectionKey = containerId.replace('Body','');
   var html = '';
   items.forEach(function(item, i) {
     html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text;
@@ -1083,6 +1134,8 @@ function buildSection(containerId, items) {
     html += buildScoreControl(item.id, item.max, null, item.text);
     html += '<span class="score-print-value">—</span></div>';
   });
+  html += '<div class="section-notes"><label for="notes-' + sectionKey + '">Supervisor Notes</label>';
+  html += '<textarea id="notes-' + sectionKey + '" class="supervisor-notes" data-section="' + sectionKey + '" placeholder="Add feedback or comments for this section..." oninput="saveState()"></textarea></div>';
   c.innerHTML = html;
 }
 
@@ -1113,6 +1166,8 @@ function buildBonusSection() {
     html += buildScoreControl(item.id, item.max, item.values, item.text);
     html += '<span class="score-print-value">—</span></div>';
   });
+  html += '<div class="section-notes"><label for="notes-bonus">Supervisor Notes</label>';
+  html += '<textarea id="notes-bonus" class="supervisor-notes" data-section="bonus" placeholder="Add feedback or comments for this section..." oninput="saveState()"></textarea></div>';
   c.innerHTML = html;
 }
 
@@ -1128,6 +1183,8 @@ function buildBehavioralSection() {
     html += '</fieldset>';
     html += '<span class="score-print-value">—</span></div>';
   });
+  html += '<div class="section-notes"><label for="notes-behavioral">Supervisor Notes</label>';
+  html += '<textarea id="notes-behavioral" class="supervisor-notes" data-section="behavioral" placeholder="Add feedback or comments for this section..." oninput="saveState()"></textarea></div>';
   c.innerHTML = html;
 }
 
@@ -1383,6 +1440,51 @@ function doPrint() {
     var checked = item.querySelector('input[type="radio"]:checked');
     printVal.textContent = checked ? checked.value : '\u2014';
   });
+  // populate print summary scores
+  var scores = calcScores();
+  document.getElementById('ps-integrity').textContent = scores.integrity;
+  document.getElementById('ps-service').textContent = scores.service;
+  document.getElementById('ps-excellence').textContent = scores.excellence;
+  document.getElementById('ps-bonus').textContent = scores.bonus;
+  var grand = Math.min(scores.integrity + scores.service + scores.excellence + scores.bonus, SCORE_LIMITS.grand);
+  document.getElementById('ps-grand').textContent = grand;
+  // threshold status for print
+  var rank = document.getElementById('currentRank').value;
+  var t = THRESHOLDS[rank];
+  var thresholdText = '\u2014';
+  if (t) {
+    if (grand >= t.pep) thresholdText = '\u2713 PEP Eligible (' + t.pep + '+)';
+    else if (grand >= t.min) thresholdText = 'Meets Minimum (' + t.min + '+)';
+    else thresholdText = 'Below Minimum (need ' + t.min + ')';
+  }
+  document.getElementById('ps-threshold').textContent = thresholdText;
+  // populate print behavioral summary
+  var behavDiv = document.getElementById('printBehavioral');
+  var behavHtml = '<div class="print-behavioral-title">Behavioral Assessment</div>';
+  BEHAVIORAL_ITEMS.forEach(function(item) {
+    var checked = document.querySelector('input[name="' + item.id + '"]:checked');
+    var val = checked ? checked.value : '\u2014';
+    behavHtml += '<div class="print-behavioral-item"><span>' + item.text + ':</span> <strong>' + val + '</strong></div>';
+  });
+  behavDiv.innerHTML = behavHtml;
+  // populate print notes (only sections with content)
+  var notesDiv = document.getElementById('printNotes');
+  var notesHtml = '';
+  var sectionLabels = {integrity:'Integrity First',service:'Service Before Self',excellence:'Excellence In All We Do',bonus:'Bonus Points',behavioral:'Behavioral Assessment'};
+  var hasNotes = false;
+  Object.keys(sectionLabels).forEach(function(key) {
+    var ta = document.getElementById('notes-' + key);
+    if (ta && ta.value.trim()) {
+      if (!hasNotes) { notesHtml += '<div class="print-notes-title">Supervisor Comments</div>'; hasNotes = true; }
+      notesHtml += '<div class="print-note-item"><div class="print-note-label">' + sectionLabels[key] + ':</div><div class="print-note-text">' + ta.value.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div></div>';
+    }
+  });
+  notesDiv.innerHTML = notesHtml;
+  // print header info
+  document.getElementById('printName').textContent = document.getElementById('memberName').value || '_______________';
+  document.getElementById('printRank').textContent = rank && RANK_MAP[rank] ? RANK_MAP[rank].abbr : '_______';
+  document.getElementById('printAfsc').textContent = document.getElementById('afsc').value || '_______';
+  document.getElementById('printDate').textContent = document.getElementById('worksheetDate').value || '_______________';
   window.print();
 }
 
@@ -1400,6 +1502,10 @@ function saveState() {
     data._currentRank = document.getElementById('currentRank').value;
     data._afsc = document.getElementById('afsc').value;
     data._worksheetDate = document.getElementById('worksheetDate').value;
+    // supervisor notes
+    document.querySelectorAll('.supervisor-notes').forEach(function(ta) {
+      if (ta.value.trim()) data['_note_' + ta.dataset.section] = ta.value;
+    });
     // afsc requirement checkboxes
     document.querySelectorAll('.afsc-req-check:checked').forEach(function(cb) {
       data['_check_' + cb.dataset.key] = true;
@@ -1429,6 +1535,14 @@ function loadState() {
     if (typeof data._currentRank === 'string') document.getElementById('currentRank').value = data._currentRank;
     if (typeof data._afsc === 'string') document.getElementById('afsc').value = data._afsc;
     if (typeof data._worksheetDate === 'string') document.getElementById('worksheetDate').value = data._worksheetDate;
+    // supervisor notes
+    Object.keys(data).forEach(function(key) {
+      if (key.indexOf('_note_') === 0) {
+        var section = key.replace('_note_','');
+        var ta = document.getElementById('notes-' + section);
+        if (ta) ta.value = data[key];
+      }
+    });
     // radio inputs
     Object.keys(data).forEach(function(key) {
       if (key.charAt(0) === '_') return;
