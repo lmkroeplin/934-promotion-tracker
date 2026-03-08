@@ -1,907 +1,1293 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>934th CES - Promotion Eligibility Worksheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>934th CES — Promotion Eligibility Worksheet</title>
 <style>
-:root {
-  --af-blue: #00308F;
-  --af-blue-light: #1a4a9f;
-  --af-silver: #C0C0C0;
-  --af-silver-light: #E8E8E8;
-  --green: #2e7d32;
-  --yellow: #f57f17;
-  --red: #c62828;
-  --bg: #f4f6f8;
-  --card: #ffffff;
-  --text: #1a1a1a;
-  --text-muted: #555;
-  --border: #d0d0d0;
+/* ===== RESET & CUSTOM PROPERTIES ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a4480;--primary-light:#2672de;--primary-vivid:#0050d8;
+  --score-0:#b50909;--score-0-text:#fff;
+  --score-1:#c05600;--score-2:#0d7ea2;--score-3:#2e6e2e;
+  --surface:#ffffff;--surface-alt:#f0f0f0;
+  --text:#1b1b1b;--text-muted:#565c65;
+  --border:#c9c9c9;--border-light:#e6e6e6;
+  --focus-ring:#2491ff;--info:#0076d6;
+  --success:#00a91c;--warning:#e5a000;--error:#d54309;
+  --hover:#f0f0f0;
+  --font-body:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+[data-theme="dark"]{
+  --surface:#1b1b1b;--surface-alt:#2d2d2d;
+  --text:#f0f0f0;--text-muted:#a9aeb1;
+  --border:#565c65;--border-light:#3d4551;--hover:#2d2d2d;
+  --score-0:#fb5a47;--score-0-text:#1b1b1b;
+  --score-1:#ffa24e;--score-2:#58b4d8;--score-3:#5abf5a;
+  --primary:#58b4d8;--primary-light:#97d4ea;
+}
+@media(prefers-color-scheme:dark){
+  html:not([data-theme="light"]):not([data-theme="dark"]){
+    --surface:#1b1b1b;--surface-alt:#2d2d2d;
+    --text:#f0f0f0;--text-muted:#a9aeb1;
+    --border:#565c65;--border-light:#3d4551;--hover:#2d2d2d;
+    --score-0:#fb5a47;--score-0-text:#1b1b1b;
+    --score-1:#ffa24e;--score-2:#58b4d8;--score-3:#5abf5a;
+    --primary:#58b4d8;--primary-light:#97d4ea;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01s!important;animation-duration:.01s!important}
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ===== GLOBAL ===== */
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text);line-height:1.5;min-height:100vh}
 
-body {
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  min-height: 100vh;
-}
+/* ===== GLOBAL PROGRESS BAR ===== */
+.global-progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--border-light);z-index:300}
+.global-progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary-light));transition:width .4s ease}
 
-.header {
-  background: linear-gradient(135deg, var(--af-blue), var(--af-blue-light));
-  color: white;
-  padding: 24px 32px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-.header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
-.header p { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+/* ===== HEADER ===== */
+.site-header{background:var(--primary);color:#fff;padding:1.25rem 1.5rem;text-align:center;position:relative}
+.site-header h1{font-size:1.35rem;font-weight:700;letter-spacing:.3px}
+.site-header p{font-size:.85rem;opacity:.85;margin-top:2px}
+.header-controls{position:absolute;right:1rem;top:50%;transform:translateY(-50%);display:flex;gap:.5rem}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:6px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+.icon-btn:hover{background:rgba(255,255,255,.25)}
 
-.container {
-  max-width: 900px;
-  margin: 24px auto;
-  padding: 0 16px;
+/* ===== LAYOUT ===== */
+.layout{max-width:960px;margin:0 auto;padding:.75rem}
+@media(min-width:768px){
+  .layout{display:grid;grid-template-columns:210px 1fr;gap:1.25rem;padding:1.25rem}
 }
 
-.card {
-  background: var(--card);
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  margin-bottom: 20px;
-  overflow: hidden;
+/* ===== SIDEBAR NAV ===== */
+.section-nav{display:none}
+@media(min-width:768px){
+  .section-nav{display:block;position:sticky;top:1rem;height:fit-content;max-height:calc(100vh - 2rem);overflow-y:auto;padding-right:.75rem}
+  .section-nav ul{list-style:none}
+  .section-nav li{margin-bottom:2px}
+  .section-nav a{display:flex;justify-content:space-between;align-items:center;padding:.45rem .6rem;border-radius:6px;text-decoration:none;font-size:.8rem;font-weight:500;color:var(--text-muted);transition:background .15s,color .15s}
+  .section-nav a:hover,.section-nav a.active{background:var(--primary);color:#fff}
+  .section-nav .nav-score{font-weight:700;font-size:.75rem}
+  .nav-total{margin-top:.75rem;padding:.75rem;background:var(--primary);color:#fff;border-radius:8px;text-align:center;font-weight:700;font-size:1rem}
+  .nav-total small{display:block;font-size:.7rem;font-weight:400;opacity:.8}
+  .nav-expand-btn{display:block;width:100%;margin-top:.5rem;padding:.4rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:.75rem;font-family:var(--font-body)}
+  .nav-expand-btn:hover{background:var(--hover)}
 }
 
-.card-header {
-  background: var(--af-blue);
-  color: white;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
+/* ===== ACCORDION SECTIONS ===== */
+.scoring-section{background:var(--surface);border-radius:8px;margin-bottom:.75rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.section-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:var(--primary);color:#fff;border:none;cursor:pointer;font-family:var(--font-body);font-size:.9rem;font-weight:600;text-align:left;letter-spacing:.2px;text-transform:uppercase;gap:.5rem}
+.section-header:focus-visible{outline:3px solid var(--focus-ring);outline-offset:-3px}
+.section-meta{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.section-score{font-weight:700;font-size:.85rem}
+.section-progress-bar{width:50px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden}
+.section-progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .3s ease}
+.section-completion{font-size:.7rem;opacity:.8}
+.chevron{transition:transform .2s ease;font-size:.7rem}
+.section-header[aria-expanded="true"] .chevron{transform:rotate(180deg)}
+.section-content{max-height:0;overflow:hidden;transition:max-height .3s ease-out}
+.section-header[aria-expanded="true"]+.section-content{max-height:5000px}
+.section-body{padding:.75rem 1rem 1rem}
+
+/* ===== SCORING ITEMS ===== */
+.scoring-item{padding:.65rem 0;border-bottom:1px solid var(--border-light);display:flex;flex-direction:column;gap:.4rem}
+.scoring-item:last-child{border-bottom:none}
+@media(min-width:768px){
+  .scoring-item{flex-direction:row;align-items:center;gap:1rem}
+  .item-label{flex:1}
+}
+.item-number{font-weight:700;color:var(--text-muted);font-size:.8rem;min-width:1.5rem}
+.item-label{font-size:.875rem;font-weight:500;line-height:1.4;display:flex;gap:.4rem;align-items:baseline}
+.item-hint{display:block;font-size:.75rem;color:var(--text-muted);font-weight:400}
+.score-print-value{display:none}
+
+/* ===== SEGMENTED SCORE CONTROLS ===== */
+.score-control{display:grid;gap:2px;flex-shrink:0}
+.score-control.scale-4{grid-template-columns:repeat(4,1fr);min-width:160px}
+.score-control.scale-3{grid-template-columns:repeat(3,1fr);min-width:120px}
+.score-control.scale-2{grid-template-columns:repeat(2,1fr);min-width:90px}
+.score-control.scale-2w{grid-template-columns:1fr 1fr;min-width:90px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.score-control label{display:flex;align-items:center;justify-content:center;padding:.5rem .25rem;min-height:44px;min-width:44px;font-weight:600;font-size:.85rem;cursor:pointer;border:2px solid var(--border);background:var(--surface);text-align:center;user-select:none;-webkit-tap-highlight-color:transparent;transition:background .15s,border-color .15s,color .15s}
+.score-control label:first-of-type{border-radius:6px 0 0 6px}
+.score-control label:last-of-type{border-radius:0 6px 6px 0}
+.score-control label:hover{background:var(--hover)}
+.score-control input:focus-visible+label{outline:3px solid var(--focus-ring);outline-offset:-3px;z-index:1}
+.score-control input[value="0"]:checked+label{background:var(--score-0);color:var(--score-0-text);border-color:var(--score-0)}
+.score-control input[value="1"]:checked+label{background:var(--score-1);color:#fff;border-color:var(--score-1)}
+.score-control input[value="2"]:checked+label{background:var(--score-2);color:#fff;border-color:var(--score-2)}
+.score-control input[value="3"]:checked+label{background:var(--score-3);color:#fff;border-color:var(--score-3)}
+
+/* Y/N toggle */
+.score-control input[value="Y"]:checked+label{background:var(--score-3);color:#fff;border-color:var(--score-3)}
+.score-control input[value="N"]:checked+label{background:var(--score-0);color:var(--score-0-text);border-color:var(--score-0)}
+
+/* ===== FORM CONTROLS ===== */
+.form-section .section-body{display:flex;flex-direction:column;gap:.75rem}
+.form-row{display:grid;grid-template-columns:1fr;gap:.75rem}
+@media(min-width:600px){.form-row{grid-template-columns:1fr 1fr}}
+.form-group{display:flex;flex-direction:column;gap:3px}
+.form-group label{font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.form-group input,.form-group select{padding:.5rem .65rem;border:1.5px solid var(--border);border-radius:6px;font-size:.9rem;font-family:var(--font-body);background:var(--surface);color:var(--text);min-height:44px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(36,145,255,.15)}
+.promoting-to{font-size:.9rem;font-weight:600;color:var(--primary);padding:.5rem .65rem;background:var(--surface-alt);border-radius:6px;min-height:44px;display:flex;align-items:center}
+
+/* ===== THRESHOLD STATUS ===== */
+.threshold-section{padding:1rem}
+.threshold-bar{background:var(--border-light);border-radius:6px;height:28px;position:relative;overflow:hidden;margin-bottom:.4rem}
+.threshold-fill{height:100%;border-radius:6px;transition:width .4s ease,background .3s ease;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem;min-width:30px}
+.threshold-markers{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);position:relative;padding:0 4px}
+.threshold-marker{position:absolute;transform:translateX(-50%)}
+.threshold-status{padding:.65rem .85rem;border-radius:6px;font-weight:600;font-size:.85rem;margin-top:.6rem}
+.status-green{background:#e8f5e9;color:#2e6e2e;border:1px solid #a5d6a7}
+.status-yellow{background:#fff8e1;color:#c05600;border:1px solid #ffe082}
+.status-red{background:#ffebee;color:#b50909;border:1px solid #ef9a9a}
+.status-na{background:var(--surface-alt);color:var(--text-muted);border:1px solid var(--border)}
+[data-theme="dark"] .status-green{background:#1a3a1a;color:#5abf5a;border-color:#2e6e2e}
+[data-theme="dark"] .status-yellow{background:#3a2a0a;color:#ffa24e;border-color:#c05600}
+[data-theme="dark"] .status-red{background:#3a1a1a;color:#fb5a47;border-color:#b50909}
+
+/* ===== AFSC REQUIREMENTS ===== */
+#afscRequirements{display:none}
+.req-category-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--primary);padding:.5rem 0 .25rem;margin-top:.5rem;border-bottom:2px solid var(--primary)}
+.req-item{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border-light);font-size:.85rem}
+.req-item:last-child{border-bottom:none}
+.req-item input[type="checkbox"]{width:20px;height:20px;margin-top:2px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+.req-item-content{flex:1}
+.req-item-name{font-weight:600}
+.req-item-desc{font-size:.78rem;color:var(--text-muted);margin-top:2px}
+.req-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:.4rem;vertical-align:middle}
+.req-badge-required{background:var(--error);color:#fff}
+.req-badge-optional{background:var(--border);color:var(--text-muted)}
+.req-badge-conditional{background:var(--warning);color:#1b1b1b}
+
+/* ===== COMMANDERS NOTE ===== */
+.commanders-note{font-style:italic;color:var(--text-muted);font-size:.82rem;text-align:center;padding:.75rem;border-top:1px solid var(--border-light);margin-top:.5rem}
+
+/* ===== BUTTONS ===== */
+.btn-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
+.btn{padding:.65rem 1.5rem;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:var(--font-body);min-height:44px;transition:opacity .15s}
+.btn:hover{opacity:.88}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-secondary{background:var(--border);color:var(--text)}
+.btn-danger{background:var(--error);color:#fff}
+
+/* ===== MOBILE BOTTOM BAR ===== */
+.mobile-score-bar{display:none}
+@media(max-width:767px){
+  .mobile-score-bar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--primary);padding:.6rem 1rem;justify-content:space-between;align-items:center;z-index:200;box-shadow:0 -2px 8px rgba(0,0,0,.1)}
+  .mobile-score-bar .score-label{font-size:.75rem;color:var(--text-muted)}
+  .mobile-score-bar .score-value{font-size:1.2rem;font-weight:700;color:var(--primary)}
+  .mobile-score-bar .threshold-mini{font-size:.7rem;font-weight:600;padding:3px 8px;border-radius:4px}
+  main{padding-bottom:4.5rem}
 }
 
-.card-body { padding: 20px; }
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 12px;
+/* ===== PRINT ===== */
+.print-header,.print-summary,.print-signatures{display:none}
+@media print{
+  *{color-adjust:exact!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{font-family:'Times New Roman',Times,serif;font-size:10pt;line-height:1.3;color:#000;background:#fff}
+  .global-progress,.section-nav,.mobile-score-bar,.header-controls,.btn-row,.icon-btn,.no-print,#afscRequirements{display:none!important}
+  .print-header{display:block!important;text-align:center;border-bottom:2px solid #000;padding-bottom:.5rem;margin-bottom:.75rem}
+  .print-header h1{font-size:13pt;text-transform:uppercase;letter-spacing:.05em}
+  .print-header p{font-size:9pt;margin-top:2px}
+  .site-header{display:none}
+  .layout{display:block!important;max-width:100%;padding:0;margin:0}
+  .scoring-section{box-shadow:none;border:1px solid #000;margin-bottom:.4rem;break-inside:avoid}
+  .section-header{padding:4pt 8pt;font-size:9pt;background:#d0d0d0!important;color:#000!important}
+  .section-content{max-height:none!important;overflow:visible!important}
+  .section-meta,.chevron{display:none}
+  .section-body{padding:4pt 8pt}
+  .scoring-item{padding:3pt 0;display:grid!important;grid-template-columns:1fr 80px;gap:4pt;flex-direction:row!important}
+  .score-control{display:none!important}
+  .score-print-value{display:block!important;text-align:center;font-weight:700;font-size:10pt}
+  .form-group input,.form-group select{border:none;border-bottom:1px solid #999;border-radius:0;padding:2px 4px;font-size:9pt;background:transparent}
+  .form-row{display:grid!important;grid-template-columns:1fr 1fr!important}
+  .promoting-to{background:transparent;padding:2px 4px}
+  .print-summary{display:table!important;width:100%;border-collapse:collapse;margin-top:.75rem;break-inside:avoid}
+  .print-summary td,.print-summary th{border:1px solid #000;padding:3pt 6pt;font-size:9pt}
+  .print-summary th{background:#e0e0e0;text-align:left}
+  .print-signatures{display:flex!important;justify-content:space-between;margin-top:1.5rem;padding-top:.75rem}
+  .signature-line{width:42%;border-top:1px solid #000;padding-top:4pt;font-size:8pt}
+  .threshold-section{display:none}
+  @page{size:letter;margin:.75in}
 }
 
-.form-group { display: flex; flex-direction: column; }
-.form-group label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  background: white;
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--af-blue);
-  box-shadow: 0 0 0 2px rgba(0,48,143,0.15);
-}
-
-.scoring-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.scoring-table th {
-  text-align: left;
-  padding: 8px 12px;
-  background: var(--af-silver-light);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--border);
-}
-.scoring-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid #eee;
-  font-size: 0.9rem;
-}
-.scoring-table td:last-child { width: 80px; text-align: center; }
-.scoring-table tr:hover { background: #f9f9fb; }
-
-.scoring-table select {
-  padding: 4px 8px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  background: white;
-  cursor: pointer;
-  min-width: 60px;
-}
-
-.subtotal-row {
-  font-weight: 700;
-  background: var(--af-silver-light) !important;
-}
-.subtotal-row td { border-top: 2px solid var(--af-blue); }
-
-.grand-total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  background: var(--af-blue);
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.threshold-bar {
-  margin: 12px 0;
-  background: #e0e0e0;
-  border-radius: 6px;
-  height: 28px;
-  position: relative;
-  overflow: hidden;
-}
-.threshold-fill {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.4s ease, background 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 0.85rem;
-  min-width: 40px;
-}
-.threshold-markers {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-top: 4px;
-  padding: 0 4px;
-}
-
-.threshold-status {
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-top: 12px;
-}
-.status-green { background: #e8f5e9; color: var(--green); border: 1px solid #a5d6a7; }
-.status-yellow { background: #fff8e1; color: var(--yellow); border: 1px solid #ffe082; }
-.status-red { background: #ffebee; color: var(--red); border: 1px solid #ef9a9a; }
-.status-na { background: #f5f5f5; color: var(--text-muted); border: 1px solid var(--border); }
-
-.checklist { list-style: none; }
-.checklist li {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-}
-.checklist li:last-child { border-bottom: none; }
-.checklist input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--af-blue);
-  cursor: pointer;
-}
-
-.toggle-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 0.9rem;
-}
-.toggle-group:last-child { border-bottom: none; }
-.toggle-btns { display: flex; gap: 4px; }
-.toggle-btn {
-  padding: 4px 14px;
-  border: 1px solid var(--border);
-  background: white;
-  cursor: pointer;
-  font-size: 0.85rem;
-  border-radius: 4px;
-  font-family: inherit;
-}
-.toggle-btn.active-yes { background: var(--green); color: white; border-color: var(--green); }
-.toggle-btn.active-no { background: var(--red); color: white; border-color: var(--red); }
-
-.notes-area {
-  width: 100%;
-  min-height: 80px;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  resize: vertical;
-}
-
-.btn-row {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin: 24px 0;
-  flex-wrap: wrap;
-}
-.btn {
-  padding: 12px 32px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: opacity 0.2s;
-}
-.btn:hover { opacity: 0.9; }
-.btn-primary { background: var(--af-blue); color: white; }
-.btn-secondary { background: var(--af-silver); color: var(--text); }
-
-.commanders-note {
-  font-style: italic;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  text-align: center;
-  padding: 12px;
-  border-top: 1px solid var(--border);
-  margin-top: 8px;
-}
-
-.signature-block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 16px;
-}
-.sig-line {
-  border-bottom: 1px solid var(--text);
-  padding-bottom: 4px;
-  margin-bottom: 4px;
-  min-height: 24px;
-  font-size: 0.9rem;
-}
-.sig-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-
-.print-score {
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-top: 16px;
-  padding: 12px;
-  border: 2px solid var(--af-blue);
-  border-radius: 6px;
-}
-
-/* Print styles */
-@media print {
-  body { background: white; font-size: 11px; line-height: 1.3; }
-  .header { padding: 12px; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .header h1 { font-size: 14px; }
-  .header p { font-size: 10px; }
-  .container { margin: 0; padding: 0 8px; max-width: 100%; }
-  .card { box-shadow: none; margin-bottom: 8px; border: 1px solid #ccc; break-inside: avoid; }
-  .card-header { padding: 6px 12px; font-size: 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .card-body { padding: 8px 12px; }
-  .scoring-table td, .scoring-table th { padding: 3px 8px; font-size: 10px; }
-  .scoring-table select { border: none; background: none; font-size: 10px; -webkit-appearance: none; appearance: none; }
-  .grand-total { padding: 8px 12px; font-size: 12px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .btn-row { display: none !important; }
-  .no-print { display: none !important; }
-  .print-only { display: block !important; }
-  .threshold-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .threshold-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .threshold-status { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .form-group input, .form-group select { border: none; border-bottom: 1px solid #999; border-radius: 0; padding: 2px 4px; font-size: 10px; }
-  .checklist input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .toggle-btn { font-size: 9px; padding: 2px 8px; }
-  .toggle-btn.active-yes, .toggle-btn.active-no { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .notes-area { border: 1px solid #999; font-size: 10px; min-height: 40px; }
-  .signature-block { margin-top: 8px; }
-  .commanders-note { font-size: 9px; }
-}
-
-.print-only { display: none; }
-
-@media (max-width: 600px) {
-  .form-row { grid-template-columns: 1fr; }
-  .header h1 { font-size: 1.2rem; }
-  .signature-block { grid-template-columns: 1fr; }
-}
+/* ===== SCROLLBAR ===== */
+.section-nav::-webkit-scrollbar{width:4px}
+.section-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 </style>
 </head>
 <body>
 
-<div class="header">
+<!-- Global Progress Bar -->
+<div class="global-progress"><div class="global-progress-fill" id="globalProgress"></div></div>
+
+<!-- Header -->
+<header class="site-header">
   <h1>934th Civil Engineering Squadron</h1>
-  <p>Promotion Eligibility Worksheet — Air Force Reserve Command</p>
+  <p>Promotion Eligibility Worksheet &mdash; Air Force Reserve Command</p>
+  <div class="header-controls">
+    <button class="icon-btn" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#9790;</button>
+    <button class="icon-btn" onclick="doPrint()" title="Print / Save PDF" aria-label="Print">&#9113;</button>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- Sidebar Nav (desktop) -->
+<nav class="section-nav" id="sectionNav" aria-label="Worksheet sections">
+  <ul>
+    <li><a href="#sec-info" data-target="sec-info" class="nav-link">Member Info</a></li>
+    <li><a href="#sec-afsc" data-target="sec-afsc" class="nav-link">AFSC Requirements <span class="nav-score" id="navAfsc"></span></a></li>
+    <li><a href="#sec-integrity" data-target="sec-integrity" class="nav-link">Integrity <span class="nav-score" id="navIntegrity">0/24</span></a></li>
+    <li><a href="#sec-service" data-target="sec-service" class="nav-link">Service <span class="nav-score" id="navService">0/16</span></a></li>
+    <li><a href="#sec-excellence" data-target="sec-excellence" class="nav-link">Excellence <span class="nav-score" id="navExcellence">0/9</span></a></li>
+    <li><a href="#sec-bonus" data-target="sec-bonus" class="nav-link">Bonus <span class="nav-score" id="navBonus">0/6</span></a></li>
+    <li><a href="#sec-behavioral" data-target="sec-behavioral" class="nav-link">Behavioral</a></li>
+    <li><a href="#sec-threshold" data-target="sec-threshold" class="nav-link">Threshold</a></li>
+  </ul>
+  <div class="nav-total"><span id="navGrandTotal">0</span> / 48<small>Grand Total</small></div>
+  <button class="nav-expand-btn" id="expandAllBtn" onclick="toggleExpandAll()">Collapse All</button>
+</nav>
+
+<!-- Main Content -->
+<main>
+
+<!-- Print Header -->
+<div class="print-header">
+  <p>DEPARTMENT OF THE AIR FORCE &bull; 934TH AIRLIFT WING (AFRC)</p>
+  <h1>Promotion Eligibility Scoring Worksheet</h1>
+  <p>Member: <span id="printName">_______________</span> &nbsp; Rank: <span id="printRank">_______</span> &nbsp; AFSC: <span id="printAfsc">_______</span> &nbsp; Date: <span id="printDate">_______________</span></p>
 </div>
 
-<div class="container">
-
-  <!-- Member Info -->
-  <div class="card">
-    <div class="card-header">Member Information</div>
-    <div class="card-body">
+<!-- MEMBER INFORMATION -->
+<section class="scoring-section form-section" id="sec-info" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="info-content" onclick="toggleSection(this)">
+    <span>Member Information</span>
+    <span class="chevron">&#9660;</span>
+  </button>
+  <div class="section-content" id="info-content">
+    <div class="section-body">
       <div class="form-row">
         <div class="form-group">
-          <label>Member Name</label>
-          <input type="text" id="memberName" placeholder="Last, First MI">
+          <label for="memberName">Member Name</label>
+          <input type="text" id="memberName" placeholder="Last, First MI" autocomplete="off">
         </div>
         <div class="form-group">
-          <label>Current Rank</label>
+          <label for="currentRank">Current Rank</label>
           <select id="currentRank">
             <option value="">Select Rank</option>
-            <option value="AB">AB (E-1)</option>
-            <option value="Amn">Amn (E-2)</option>
-            <option value="A1C">A1C (E-3)</option>
-            <option value="SrA">SrA (E-4)</option>
-            <option value="SSgt">SSgt (E-5)</option>
-            <option value="TSgt">TSgt (E-6)</option>
-            <option value="MSgt">MSgt (E-7)</option>
-            <option value="SMSgt">SMSgt (E-8)</option>
+            <option value="E1">AB (E-1)</option>
+            <option value="E2">Amn (E-2)</option>
+            <option value="E3">A1C (E-3)</option>
+            <option value="E4">SrA (E-4)</option>
+            <option value="E5">SSgt (E-5)</option>
+            <option value="E6">TSgt (E-6)</option>
+            <option value="E7">MSgt (E-7)</option>
+            <option value="E8">SMSgt (E-8)</option>
           </select>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>AFSC</label>
+          <label for="afsc">AFSC</label>
           <select id="afsc">
             <option value="">Select AFSC</option>
-            <option value="3E0X1">3E0X1 - Electrical Systems</option>
-            <option value="3E0X2">3E0X2 - Electrical Power Production</option>
-            <option value="3E1X1">3E1X1 - HVAC-R</option>
-            <option value="3E2X1">3E2X1 - Pavements & Construction Equipment</option>
-            <option value="3E3X1">3E3X1 - Structural</option>
-            <option value="3E4X1">3E4X1 - Water & Fuel Systems</option>
-            <option value="3E4X3">3E4X3 - Pest Management</option>
-            <option value="3E5X1">3E5X1 - Engineering</option>
-            <option value="3E7X1">3E7X1 - Fire Protection</option>
-            <option value="3E8X1">3E8X1 - EOD</option>
-            <option value="3E9X1">3E9X1 - Emergency Management</option>
+            <option value="3E0X1">3E0X1 &mdash; Electrical Systems</option>
+            <option value="3E0X2">3E0X2 &mdash; Electrical Power Production</option>
+            <option value="3E1X1">3E1X1 &mdash; HVAC/R</option>
+            <option value="3E2X1">3E2X1 &mdash; Pavements &amp; Construction Equipment</option>
+            <option value="3E3X1">3E3X1 &mdash; Structural</option>
+            <option value="3E4X1">3E4X1 &mdash; Water &amp; Fuel Systems</option>
+            <option value="3E4X3">3E4X3 &mdash; Pest Management</option>
+            <option value="3E5X1">3E5X1 &mdash; Engineering</option>
+            <option value="3E7X1">3E7X1 &mdash; Fire Protection</option>
+            <option value="3E8X1">3E8X1 &mdash; Explosive Ordnance Disposal</option>
+            <option value="3E9X1">3E9X1 &mdash; Emergency Management</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Supervisor Name</label>
-          <input type="text" id="supervisorName" placeholder="Last, First MI">
+          <label for="supervisorName">Supervisor Name</label>
+          <input type="text" id="supervisorName" placeholder="Last, First MI" autocomplete="off">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Date</label>
+          <label for="worksheetDate">Date</label>
           <input type="date" id="worksheetDate">
         </div>
-        <div class="form-group"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- INTEGRITY -->
-  <div class="card">
-    <div class="card-header">Integrity First</div>
-    <div class="card-body">
-      <table class="scoring-table">
-        <thead>
-          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Positive attitude around subordinates; exhibits commitment to unit & duty</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Strong leadership & Intestinal Fortitude — can make unpopular decisions the troops will follow</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Understands and carries out orders; can explain virtue of those orders, regardless</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Has supervisor responsibilities and/or writes EPRs</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>3-year attendance record<br><small style="color:#777">0-2 absences = 3 | 3-4 absences = 2 | 5-6 absences = 1 | 7+ = 0</small></td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Participated in ARA, ORI, or Other Inspection in last three years</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Currently performs an additional squadron duty</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Outstanding military appearance and personal fitness</td>
-            <td><select class="score-input" data-section="integrity" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr class="subtotal-row">
-            <td></td>
-            <td>Integrity Subtotal</td>
-            <td id="integrityTotal">0 / 24</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SERVICE BEFORE SELF -->
-  <div class="card">
-    <div class="card-header">Service Before Self</div>
-    <div class="card-body">
-      <table class="scoring-table">
-        <thead>
-          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Handles adversity and personal situations maturely (finances, health, home, travel, work)</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>First to arrive & last to leave attitude</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>100% participation in last Bivouac</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>No delinquent or failed CDCs past 18 months (not voluntary courses)</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>7-level in current Duty AFSC</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Participated in last Silver Flag in the last three years</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Participated in an AEF deployment in last three years</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Initiates projects — exhibits and instills a sense of teamwork</td>
-            <td><select class="score-input" data-section="service" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr class="subtotal-row">
-            <td></td>
-            <td>Service Before Self Subtotal</td>
-            <td id="serviceTotal">0 / 16</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- EXCELLENCE IN ALL WE DO -->
-  <div class="card">
-    <div class="card-header">Excellence In All We Do</div>
-    <div class="card-body">
-      <table class="scoring-table">
-        <thead>
-          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Currently performs a shop additional duty</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Attended NCO LDP</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>2nd additional duty or Past additional duty within 3 years</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Participated in one Formal Military function in last three years (Ball, Dining In/Out)</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Completed NCO Academy (Course 6 or 9)</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Completed SNCO Academy (Course 5, 8, 12, or 14)</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Regularly uses vPC-GR, AFTR, ADLS, AF Portal</td>
-            <td><select class="score-input" data-section="excellence" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Technical competency — Expert in their field</td>
-            <td><select class="score-input" data-section="excellence" data-max="2">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr class="subtotal-row">
-            <td></td>
-            <td>Excellence Subtotal</td>
-            <td id="excellenceTotal">0 / 9</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- BONUS POINTS -->
-  <div class="card">
-    <div class="card-header">Bonus Points</div>
-    <div class="card-body">
-      <table class="scoring-table">
-        <thead>
-          <tr><th style="width:40px">#</th><th>Criteria</th><th>Score</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Interview Points (by Commander request)</td>
-            <td><select class="score-input" data-section="bonus" data-max="3">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Participated in last UCI / worked on MICT checklist</td>
-            <td><select class="score-input" data-section="bonus" data-max="2">
-              <option value="0">0</option><option value="2">2</option>
-            </select></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>CCAF or College degree</td>
-            <td><select class="score-input" data-section="bonus" data-max="1">
-              <option value="0">0</option><option value="1">1</option>
-            </select></td>
-          </tr>
-          <tr class="subtotal-row">
-            <td></td>
-            <td>Bonus Subtotal</td>
-            <td id="bonusTotal">0 / 6</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Grand Total -->
-  <div class="card">
-    <div class="grand-total">
-      <span>GRAND TOTAL</span>
-      <span id="grandTotal">0 / 48</span>
-    </div>
-  </div>
-
-  <!-- Promotion Threshold -->
-  <div class="card">
-    <div class="card-header">Promotion Threshold Status</div>
-    <div class="card-body">
-      <div id="thresholdContent">
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Select a rank above to see promotion threshold status.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- AF Reserve General Requirements -->
-  <div class="card">
-    <div class="card-header">AF Reserve General Requirements (Informational)</div>
-    <div class="card-body">
-      <ul class="checklist">
-        <li><input type="checkbox" id="req-tig"><label for="req-tig">Time-in-Grade requirement met</label></li>
-        <li><input type="checkbox" id="req-tis"><label for="req-tis">Time-in-Service requirement met</label></li>
-        <li><input type="checkbox" id="req-pme"><label for="req-pme">PME complete for next grade</label></li>
-        <li><input type="checkbox" id="req-fitness"><label for="req-fitness">Fitness test current and passing</label></li>
-        <li><input type="checkbox" id="req-epr"><label for="req-epr">EPR eligible</label></li>
-        <li><input type="checkbox" id="req-skill"><label for="req-skill">Skill level appropriate for next grade</label></li>
-        <li><input type="checkbox" id="req-cc"><label for="req-cc">Commander recommendation received</label></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Behavioral Items -->
-  <div class="card">
-    <div class="card-header">Behavioral Assessment</div>
-    <div class="card-body">
-      <div class="toggle-group">
-        <span>Does the member always attend scheduled training?</span>
-        <div class="toggle-btns">
-          <button class="toggle-btn" data-field="behav-training" data-val="Y" onclick="toggleBehav(this)">Y</button>
-          <button class="toggle-btn" data-field="behav-training" data-val="N" onclick="toggleBehav(this)">N</button>
-        </div>
-      </div>
-      <div class="toggle-group">
-        <span>Does the member take notes to retain and pass on information?</span>
-        <div class="toggle-btns">
-          <button class="toggle-btn" data-field="behav-notes" data-val="Y" onclick="toggleBehav(this)">Y</button>
-          <button class="toggle-btn" data-field="behav-notes" data-val="N" onclick="toggleBehav(this)">N</button>
-        </div>
-      </div>
-      <div class="toggle-group">
-        <span>Does the member use the chain of command?</span>
-        <div class="toggle-btns">
-          <button class="toggle-btn" data-field="behav-coc" data-val="Y" onclick="toggleBehav(this)">Y</button>
-          <button class="toggle-btn" data-field="behav-coc" data-val="N" onclick="toggleBehav(this)">N</button>
-        </div>
-      </div>
-      <p class="commanders-note" style="margin-top: 12px;">
-        Members in overtime training may not be promoted.
-      </p>
-    </div>
-  </div>
-
-  <!-- AFSC-Specific Notes -->
-  <div class="card">
-    <div class="card-header">AFSC-Specific / Flight Notes</div>
-    <div class="card-body">
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
-        Add flight-specific requirements, CFETP notes, or other observations for this member.
-      </p>
-      <textarea class="notes-area" id="flightNotes" placeholder="Enter flight-specific notes, CFETP requirements, certifications, etc."></textarea>
-    </div>
-  </div>
-
-  <!-- Commander's Note -->
-  <div class="card">
-    <div class="card-body">
-      <div class="commanders-note">
-        <strong>Commander's Note:</strong> Good Attitude, Performance and Participation are not occasional,
-        convenient, or one time occurrences — they are continuous characteristics.
-      </div>
-    </div>
-  </div>
-
-  <!-- Signature Block (visible in print) -->
-  <div class="card print-only" id="signatureCard">
-    <div class="card-header">Signatures</div>
-    <div class="card-body">
-      <div class="print-score">
-        TOTAL SCORE: <span id="printScore">0</span> / 48
-      </div>
-      <div class="signature-block">
-        <div>
-          <div class="sig-line" id="printRatee"></div>
-          <div class="sig-label">Ratee (Print Name / Signature / Date)</div>
-        </div>
-        <div>
-          <div class="sig-line" id="printRater"></div>
-          <div class="sig-label">Rater (Print Name / Signature / Date)</div>
+        <div class="form-group">
+          <label>Promoting To</label>
+          <div class="promoting-to" id="promotingTo">Select rank above</div>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Buttons -->
-  <div class="btn-row no-print">
-    <button class="btn btn-primary" onclick="printWorksheet()">🖨️ Print / Save PDF</button>
-    <button class="btn btn-secondary" onclick="resetForm()">↻ Reset All</button>
+<!-- AFSC REQUIREMENTS (dynamic) -->
+<section class="scoring-section" id="afscRequirements" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="afsc-content" onclick="toggleSection(this)">
+    <span id="afscReqTitle">AFSC Requirements for Promotion</span>
+    <span class="chevron">&#9660;</span>
+  </button>
+  <div class="section-content" id="afsc-content">
+    <div class="section-body" id="afscReqBody">
+    </div>
   </div>
+</section>
 
+<!-- INTEGRITY FIRST (8 items, 0-3) -->
+<section class="scoring-section" id="sec-integrity" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="integrity-content" onclick="toggleSection(this)">
+    <span>Integrity First</span>
+    <span class="section-meta">
+      <span class="section-score" id="integrityScore">0 / 24</span>
+      <span class="section-progress-bar"><span class="section-progress-fill" id="integrityBar" style="width:0"></span></span>
+      <span class="section-completion" id="integrityComp">0/8</span>
+      <span class="chevron">&#9660;</span>
+    </span>
+  </button>
+  <div class="section-content" id="integrity-content">
+    <div class="section-body" id="integrityBody"></div>
+  </div>
+</section>
+
+<!-- SERVICE BEFORE SELF (8 items, 0-2) -->
+<section class="scoring-section" id="sec-service" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="service-content" onclick="toggleSection(this)">
+    <span>Service Before Self</span>
+    <span class="section-meta">
+      <span class="section-score" id="serviceScore">0 / 16</span>
+      <span class="section-progress-bar"><span class="section-progress-fill" id="serviceBar" style="width:0"></span></span>
+      <span class="section-completion" id="serviceComp">0/8</span>
+      <span class="chevron">&#9660;</span>
+    </span>
+  </button>
+  <div class="section-content" id="service-content">
+    <div class="section-body" id="serviceBody"></div>
+  </div>
+</section>
+
+<!-- EXCELLENCE IN ALL WE DO (8 items, mixed) -->
+<section class="scoring-section" id="sec-excellence" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="excellence-content" onclick="toggleSection(this)">
+    <span>Excellence In All We Do</span>
+    <span class="section-meta">
+      <span class="section-score" id="excellenceScore">0 / 9</span>
+      <span class="section-progress-bar"><span class="section-progress-fill" id="excellenceBar" style="width:0"></span></span>
+      <span class="section-completion" id="excellenceComp">0/8</span>
+      <span class="chevron">&#9660;</span>
+    </span>
+  </button>
+  <div class="section-content" id="excellence-content">
+    <div class="section-body" id="excellenceBody"></div>
+  </div>
+</section>
+
+<!-- BONUS POINTS -->
+<section class="scoring-section" id="sec-bonus" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="bonus-content" onclick="toggleSection(this)">
+    <span>Bonus Points</span>
+    <span class="section-meta">
+      <span class="section-score" id="bonusScore">0 / 6</span>
+      <span class="section-progress-bar"><span class="section-progress-fill" id="bonusBar" style="width:0"></span></span>
+      <span class="section-completion" id="bonusComp">0/3</span>
+      <span class="chevron">&#9660;</span>
+    </span>
+  </button>
+  <div class="section-content" id="bonus-content">
+    <div class="section-body" id="bonusBody"></div>
+  </div>
+</section>
+
+<!-- BEHAVIORAL ASSESSMENT -->
+<section class="scoring-section" id="sec-behavioral" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="behavioral-content" onclick="toggleSection(this)">
+    <span>Behavioral Assessment</span>
+    <span class="section-meta"><span class="section-completion" id="behavComp">0/3</span><span class="chevron">&#9660;</span></span>
+  </button>
+  <div class="section-content" id="behavioral-content">
+    <div class="section-body" id="behavioralBody"></div>
+  </div>
+</section>
+
+<!-- PROMOTION THRESHOLD -->
+<section class="scoring-section" id="sec-threshold" style="scroll-margin-top:1rem">
+  <button class="section-header" aria-expanded="true" aria-controls="threshold-content" onclick="toggleSection(this)">
+    <span>Promotion Threshold Status</span>
+    <span class="chevron">&#9660;</span>
+  </button>
+  <div class="section-content" id="threshold-content">
+    <div class="threshold-section" id="thresholdBody">
+      <p class="threshold-status status-na">Select a rank (SSgt&ndash;MSgt) to see promotion thresholds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMANDER'S NOTE -->
+<div class="scoring-section" style="scroll-margin-top:1rem">
+  <div style="padding:1rem">
+    <p class="commanders-note" style="border-top:none;margin-top:0">
+      <strong>Commander&rsquo;s Note:</strong> Good Attitude, Performance and Participation are not occasional, convenient, or one time occurrences &mdash; they are continuous characteristics.
+    </p>
+    <p class="commanders-note" style="border-top:none;margin-top:.25rem">
+      Members in overtime training may not be promoted.
+    </p>
+  </div>
+</div>
+
+<!-- BUTTONS -->
+<div class="btn-row no-print">
+  <button class="btn btn-primary" onclick="doPrint()">Print / Save PDF</button>
+  <button class="btn btn-secondary" onclick="resetForm()">Reset All</button>
+  <button class="btn btn-danger" onclick="clearSaved()">Clear Saved Data</button>
+</div>
+
+<!-- Print Summary Table -->
+<table class="print-summary" id="printSummary">
+  <tr><th colspan="2" style="text-align:center;font-size:11pt">SCORING SUMMARY</th></tr>
+  <tr><td>Integrity First (max 24)</td><td id="ps-integrity" style="text-align:center;font-weight:700">0</td></tr>
+  <tr><td>Service Before Self (max 16)</td><td id="ps-service" style="text-align:center;font-weight:700">0</td></tr>
+  <tr><td>Excellence In All We Do (max 9)</td><td id="ps-excellence" style="text-align:center;font-weight:700">0</td></tr>
+  <tr><td>Bonus Points (max 6)</td><td id="ps-bonus" style="text-align:center;font-weight:700">0</td></tr>
+  <tr style="background:#e0e0e0"><td style="font-weight:700">GRAND TOTAL (max 48)</td><td id="ps-grand" style="text-align:center;font-weight:700;font-size:12pt">0</td></tr>
+</table>
+
+<!-- Print Signatures -->
+<div class="print-signatures">
+  <div class="signature-line">RATEE (Print Name / Signature / Date)</div>
+  <div class="signature-line">RATER (Print Name / Signature / Date)</div>
+</div>
+
+</main>
+</div>
+
+<!-- Mobile Bottom Score Bar -->
+<div class="mobile-score-bar" id="mobileBar">
+  <div>
+    <div class="score-label">Grand Total</div>
+    <div class="score-value"><span id="mobileTotal">0</span> / 48</div>
+  </div>
+  <div id="mobileThreshold" class="threshold-mini"></div>
 </div>
 
 <script>
-// Auto-fill today's date
-document.getElementById('worksheetDate').valueAsDate = new Date();
+/* ================================================================
+   934th CES Promotion Eligibility Worksheet — Application Logic
+   ================================================================ */
 
-// Score calculation
-function calculateScores() {
-  const sections = { integrity: 0, service: 0, excellence: 0, bonus: 0 };
+// ===== SCORING CRITERIA DATA =====
+const INTEGRITY_ITEMS = [
+  {id:'int1',text:'Positive attitude around subordinates; exhibits commitment to unit & duty',max:3},
+  {id:'int2',text:'Strong leadership & Intestinal Fortitude — can make unpopular decisions the troops will follow',max:3},
+  {id:'int3',text:'Understands and carries out orders; can explain virtue of those orders, regardless',max:3},
+  {id:'int4',text:'Has supervisor responsibilities and/or writes EPRs',max:3},
+  {id:'int5',text:'3-year attendance record',hint:'0–2 absences = 3 | 3–4 = 2 | 5–6 = 1 | 7+ = 0',max:3},
+  {id:'int6',text:'Participated in ARA, ORI, or Other Inspection in last three years',max:3},
+  {id:'int7',text:'Currently performs an additional squadron duty',max:3},
+  {id:'int8',text:'Outstanding military appearance and personal fitness',max:3}
+];
+const SERVICE_ITEMS = [
+  {id:'svc1',text:'Handles adversity and personal situations maturely (finances, health, home, travel, work)',max:2},
+  {id:'svc2',text:'First to arrive & last to leave attitude',max:2},
+  {id:'svc3',text:'100% participation in last Bivouac',max:2},
+  {id:'svc4',text:'No delinquent or failed CDCs past 18 months (not voluntary courses)',max:2},
+  {id:'svc5',text:'7-level in current Duty AFSC',max:2},
+  {id:'svc6',text:'Participated in last Silver Flag in the last three years',max:2},
+  {id:'svc7',text:'Participated in an AEF deployment in last three years',max:2},
+  {id:'svc8',text:'Initiates projects — exhibits and instills a sense of teamwork',max:2}
+];
+const EXCELLENCE_ITEMS = [
+  {id:'exc1',text:'Currently performs a shop additional duty',max:1},
+  {id:'exc2',text:'Attended NCO LDP',max:1},
+  {id:'exc3',text:'2nd additional duty or Past additional duty within 3 years',max:1},
+  {id:'exc4',text:'Participated in one Formal Military function in last three years (Ball, Dining In/Out)',max:1},
+  {id:'exc5',text:'Completed NCO Academy (Course 6 or 9)',max:1},
+  {id:'exc6',text:'Completed SNCO Academy (Course 5, 8, 12, or 14)',max:1},
+  {id:'exc7',text:'Regularly uses vPC-GR, AFTR, ADLS, AF Portal',max:1},
+  {id:'exc8',text:'Technical competency / Expert in their field',max:2}
+];
+const BONUS_ITEMS = [
+  {id:'bon1',text:'Interview Points (by Commander request)',max:3},
+  {id:'bon2',text:'Participated in last UCI / worked on MICT checklist',max:2,values:[0,2]},
+  {id:'bon3',text:'CCAF or College degree',max:1}
+];
+const BEHAVIORAL_ITEMS = [
+  {id:'beh1',text:'Does the member always attend scheduled training?'},
+  {id:'beh2',text:'Does the member take notes to retain and pass on information?'},
+  {id:'beh3',text:'Does the member use the chain of command?'}
+];
 
-  document.querySelectorAll('.score-input').forEach(sel => {
-    const section = sel.dataset.section;
-    sections[section] += parseInt(sel.value) || 0;
+// ===== RANK MAP =====
+const RANK_MAP = {
+  E1:{abbr:'AB',name:'Airman Basic',next:'Amn (E-2)',nextGrade:'E2'},
+  E2:{abbr:'Amn',name:'Airman',next:'A1C (E-3)',nextGrade:'E3'},
+  E3:{abbr:'A1C',name:'Airman First Class',next:'SrA (E-4)',nextGrade:'E4'},
+  E4:{abbr:'SrA',name:'Senior Airman',next:'SSgt (E-5)',nextGrade:'E5',transition:'E4_to_E5'},
+  E5:{abbr:'SSgt',name:'Staff Sergeant',next:'TSgt (E-6)',nextGrade:'E6',transition:'E5_to_E6'},
+  E6:{abbr:'TSgt',name:'Technical Sergeant',next:'MSgt (E-7)',nextGrade:'E7',transition:'E6_to_E7'},
+  E7:{abbr:'MSgt',name:'Master Sergeant',next:'SMSgt (E-8)',nextGrade:'E8',transition:'E7_to_E8'},
+  E8:{abbr:'SMSgt',name:'Senior Master Sergeant',next:'CMSgt (E-9)',nextGrade:'E9'}
+};
+const THRESHOLDS = {
+  E5:{next:'TSgt (E-6)',min:26,pep:32},
+  E6:{next:'MSgt (E-7)',min:32,pep:38},
+  E7:{next:'SMSgt (E-8)',min:38,pep:44}
+};
+
+// ===== AFSC REQUIREMENTS DATA =====
+const AFSC_DATA = {
+"3E0X1":{title:"Electrical Systems",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Level CDCs (8 volumes)",d:"Career Development Courses — promotion-gating. Must pass EOC exam.",r:true,c:"training"},
+    {n:"CE 5-Level Common Core Course",d:"Web-based course on myLearning.",r:true,c:"training"},
+    {n:"AFIT WMGT 131 — SMS BUILDER",d:"Sustainment Management System Level 1.",r:true,c:"training"},
+    {n:"AFIT WMGT 301 — Intro to Asset Mgmt",d:"Asset management fundamentals.",r:true,c:"training"},
+    {n:"AFIT WENG 170 — Cybersecurity for Control Systems",d:"Control systems cybersecurity basics.",r:true,c:"training"},
+    {n:"5-Level Core & Diamond Task Certification",d:"All 5-level core (5^) and diamond tasks certified by trainer.",r:true,c:"training"},
+    {n:"12 Months OJT (9 for retrainees)",d:"Minimum on-the-job training period.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"Enlisted PME required for SSgt promotion. In-residence or DL.",r:true,c:"PME"},
+    {n:"Valid State Driver's License",d:"Required for government motor vehicle operation.",r:true,c:"administrative"},
+    {n:"Normal Color Vision",d:"Required for electrical work.",r:true,c:"administrative"},
+    {n:"Freedom from Fear of Heights",d:"Required for pole climbing and bucket truck work.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"Electrical Systems Craftsman Course",d:"Formal 7-level school at Sheppard AFB, TX.",r:true,c:"training"},
+    {n:"CE 7-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"7-Level Core & Diamond Task Certification",d:"All 7-level core and diamond tasks certified.",r:true,c:"training"},
+    {n:"7-Level AFQTPs + myLearning Courses",d:"Qualification packages (80% min).",r:true,c:"training"},
+    {n:"Must hold AFSC 3E051",d:"Journeyman AFSC required.",r:true,c:"administrative"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"In-residence or DL. Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"AFIT WMGT 437 — Troop Construction PM",d:"Project management course. Required for MSgt promotion.",r:true,c:"training"},
+    {n:"7-Level Skill Maintained",d:"Must hold 3E071.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Must be current within 3–4 years.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Associate degree strongly encouraged; heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"In-residence or DL. Required for SMSgt.",r:true,c:"PME"},
+    {n:"Associate Degree or Higher",d:"CCAF or accredited institution — MANDATORY for E-8.",r:true,c:"administrative"},
+    {n:"7- or 9-Skill Level",d:"Must hold craftsman or superintendent skill level.",r:true,c:"administrative"},
+    {n:"24 mo TIG / 11 yrs TIS",d:"Time-in-grade and time-in-service requirements.",r:true,c:"administrative"}
+  ]}
+}},
+"3E0X2":{title:"Electrical Power Production",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Level CDCs (5 volumes)",d:"Career Development Courses with EOC exam.",r:true,c:"training"},
+    {n:"CE 5-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"AFIT WMGT 131 — SMS BUILDER",d:"Sustainment Management System Level 1.",r:true,c:"training"},
+    {n:"AFIT WMGT 301 — Intro to Asset Mgmt",d:"Asset management fundamentals.",r:true,c:"training"},
+    {n:"AFIT WENG 170 — Cybersecurity for Control Systems",d:"Control systems cybersecurity basics.",r:true,c:"training"},
+    {n:"5-Level Core & Diamond Task Certification",d:"Generator ops, maintenance, arresting systems — all certified.",r:true,c:"training"},
+    {n:"12 Months OJT",d:"Minimum on-the-job training period.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"Valid State Driver's License",d:"Government vehicle operation.",r:true,c:"administrative"},
+    {n:"Normal Color Vision",d:"Required for electrical/wiring work.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"Power Production Craftsman Course",d:"Formal 7-level course at Sheppard AFB.",r:true,c:"training"},
+    {n:"CE 7-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"7-Level Core & Diamond Task Certification",d:"Supervision of generator ops, arresting system management.",r:true,c:"training"},
+    {n:"Aircraft Arresting System Certification",d:"BAK-12/14 and MA-1A systems proficiency.",r:true,c:"training"},
+    {n:"Must hold AFSC 3E052",d:"Journeyman AFSC required.",r:true,c:"administrative"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"AFIT WMGT 437 — Troop Construction PM",d:"Required for MSgt promotion.",r:true,c:"training"},
+    {n:"7-Level Skill Maintained",d:"Must hold 3E072.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Current within 3–4 years.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Encouraged, heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"Associate Degree or Higher",d:"MANDATORY for E-8.",r:true,c:"administrative"},
+    {n:"7- or 9-Skill Level",d:"Craftsman or Superintendent.",r:true,c:"administrative"},
+    {n:"24 mo TIG / 11 yrs TIS",d:"Time requirements.",r:true,c:"administrative"}
+  ]}
+}},
+"3E1X1":{title:"HVAC/R",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Level CDCs (5 volumes)",d:"Career Development Courses + EOC exam.",r:true,c:"training"},
+    {n:"CE 5-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"AFIT WMGT 131 — SMS BUILDER",d:"Sustainment Management System Level 1.",r:true,c:"training"},
+    {n:"AFIT WMGT 301 — Intro to Asset Mgmt",d:"Asset management fundamentals.",r:true,c:"training"},
+    {n:"AFIT WENG 170 — Cybersecurity for Control Systems",d:"Control systems cybersecurity.",r:true,c:"training"},
+    {n:"EPA Section 608 Certification (Universal)",d:"Federal requirement for handling regulated refrigerants. Obtained in tech school — does not expire.",r:true,c:"certification"},
+    {n:"5-Level Core & Diamond Task Certification",d:"HVAC/R system installation, maintenance, repair, troubleshooting.",r:true,c:"training"},
+    {n:"12 Months OJT",d:"Minimum on-the-job training.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"Valid State Driver's License",d:"Government vehicle operation.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"HVAC/R Craftsman Course (J3ACR3E171 00AC)",d:"Formal 7-level course at Sheppard AFB, 366th TRS.",r:true,c:"training"},
+    {n:"CE 7-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"7-Level Core & Diamond Task Certification",d:"Facility design review, psychrometric procedures, advanced troubleshooting.",r:true,c:"training"},
+    {n:"EPA 608 Certification Maintained",d:"Already obtained — must remain current on practices.",r:true,c:"certification"},
+    {n:"Must hold AFSC 3E151",d:"Journeyman AFSC required.",r:true,c:"administrative"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"AFIT WMGT 437 — Troop Construction PM",d:"Required for MSgt promotion.",r:true,c:"training"},
+    {n:"7-Level Skill Maintained",d:"Must hold 3E171.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Current within 3–4 years.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Encouraged, heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"Associate Degree or Higher",d:"MANDATORY for E-8.",r:true,c:"administrative"},
+    {n:"7- or 9-Skill Level",d:"Craftsman or Superintendent.",r:true,c:"administrative"},
+    {n:"24 mo TIG / 11 yrs TIS",d:"Time requirements.",r:true,c:"administrative"}
+  ]}
+}},
+"3E2X1":{title:"Pavements & Construction Equipment",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Level CDCs",d:"AFSC-specific Career Development Courses + EOC exam.",r:true,c:"training"},
+    {n:"CE 5-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"AFIT WMGT 131 — SMS BUILDER",d:"Sustainment Management System Level 1.",r:true,c:"training"},
+    {n:"AFIT WMGT 301 — Intro to Asset Mgmt",d:"Asset management fundamentals.",r:true,c:"training"},
+    {n:"AFIT WENG 170 — Cybersecurity for Control Systems",d:"Control systems cybersecurity.",r:true,c:"training"},
+    {n:"5-Level Core & Diamond Task Certification",d:"Heavy equipment operation, pavement construction/repair.",r:true,c:"training"},
+    {n:"Crane Operations Training",d:"Load chart interpretation, hand signals, safety requirements.",r:true,c:"training"},
+    {n:"Heavy Equipment Operator Certification",d:"OJT-based qualification on dozers, graders, loaders, rollers, excavators.",r:true,c:"certification"},
+    {n:"12 Months OJT",d:"Minimum on-the-job training.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"Valid State Driver's License",d:"Government vehicle operation.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"Pavements & CE Craftsman Course",d:"Formal 7-level school.",r:true,c:"training"},
+    {n:"CE 7-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"7-Level Core & Diamond Task Certification",d:"Supervisory tasks, advanced equipment ops, project oversight.",r:true,c:"training"},
+    {n:"Must hold AFSC 3E251",d:"Journeyman AFSC required.",r:true,c:"administrative"},
+    {n:"NCCCO Crane Operator Certification",d:"National certification — not AF-mandated but highly valued.",r:false,c:"certification"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"AFIT WMGT 437 — Troop Construction PM",d:"Required for MSgt promotion.",r:true,c:"training"},
+    {n:"7-Level Skill Maintained",d:"Must hold 3E271.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Current within 3–4 years.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Encouraged, heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"Associate Degree or Higher",d:"MANDATORY for E-8.",r:true,c:"administrative"},
+    {n:"7- or 9-Skill Level",d:"Craftsman or Superintendent.",r:true,c:"administrative"},
+    {n:"24 mo TIG / 11 yrs TIS",d:"Time requirements.",r:true,c:"administrative"}
+  ]}
+}},
+"3E3X1":{title:"Structural",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Level CDCs",d:"AFSC-specific Career Development Courses + EOC exam.",r:true,c:"training"},
+    {n:"CE 5-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"AFIT WMGT 131 — SMS BUILDER",d:"Sustainment Management System Level 1.",r:true,c:"training"},
+    {n:"AFIT WMGT 301 — Intro to Asset Mgmt",d:"Asset management fundamentals.",r:true,c:"training"},
+    {n:"AFIT WENG 170 — Cybersecurity for Control Systems",d:"Control systems cybersecurity.",r:true,c:"training"},
+    {n:"5-Level Core & Diamond Task Certification",d:"Building construction/repair, masonry, metal fabrication, welding.",r:true,c:"training"},
+    {n:"Welding Qualification (SMAW/MIG/TIG)",d:"Per AWS D1.1 standards. Core skill in OJT.",r:true,c:"certification"},
+    {n:"12 Months OJT",d:"Minimum on-the-job training.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"Valid State Driver's License",d:"Government vehicle operation.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"Structural Craftsman Course",d:"Formal 7-level course (AETC).",r:true,c:"training"},
+    {n:"CE 7-Level Common Core Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"7-Level Core & Diamond Task Certification",d:"Supervisory tasks, advanced construction project oversight.",r:true,c:"training"},
+    {n:"Must hold AFSC 3E351",d:"Journeyman AFSC required.",r:true,c:"administrative"},
+    {n:"Advanced Welding Certifications",d:"Additional welding processes/positions. AWS D1.1 valued.",r:false,c:"certification"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"AFIT WMGT 437 — Troop Construction PM",d:"Required for MSgt promotion.",r:true,c:"training"},
+    {n:"7-Level Skill Maintained",d:"Must hold 3E371.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Current within 3–4 years.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Encouraged, heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"Associate Degree or Higher",d:"MANDATORY for E-8.",r:true,c:"administrative"},
+    {n:"7- or 9-Skill Level",d:"Craftsman or Superintendent.",r:true,c:"administrative"},
+    {n:"24 mo TIG / 11 yrs TIS",d:"Time requirements.",r:true,c:"administrative"}
+  ]}
+}},
+"3E4X1":{title:"Water & Fuel Systems",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Skill Level (Journeyman) — AFSC 3E451",d:"Complete all 5-level core tasks and CDCs.",r:true,c:"training"},
+    {n:"Career Development Courses (8 volumes)",d:"4 on plumbing, 4 on liquid fuels. Must pass EOC exams.",r:true,c:"training"},
+    {n:"CE 5-Level Core Concepts (myLearning)",d:"Web-based CE common core course.",r:true,c:"training"},
+    {n:"Silver Flag Exercise",d:"Contingency skills training at Tyndall AFB. Required every 4 years.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"Valid State Driver's License",d:"Government vehicle operation.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"7-Skill Level (Craftsman) — AFSC 3E471",d:"Complete all 7-level core/diamond tasks. No in-residence craftsman school for this AFSC.",r:true,c:"training"},
+    {n:"CE 7-Level Core Concepts Course",d:"Web-based on myLearning. Serves as 7-level course for 3E4X1.",r:true,c:"training"},
+    {n:"7-Level Core & Diamond Task Certification",d:"100% core AND 100% diamond (contingency/wartime) tasks.",r:true,c:"training"},
+    {n:"Silver Flag Currency",d:"Must maintain within 4 years.",r:true,c:"training"},
+    {n:"Backflow Prevention Certification",d:"Strongly encouraged. Beneficial for career development.",r:false,c:"certification"},
+    {n:"Water/Wastewater Operator Training",d:"Advanced training — state licenses not auto-conferred.",r:false,c:"certification"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"7-Skill Level Maintenance",d:"Must hold AFSC 3E471.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Must maintain.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Strongly encouraged; heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"9-Skill Level (Superintendent) — AFSC 3E491",d:"Awarded upon promotion to SMSgt.",r:true,c:"training"},
+    {n:"CCAF or Higher Degree (Mandatory)",d:"Associate or higher required by promotion eligibility cutoff.",r:true,c:"administrative"}
+  ]}
+}},
+"3E4X3":{title:"Pest Management",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Skill Level (Journeyman) — AFSC 3E453",d:"Complete all 5-level core tasks and CDCs.",r:true,c:"training"},
+    {n:"Career Development Courses (CDCs)",d:"Pest management operations, pesticide safety, IPM principles.",r:true,c:"training"},
+    {n:"DoD Pesticide Applicator Certification — Initial",d:"3-week (120-hour) certification under DoDI 4150.07. Required for 5-level retention.",r:true,c:"certification"},
+    {n:"Silver Flag Exercise",d:"CE contingency training. Required every 4 years.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"AFQTP/Web-Based Courses",d:"AF Qualification Training Packages for skill enhancement.",r:true,c:"training"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"7-Skill Level (Craftsman) — AFSC 3E473",d:"Complete all 7-level core/diamond tasks.",r:true,c:"training"},
+    {n:"CE 7-Level Core Concepts Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"DoD Pesticide Applicator Recertification",d:"1-week (40-hour) recertification. Required for skill level retention.",r:true,c:"certification"},
+    {n:"Silver Flag Currency",d:"Must maintain within 4 years.",r:true,c:"training"},
+    {n:"Operational Entomology Training",d:"Prioritized for mobility positions. Advanced entomological knowledge.",r:false,c:"training"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"7-Skill Level Maintenance",d:"Must hold AFSC 3E473.",r:true,c:"administrative"},
+    {n:"DoD Pesticide Applicator Certification Currency",d:"Must maintain current certification throughout career.",r:true,c:"certification"},
+    {n:"Silver Flag Currency",d:"Must maintain.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Strongly encouraged; heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"9-Skill Level (Superintendent) — AFSC 3E493",d:"Awarded upon promotion to SMSgt.",r:true,c:"training"},
+    {n:"CCAF or Higher Degree (Mandatory)",d:"Associate or higher required by cutoff date.",r:true,c:"administrative"},
+    {n:"DoD Pesticide Applicator Certification Currency",d:"Must maintain current certification.",r:true,c:"certification"}
+  ]}
+}},
+"3E5X1":{title:"Engineering",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Skill Level (Journeyman) — AFSC 3E551",d:"Complete all 5-level core tasks and CDCs. GeoBase, CAD/drafting, surveying.",r:true,c:"training"},
+    {n:"Career Development Courses (2 sets, 7 volumes)",d:"Set 1: engineering design, surveying. Set 2: GeoBase, contingency engineering.",r:true,c:"training"},
+    {n:"CE 5-Level Core Concepts (myLearning)",d:"Web-based CE common core course.",r:true,c:"training"},
+    {n:"Silver Flag Exercise",d:"CE contingency training. Engineering specialists key in ADR.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"},
+    {n:"Security Clearance — Secret",d:"Must hold/maintain. Some positions require higher.",r:true,c:"administrative"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"7-Skill Level (Craftsman) — AFSC 3E571",d:"Complete all 7-level core/diamond tasks. In-residence school at Ft. Leonard Wood.",r:true,c:"training"},
+    {n:"7-Level Craftsman Course (Ft. Leonard Wood)",d:"In-residence course. Advanced engineering, project management, construction inspection.",r:true,c:"training"},
+    {n:"CE 7-Level Core Concepts Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"Silver Flag Currency",d:"Must maintain.",r:true,c:"training"},
+    {n:"Construction Surveying Course",d:"Advanced surveying training. Strongly encouraged.",r:false,c:"training"},
+    {n:"Advanced GIS Training",d:"Strongly encouraged for GeoBase positions.",r:false,c:"training"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"7-Skill Level Maintenance",d:"Must hold AFSC 3E571.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Must maintain.",r:true,c:"training"},
+    {n:"CCAF Degree",d:"Construction Technology. Heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"9-Skill Level (Superintendent) — AFSC 3E591",d:"Awarded upon promotion to SMSgt.",r:true,c:"training"},
+    {n:"CCAF or Higher Degree (Mandatory)",d:"Associate or higher required by cutoff date.",r:true,c:"administrative"}
+  ]}
+}},
+"3E7X1":{title:"Fire Protection",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Skill Level (Journeyman) — AFSC 3E751",d:"All 5-level CDC/certification courses and OJT. Fire Protection CDCs are certification-based modules.",r:true,c:"training"},
+    {n:"DoD Firefighter I Certification",d:"IFSAC/ProBoard per NFPA 1001. Prerequisite for all subsequent certs.",r:true,c:"certification"},
+    {n:"DoD Firefighter II Certification",d:"IFSAC/ProBoard per NFPA 1001. Required for all operational positions.",r:true,c:"certification"},
+    {n:"DoD HazMat Awareness Certification",d:"IFSAC/ProBoard per NFPA 1072. Required for all operational positions.",r:true,c:"certification"},
+    {n:"DoD HazMat Operations w/ MSC (PPE & Product Control)",d:"IFSAC/ProBoard per NFPA 1072. Includes mission-specific competencies.",r:true,c:"certification"},
+    {n:"DoD Airport Firefighter Certification",d:"IFSAC/ProBoard per NFPA 1003. Required at installations with flying mission.",r:false,c:"certification",cn:"Required only at installations with a flying mission"},
+    {n:"DoD Driver/Operator — Pumper",d:"IFSAC/ProBoard per NFPA 1002. Minimum D/O cert for all Driver/Operators.",r:true,c:"certification"},
+    {n:"DoD Driver/Operator — ARFF",d:"IFSAC/ProBoard per NFPA 1002. Required at installations with aircraft mission.",r:false,c:"certification",cn:"Required at installations with aircraft firefighting mission"},
+    {n:"Fire Officer I Certification",d:"IFSAC/ProBoard per NFPA 1021. KEY cert for E-5 — required for Crew Chief position.",r:true,c:"certification"},
+    {n:"Fire Instructor I Certification",d:"IFSAC/ProBoard per NFPA 1041. Required for Crew Chief/Lead Firefighter.",r:true,c:"certification"},
+    {n:"Fire Inspector I Certification",d:"IFSAC/ProBoard per NFPA 1031. Required for Crew Chief/Lead Firefighter.",r:true,c:"certification"},
+    {n:"First Aid Provider (FAP) Certification",d:"Required for all operational firefighter positions.",r:true,c:"certification"},
+    {n:"CPR Certification",d:"Minimum medical training required for ALL F&ES personnel.",r:true,c:"certification"},
+    {n:"National Registry Emergency Medical Responder (NREMR)",d:"Required for all F&ES personnel below Assistant Chief per DAFI 32-2001.",r:true,c:"certification"},
+    {n:"NFPA 1582 Medical Examination",d:"All F&ES personnel must meet medical qualification. Must be current.",r:true,c:"administrative"},
+    {n:"SCBA Fit Test",d:"Annual Self-Contained Breathing Apparatus fit test.",r:true,c:"administrative"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion. AFRC may complete DL.",r:true,c:"PME"},
+    {n:"On-the-Job Training (OJT) Program",d:"All core task OJT items in CFETP 3E7X1 for 5-level.",r:true,c:"training"},
+    {n:"Deployment Dispatching Training",d:"Military 3E7X1 trained for deployment dispatching per DAFI 32-2001.",r:true,c:"training"},
+    {n:"AF PPE Multimedia Training Course",d:"One-time training for all F&ES Flight members.",r:true,c:"training"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"7-Skill Level (Craftsman) — AFSC 3E771",d:"All 7-level DoD F&ES certification courses. No traditional Craftsman Course — earned through progressive certs.",r:true,c:"training"},
+    {n:"Fire Officer II Certification",d:"IFSAC/ProBoard per NFPA 1021. KEY new cert for E-6 — required for Station Chief position.",r:true,c:"certification"},
+    {n:"HazMat Incident Commander Certification",d:"IFSAC/ProBoard per NFPA 1072. Required for Station Chief and all above.",r:true,c:"certification"},
+    {n:"All Crew Chief/Lead Firefighter Certs (Prerequisite)",d:"Must hold all previous certs: FF I/II, HazMat, FO I, FI I, FInsp I, D/O certs.",r:true,c:"certification"},
+    {n:"NREMR Maintained",d:"Must maintain current NREMR certification.",r:true,c:"certification"},
+    {n:"NFPA 1582 Medical Examination",d:"Must maintain current medical qualification.",r:true,c:"administrative"},
+    {n:"7-Level Certification Courses",d:"DoD F&ES courses at Goodfellow AFB or home station.",r:true,c:"training"},
+    {n:"OJT — 7-Level",d:"All 7-level core tasks in CFETP 3E7X1 certified.",r:true,c:"training"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"7-Skill Level (Craftsman) Held",d:"Must hold AFSC 3E771.",r:true,c:"administrative"},
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion. AFRC may do DL.",r:true,c:"PME"},
+    {n:"CCAF Degree",d:"A.S. Fire Science required for E-7 promotion. Must be in MilPDS.",r:true,c:"administrative"},
+    {n:"Fire Officer III Certification",d:"IFSAC/ProBoard per NFPA 1021. Required for Asst Chief for Ops — typical E-7 position.",r:true,c:"certification"},
+    {n:"Fire Instructor II Certification",d:"IFSAC/ProBoard per NFPA 1041. Required for Asst Chief for Ops.",r:true,c:"certification"},
+    {n:"Fire Inspector II Certification",d:"IFSAC/ProBoard per NFPA 1031. Advanced fire prevention inspection.",r:true,c:"certification"},
+    {n:"HazMat Incident Commander Maintained",d:"Must maintain from Station Chief level.",r:true,c:"certification"},
+    {n:"All Station Chief Certs (Prerequisite)",d:"Must hold all previous position-level certifications.",r:true,c:"certification"},
+    {n:"NFPA 1582 Medical Examination",d:"Must maintain current medical qualification.",r:true,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"9-Skill Level Pathway — AFSC 3E791",d:"Working toward or awarded Superintendent. Typically awarded at E-8.",r:true,c:"training"},
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt. AFRC may do DL.",r:true,c:"PME"},
+    {n:"CCAF Degree Maintained",d:"Must have CCAF on record. Required since E-7.",r:true,c:"administrative"},
+    {n:"Fire Officer IV Certification",d:"IFSAC/ProBoard per NFPA 1021. Highest FO cert — required for Fire Chief position.",r:true,c:"certification"},
+    {n:"All Asst Chief for Ops Certs (Prerequisite)",d:"Must hold FO I/II/III, FI I/II, FInsp I/II, HazMat IC, all base certs.",r:true,c:"certification"},
+    {n:"HazMat Incident Commander Maintained",d:"Required at all levels from Station Chief up.",r:true,c:"certification"},
+    {n:"NFPA 1582 Medical Examination",d:"Must maintain if in operational role.",r:true,c:"administrative"}
+  ]}
+}},
+"3E8X1":{title:"Explosive Ordnance Disposal",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Skill Level (Journeyman) — AFSC 3E851",d:"Complete all 5-level core and diamond tasks (100%). No minimum OJT time specified.",r:true,c:"training"},
+    {n:"Career Development Courses (CDCs)",d:"EOD-specific: ordnance identification, render safe, WMD response, IED defeat.",r:true,c:"training"},
+    {n:"Basic EOD Badge",d:"Awarded upon NAVSCOLEOD graduation. Must maintain. Joint-service badge.",r:true,c:"certification"},
+    {n:"EOD Proficiency Training",d:"Continuous proficiency on render safe procedures, range clearance.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"7-Skill Level (Craftsman) — AFSC 3E871",d:"Complete all 7-level core/diamond tasks. Team leader and flight-level supervisor.",r:true,c:"training"},
+    {n:"Senior EOD Badge",d:"Requires 36 months in EOD, E-5 rank, 7-skill level.",r:true,c:"certification"},
+    {n:"CE 7-Level Core Concepts Course",d:"Web-based on myLearning (CE-common).",r:true,c:"training"},
+    {n:"EOD Proficiency Certification",d:"Annual certification including live-fire and render safe evaluation.",r:true,c:"certification"},
+    {n:"EOD Advanced Training",d:"Advanced IED Defeat, WMD response, Nuclear Emergency Team Ops.",r:false,c:"training"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"7-Skill Level Maintenance",d:"Must hold AFSC 3E871.",r:true,c:"administrative"},
+    {n:"EOD Proficiency Certification Currency",d:"Must maintain current certification.",r:true,c:"certification"},
+    {n:"Master EOD Badge Eligibility",d:"Requires Senior badge, 7 years in EOD, MSgt rank. Highest EOD expertise.",r:false,c:"certification"},
+    {n:"CCAF Degree",d:"Explosive Ordnance Technology. Heavily weighted by boards.",r:false,c:"administrative"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"9-Skill Level (Superintendent) — AFSC 3E891",d:"Awarded upon promotion to SMSgt.",r:true,c:"training"},
+    {n:"CCAF or Higher Degree (Mandatory)",d:"Associate or higher required.",r:true,c:"administrative"},
+    {n:"Master EOD Badge",d:"Expected at this level.",r:false,c:"certification"}
+  ]}
+}},
+"3E9X1":{title:"Emergency Management",transitions:{
+  E4_to_E5:{reqs:[
+    {n:"5-Skill Level (Journeyman) — AFSC 3E951",d:"Complete all 5-level core tasks and CDCs. CBRN response, EM operations.",r:true,c:"training"},
+    {n:"Career Development Courses (4 volumes)",d:"EM operations, CBRN warfare, disaster response, control center ops.",r:true,c:"training"},
+    {n:"FEMA IS-100: Introduction to ICS",d:"Incident Command System. Mandatory for 5-level.",r:true,c:"certification"},
+    {n:"FEMA IS-200: Basic ICS for Initial Response",d:"Mandatory for 5-level upgrade.",r:true,c:"certification"},
+    {n:"FEMA IS-700: NIMS Introduction",d:"National Incident Management System. Mandatory.",r:true,c:"certification"},
+    {n:"FEMA IS-800: National Response Framework",d:"Mandatory for 5-level upgrade.",r:true,c:"certification"},
+    {n:"HAZMAT Technician Certification Maintenance",d:"Maintain cert from tech school. Annual refresher required.",r:true,c:"certification"},
+    {n:"Instructor Certification",d:"EM personnel are qualified CBRN instructors. Must maintain.",r:true,c:"certification"},
+    {n:"Silver Flag Exercise",d:"CE contingency training. EM focus on CBRN management.",r:true,c:"training"},
+    {n:"Airman Leadership School (ALS)",d:"PME required for SSgt promotion.",r:true,c:"PME"}
+  ]},
+  E5_to_E6:{reqs:[
+    {n:"7-Skill Level (Craftsman) — AFSC 3E971",d:"Complete all 7-level core/diamond tasks and in-residence Craftsman Course.",r:true,c:"training"},
+    {n:"7-Level EM Craftsman Course (Ft. Leonard Wood)",d:"2-week in-residence. Advanced EM operations, planning, program management.",r:true,c:"training"},
+    {n:"CE 7-Level Core Concepts Course",d:"Web-based on myLearning.",r:true,c:"training"},
+    {n:"Silver Flag Currency",d:"Must maintain.",r:true,c:"training"},
+    {n:"HAZMAT Technician Certification Currency",d:"Must maintain current certification.",r:true,c:"certification"},
+    {n:"FEMA ICS-300/400",d:"Advanced ICS courses. Strongly recommended for SSgt/TSgt.",r:false,c:"certification"}
+  ]},
+  E6_to_E7:{reqs:[
+    {n:"NCO Academy (NCOA)",d:"Required for MSgt promotion.",r:true,c:"PME"},
+    {n:"7-Skill Level Maintenance",d:"Must hold AFSC 3E971. Transitioning to EM program oversight focus.",r:true,c:"administrative"},
+    {n:"Silver Flag Currency",d:"Must maintain.",r:true,c:"training"},
+    {n:"Certified Emergency Manager (CEM) Eligibility",d:"Typically eligible at MSgt. Full EM transition.",r:false,c:"certification"},
+    {n:"CCAF Degree",d:"Emergency Management. Heavily weighted by boards.",r:false,c:"administrative"},
+    {n:"FEMA Professional Development Series",d:"IS-120 through IS-244. Strongly recommended.",r:false,c:"certification"}
+  ]},
+  E7_to_E8:{reqs:[
+    {n:"Senior NCO Academy (SNCOA)",d:"Required for SMSgt.",r:true,c:"PME"},
+    {n:"9-Skill Level (Superintendent) — AFSC 3E991",d:"Awarded upon promotion to SMSgt.",r:true,c:"training"},
+    {n:"CCAF or Higher Degree (Mandatory)",d:"Associate or higher required.",r:true,c:"administrative"}
+  ]}
+}}
+};
+
+// ===== DOM READY =====
+document.addEventListener('DOMContentLoaded', function() {
+  buildScoringItems();
+  loadState();
+  document.getElementById('worksheetDate').valueAsDate = new Date();
+  updateAll();
+  // attach listeners
+  document.getElementById('currentRank').addEventListener('change', function(){ updateAll(); saveState(); });
+  document.getElementById('afsc').addEventListener('change', function(){ updateAll(); saveState(); });
+  document.getElementById('memberName').addEventListener('input', saveState);
+  document.getElementById('supervisorName').addEventListener('input', saveState);
+  document.getElementById('worksheetDate').addEventListener('change', saveState);
+  // event delegation for score controls
+  document.body.addEventListener('change', function(e) {
+    if (e.target.matches('.score-control input[type="radio"]') || e.target.matches('.behav-input')) {
+      updateAll();
+      saveState();
+    }
+    if (e.target.matches('.afsc-req-check')) {
+      saveState();
+    }
   });
+  // nav link scrolling
+  document.querySelectorAll('.nav-link').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.getElementById(a.dataset.target || a.getAttribute('href').slice(1));
+      if (target) {
+        var header = target.querySelector('.section-header');
+        if (header && header.getAttribute('aria-expanded') === 'false') toggleSection(header);
+        target.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+  });
+});
 
-  document.getElementById('integrityTotal').textContent = sections.integrity + ' / 24';
-  document.getElementById('serviceTotal').textContent = sections.service + ' / 16';
-  document.getElementById('excellenceTotal').textContent = sections.excellence + ' / 9';
-  document.getElementById('bonusTotal').textContent = sections.bonus + ' / 6';
+// ===== BUILD SCORING ITEMS (Segmented Controls) =====
+function buildScoringItems() {
+  buildSection('integrityBody', INTEGRITY_ITEMS);
+  buildSection('serviceBody', SERVICE_ITEMS);
+  buildSection('excellenceBody', EXCELLENCE_ITEMS);
+  buildBonusSection();
+  buildBehavioralSection();
+}
 
-  const grand = sections.integrity + sections.service + sections.excellence + sections.bonus;
-  document.getElementById('grandTotal').textContent = grand + ' / 48';
-  document.getElementById('printScore').textContent = grand;
+function buildSection(containerId, items) {
+  var c = document.getElementById(containerId);
+  var html = '';
+  items.forEach(function(item, i) {
+    html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text;
+    if (item.hint) html += '<span class="item-hint">' + item.hint + '</span>';
+    html += '</span></div>';
+    html += buildScoreControl(item.id, item.max);
+    html += '<span class="score-print-value">—</span></div>';
+  });
+  c.innerHTML = html;
+}
 
+function buildScoreControl(name, max, values) {
+  var vals = values || [];
+  if (!vals.length) for (var i = 0; i <= max; i++) vals.push(i);
+  var cls = 'score-control scale-' + vals.length;
+  var html = '<fieldset class="' + cls + '" role="radiogroup" data-max="' + max + '">';
+  vals.forEach(function(v) {
+    html += '<input type="radio" name="' + name + '" value="' + v + '" id="' + name + '-' + v + '" class="sr-only">';
+    html += '<label for="' + name + '-' + v + '">' + v + '</label>';
+  });
+  html += '</fieldset>';
+  return html;
+}
+
+function buildBonusSection() {
+  var c = document.getElementById('bonusBody');
+  var html = '';
+  BONUS_ITEMS.forEach(function(item, i) {
+    html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text + '</span></div>';
+    html += buildScoreControl(item.id, item.max, item.values);
+    html += '<span class="score-print-value">—</span></div>';
+  });
+  c.innerHTML = html;
+}
+
+function buildBehavioralSection() {
+  var c = document.getElementById('behavioralBody');
+  var html = '';
+  BEHAVIORAL_ITEMS.forEach(function(item, i) {
+    html += '<div class="scoring-item"><div class="item-label"><span class="item-number">' + String.fromCharCode(97+i) + '.</span><span>' + item.text + '</span></div>';
+    html += '<fieldset class="score-control scale-2w" role="radiogroup">';
+    html += '<input type="radio" name="' + item.id + '" value="Y" id="' + item.id + '-Y" class="sr-only behav-input"><label for="' + item.id + '-Y">Y</label>';
+    html += '<input type="radio" name="' + item.id + '" value="N" id="' + item.id + '-N" class="sr-only behav-input"><label for="' + item.id + '-N">N</label>';
+    html += '</fieldset>';
+    html += '<span class="score-print-value">—</span></div>';
+  });
+  c.innerHTML = html;
+}
+
+// ===== UPDATE ALL =====
+function updateAll() {
+  var scores = calcScores();
+  updateSectionDisplay('integrity', scores.integrity, 24, INTEGRITY_ITEMS.length, scores.integrityDone);
+  updateSectionDisplay('service', scores.service, 16, SERVICE_ITEMS.length, scores.serviceDone);
+  updateSectionDisplay('excellence', scores.excellence, 9, EXCELLENCE_ITEMS.length, scores.excellenceDone);
+  updateSectionDisplay('bonus', scores.bonus, 6, BONUS_ITEMS.length, scores.bonusDone);
+  var grand = scores.integrity + scores.service + scores.excellence + scores.bonus;
+  var totalDone = scores.integrityDone + scores.serviceDone + scores.excellenceDone + scores.bonusDone;
+  var totalItems = INTEGRITY_ITEMS.length + SERVICE_ITEMS.length + EXCELLENCE_ITEMS.length + BONUS_ITEMS.length;
+  // nav
+  var e = document.getElementById;
+  document.getElementById('navIntegrity').textContent = scores.integrity + '/24';
+  document.getElementById('navService').textContent = scores.service + '/16';
+  document.getElementById('navExcellence').textContent = scores.excellence + '/9';
+  document.getElementById('navBonus').textContent = scores.bonus + '/6';
+  document.getElementById('navGrandTotal').textContent = grand;
+  // mobile
+  document.getElementById('mobileTotal').textContent = grand;
+  // global progress
+  document.getElementById('globalProgress').style.width = (totalDone / totalItems * 100) + '%';
+  // behavioral completion
+  var behavDone = 0;
+  BEHAVIORAL_ITEMS.forEach(function(item) {
+    if (document.querySelector('input[name="' + item.id + '"]:checked')) behavDone++;
+  });
+  document.getElementById('behavComp').textContent = behavDone + '/3';
+  // threshold
   updateThreshold(grand);
+  // promoting to
+  updatePromotingTo();
+  // afsc requirements
+  updateAfscRequirements();
+  // print values
+  updatePrintValues(scores, grand);
+}
+
+function calcScores() {
+  var r = {integrity:0,service:0,excellence:0,bonus:0,integrityDone:0,serviceDone:0,excellenceDone:0,bonusDone:0};
+  function sumSection(items, key) {
+    items.forEach(function(item) {
+      var checked = document.querySelector('input[name="' + item.id + '"]:checked');
+      if (checked) { r[key] += parseInt(checked.value); r[key+'Done']++; }
+    });
+  }
+  sumSection(INTEGRITY_ITEMS, 'integrity');
+  sumSection(SERVICE_ITEMS, 'service');
+  sumSection(EXCELLENCE_ITEMS, 'excellence');
+  sumSection(BONUS_ITEMS, 'bonus');
+  return r;
+}
+
+function updateSectionDisplay(section, score, max, total, done) {
+  document.getElementById(section + 'Score').textContent = score + ' / ' + max;
+  document.getElementById(section + 'Bar').style.width = (score / max * 100) + '%';
+  document.getElementById(section + 'Comp').textContent = done + '/' + total;
+}
+
+function updatePromotingTo() {
+  var rank = document.getElementById('currentRank').value;
+  var el = document.getElementById('promotingTo');
+  if (rank && RANK_MAP[rank]) {
+    el.textContent = RANK_MAP[rank].next;
+  } else {
+    el.textContent = 'Select rank above';
+  }
 }
 
 function updateThreshold(score) {
-  const rank = document.getElementById('currentRank').value;
-  const container = document.getElementById('thresholdContent');
-
-  const thresholds = {
-    'SrA':   { next: 'SSgt (E-5)', min: null, pep: null, note: 'Local worksheet scoring applies E-6 and above.' },
-    'SSgt':  { next: 'TSgt (E-6)',  min: 26, pep: 32 },
-    'TSgt':  { next: 'MSgt (E-7)',  min: 32, pep: 38 },
-    'MSgt':  { next: 'SMSgt (E-8)', min: 38, pep: 44 },
-    'SMSgt': { next: 'CMSgt (E-9)', min: null, pep: null, note: 'CMSgt promotion is board-selected at HHQ level.' }
-  };
-
-  if (!rank || !thresholds[rank] || thresholds[rank].min === null) {
-    const note = (thresholds[rank] && thresholds[rank].note) || 'Select a rank (SSgt–MSgt) to see promotion thresholds.';
-    container.innerHTML = '<p class="threshold-status status-na">' + note + '</p>';
+  var rank = document.getElementById('currentRank').value;
+  var container = document.getElementById('thresholdBody');
+  var mobile = document.getElementById('mobileThreshold');
+  if (!rank || !THRESHOLDS[rank]) {
+    var msg = 'Select a rank (SSgt\u2013MSgt) to see promotion thresholds.';
+    if (rank === 'E4') msg = 'Local worksheet thresholds apply E-5 (TSgt) and above.';
+    if (rank === 'E8') msg = 'CMSgt promotion is board-selected at HHQ level.';
+    container.innerHTML = '<p class="threshold-status status-na">' + msg + '</p>';
+    mobile.textContent = '';
+    mobile.style.background = 'transparent';
     return;
   }
-
-  const t = thresholds[rank];
-  const pct = Math.min((score / 48) * 100, 100);
-  const minPct = (t.min / 48) * 100;
-  const pepPct = (t.pep / 48) * 100;
-
-  let color, statusClass, statusText;
+  var t = THRESHOLDS[rank];
+  var pct = Math.min((score / 48) * 100, 100);
+  var minPct = (t.min / 48) * 100;
+  var pepPct = (t.pep / 48) * 100;
+  var color, statusClass, statusText, mobileText;
   if (score >= t.pep) {
-    color = 'var(--green)';
-    statusClass = 'status-green';
-    statusText = '✓ Score ' + score + '/48 — Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
+    color = 'var(--score-3)'; statusClass = 'status-green';
+    statusText = '\u2713 Score ' + score + '/48 \u2014 Meets ' + t.next + ' PEP threshold (' + t.pep + '). Strong candidate.';
+    mobileText = 'PEP'; mobile.style.background = '#2e6e2e'; mobile.style.color = '#fff';
   } else if (score >= t.min) {
-    color = 'var(--yellow)';
-    statusClass = 'status-yellow';
-    statusText = '⚠ Score ' + score + '/48 — Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' points below PEP threshold (' + t.pep + ').';
+    color = 'var(--score-1)'; statusClass = 'status-yellow';
+    statusText = '\u26A0 Score ' + score + '/48 \u2014 Meets ' + t.next + ' minimum (' + t.min + ') but ' + (t.pep - score) + ' pts below PEP (' + t.pep + ').';
+    mobileText = 'MIN'; mobile.style.background = '#c05600'; mobile.style.color = '#fff';
   } else {
-    color = 'var(--red)';
-    statusClass = 'status-red';
-    statusText = '✗ Score ' + score + '/48 — Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more points.';
+    color = 'var(--score-0)'; statusClass = 'status-red';
+    statusText = '\u2717 Score ' + score + '/48 \u2014 Below ' + t.next + ' minimum (' + t.min + '). Need ' + (t.min - score) + ' more pts.';
+    mobileText = 'BELOW'; mobile.style.background = '#b50909'; mobile.style.color = '#fff';
   }
-
   container.innerHTML =
-    '<div class="threshold-bar">' +
-      '<div class="threshold-fill" style="width:' + pct + '%;background:' + color + '">' + score + '</div>' +
-    '</div>' +
-    '<div class="threshold-markers">' +
-      '<span>0</span>' +
-      '<span style="position:absolute;left:' + minPct + '%;transform:translateX(-50%)">Min ' + t.min + '</span>' +
-      '<span style="position:absolute;left:' + pepPct + '%;transform:translateX(-50%)">PEP ' + t.pep + '</span>' +
-      '<span>48</span>' +
-    '</div>' +
+    '<div class="threshold-bar"><div class="threshold-fill" style="width:' + pct + '%;background:' + color + '">' + score + '</div></div>' +
+    '<div class="threshold-markers"><span>0</span><span class="threshold-marker" style="left:' + minPct + '%">Min ' + t.min + '</span><span class="threshold-marker" style="left:' + pepPct + '%">PEP ' + t.pep + '</span><span>48</span></div>' +
     '<div class="threshold-status ' + statusClass + '">' + statusText + '</div>';
-
-  // Fix markers container to relative
-  container.querySelector('.threshold-markers').style.position = 'relative';
+  mobile.textContent = mobileText;
 }
 
-// Attach listeners
-document.querySelectorAll('.score-input').forEach(sel => {
-  sel.addEventListener('change', calculateScores);
-});
-document.getElementById('currentRank').addEventListener('change', calculateScores);
-
-// Toggle behavioral Y/N
-function toggleBehav(btn) {
-  const field = btn.dataset.field;
-  const val = btn.dataset.val;
-  const siblings = btn.parentElement.querySelectorAll('.toggle-btn');
-  siblings.forEach(s => {
-    s.classList.remove('active-yes', 'active-no');
+// ===== AFSC REQUIREMENTS =====
+function updateAfscRequirements() {
+  var rank = document.getElementById('currentRank').value;
+  var afsc = document.getElementById('afsc').value;
+  var section = document.getElementById('afscRequirements');
+  var body = document.getElementById('afscReqBody');
+  var title = document.getElementById('afscReqTitle');
+  if (!rank || !afsc || !RANK_MAP[rank] || !RANK_MAP[rank].transition || !AFSC_DATA[afsc]) {
+    section.style.display = 'none';
+    return;
+  }
+  var transition = RANK_MAP[rank].transition;
+  var data = AFSC_DATA[afsc];
+  var trans = data.transitions[transition];
+  if (!trans) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  title.textContent = afsc + ' ' + data.title + ' \u2014 Requirements for ' + RANK_MAP[rank].next;
+  // Group by category
+  var cats = {};
+  var catOrder = ['certification','PME','training','administrative'];
+  var catLabels = {certification:'Certifications',PME:'Professional Military Education',training:'Training & Skill Level',administrative:'Administrative'};
+  trans.reqs.forEach(function(req) {
+    var cat = req.c || 'training';
+    if (cat === 'course') cat = 'training';
+    if (!cats[cat]) cats[cat] = [];
+    cats[cat].push(req);
   });
-  if (val === 'Y') btn.classList.add('active-yes');
-  else btn.classList.add('active-no');
+  var html = '';
+  catOrder.forEach(function(cat) {
+    if (!cats[cat]) return;
+    html += '<div class="req-category-title">' + (catLabels[cat] || cat) + '</div>';
+    cats[cat].forEach(function(req, i) {
+      var checkId = 'afsc-req-' + transition + '-' + cat + '-' + i;
+      var badge = req.r ? '<span class="req-badge req-badge-required">REQUIRED</span>' : (req.cn ? '<span class="req-badge req-badge-conditional">CONDITIONAL</span>' : '<span class="req-badge req-badge-optional">OPTIONAL</span>');
+      html += '<div class="req-item"><input type="checkbox" class="afsc-req-check" id="' + checkId + '" data-key="' + checkId + '"><div class="req-item-content"><div class="req-item-name">' + req.n + badge + '</div><div class="req-item-desc">' + req.d;
+      if (req.cn) html += ' <em>(' + req.cn + ')</em>';
+      html += '</div></div></div>';
+    });
+  });
+  body.innerHTML = html;
+  // restore checkbox state
+  restoreAfscChecks();
 }
 
-// Print
-function printWorksheet() {
-  // Populate print signature fields
-  document.getElementById('printRatee').textContent = document.getElementById('memberName').value || '';
-  document.getElementById('printRater').textContent = document.getElementById('supervisorName').value || '';
-  document.getElementById('signatureCard').style.display = 'block';
+// ===== ACCORDION =====
+function toggleSection(btn) {
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !expanded);
+}
+function toggleExpandAll() {
+  var btn = document.getElementById('expandAllBtn');
+  var headers = document.querySelectorAll('.section-header');
+  var expanding = btn.textContent.trim().indexOf('Expand') === 0;
+  headers.forEach(function(h) { h.setAttribute('aria-expanded', expanding); });
+  btn.textContent = expanding ? 'Collapse All' : 'Expand All';
+}
+
+// ===== THEME =====
+function toggleTheme() {
+  var html = document.documentElement;
+  var current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  try { localStorage.setItem('ces-theme', html.getAttribute('data-theme')); } catch(e) {}
+}
+(function() {
+  try {
+    var saved = localStorage.getItem('ces-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch(e) {}
+})();
+
+// ===== PRINT =====
+function updatePrintValues(scores, grand) {
+  document.getElementById('ps-integrity').textContent = scores.integrity;
+  document.getElementById('ps-service').textContent = scores.service;
+  document.getElementById('ps-excellence').textContent = scores.excellence;
+  document.getElementById('ps-bonus').textContent = scores.bonus;
+  document.getElementById('ps-grand').textContent = grand;
+  document.getElementById('printName').textContent = document.getElementById('memberName').value || '_______________';
+  document.getElementById('printRank').textContent = document.getElementById('currentRank').value ? RANK_MAP[document.getElementById('currentRank').value].abbr : '_______';
+  document.getElementById('printAfsc').textContent = document.getElementById('afsc').value || '_______';
+  document.getElementById('printDate').textContent = document.getElementById('worksheetDate').value || '_______________';
+}
+function doPrint() {
+  // set print values on all scoring items
+  document.querySelectorAll('.scoring-item').forEach(function(item) {
+    var printVal = item.querySelector('.score-print-value');
+    if (!printVal) return;
+    var checked = item.querySelector('input[type="radio"]:checked');
+    printVal.textContent = checked ? checked.value : '\u2014';
+  });
   window.print();
 }
 
-// Reset
+// ===== LOCAL STORAGE =====
+function saveState() {
+  try {
+    var data = {};
+    // all radio inputs
+    document.querySelectorAll('input[type="radio"]:checked').forEach(function(input) {
+      data[input.name] = input.value;
+    });
+    // text inputs
+    data._memberName = document.getElementById('memberName').value;
+    data._supervisorName = document.getElementById('supervisorName').value;
+    data._currentRank = document.getElementById('currentRank').value;
+    data._afsc = document.getElementById('afsc').value;
+    data._worksheetDate = document.getElementById('worksheetDate').value;
+    // afsc requirement checkboxes
+    document.querySelectorAll('.afsc-req-check:checked').forEach(function(cb) {
+      data['_check_' + cb.dataset.key] = true;
+    });
+    localStorage.setItem('ces934-worksheet', JSON.stringify(data));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem('ces934-worksheet');
+    if (!raw) return;
+    var data = JSON.parse(raw);
+    // text fields
+    if (data._memberName) document.getElementById('memberName').value = data._memberName;
+    if (data._supervisorName) document.getElementById('supervisorName').value = data._supervisorName;
+    if (data._currentRank) document.getElementById('currentRank').value = data._currentRank;
+    if (data._afsc) document.getElementById('afsc').value = data._afsc;
+    if (data._worksheetDate) document.getElementById('worksheetDate').value = data._worksheetDate;
+    // radio inputs
+    Object.keys(data).forEach(function(key) {
+      if (key.charAt(0) === '_') return;
+      var input = document.querySelector('input[name="' + key + '"][value="' + data[key] + '"]');
+      if (input) input.checked = true;
+    });
+  } catch(e) {}
+}
+
+function restoreAfscChecks() {
+  try {
+    var raw = localStorage.getItem('ces934-worksheet');
+    if (!raw) return;
+    var data = JSON.parse(raw);
+    document.querySelectorAll('.afsc-req-check').forEach(function(cb) {
+      if (data['_check_' + cb.dataset.key]) cb.checked = true;
+    });
+  } catch(e) {}
+}
+
+// ===== RESET =====
 function resetForm() {
-  if (!confirm('Reset all fields? This cannot be undone.')) return;
-  document.querySelectorAll('.score-input').forEach(sel => sel.value = '0');
-  document.querySelectorAll('input[type="text"]').forEach(inp => inp.value = '');
-  document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-  document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active-yes', 'active-no'));
-  document.getElementById('flightNotes').value = '';
+  if (!confirm('Reset all fields and scores? This cannot be undone.')) return;
+  document.querySelectorAll('input[type="radio"]').forEach(function(r) { r.checked = false; });
+  document.querySelectorAll('input[type="text"]').forEach(function(r) { r.value = ''; });
+  document.querySelectorAll('.afsc-req-check').forEach(function(r) { r.checked = false; });
   document.getElementById('currentRank').value = '';
   document.getElementById('afsc').value = '';
   document.getElementById('worksheetDate').valueAsDate = new Date();
-  calculateScores();
+  updateAll();
+  saveState();
 }
-
-// Initial calculation
-calculateScores();
+function clearSaved() {
+  if (!confirm('Clear all saved data from this browser? The current form will be preserved.')) return;
+  try { localStorage.removeItem('ces934-worksheet'); } catch(e) {}
+}
 </script>
-
 </body>
 </html>
