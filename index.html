@@ -447,8 +447,8 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
     <p class="header-doc-title">Promotion Eligibility Worksheet</p>
   </div>
   <div class="header-controls">
-    <button class="icon-btn" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#9790;</button>
-    <button class="icon-btn" onclick="doPrint()" title="Print / Save PDF" aria-label="Print">&#9113;</button>
+    <button type="button" class="icon-btn" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#9790;</button>
+    <button type="button" class="icon-btn" onclick="doPrint()" title="Print / Save PDF" aria-label="Print">&#9113;</button>
   </div>
 </header>
 
@@ -467,7 +467,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
     <li><a href="#sec-threshold" data-target="sec-threshold" class="nav-link">Threshold</a></li>
   </ul>
   <div class="nav-total"><span id="navGrandTotal">0</span> / 51<small>Grand Total</small></div>
-  <button class="nav-expand-btn" id="expandAllBtn" onclick="toggleExpandAll()">Expand All</button>
+  <button type="button" class="nav-expand-btn" id="expandAllBtn" onclick="toggleExpandAll()">Expand All</button>
 </nav>
 
 <!-- Main Content -->
@@ -494,13 +494,13 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- MODE TOGGLE (moved before Member Info) -->
 <div class="mode-toggle" id="modeToggle">
-  <button class="active" onclick="setMode('supervisor')">Supervisor Assessment</button>
-  <button onclick="setMode('self')">Self-Assessment</button>
+  <button type="button" class="active" onclick="setMode('supervisor')">Supervisor Assessment</button>
+  <button type="button" onclick="setMode('self')">Self-Assessment</button>
 </div>
 
 <!-- MEMBER INFORMATION -->
 <section class="scoring-section form-section" id="sec-info" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="true" aria-controls="info-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="true" aria-controls="info-content" onclick="toggleSection(this)">
     <span>Member Information</span>
     <span class="chevron">&#9660;</span>
   </button>
@@ -576,7 +576,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- AFSC REQUIREMENTS (dynamic) -->
 <section class="scoring-section" id="afscRequirements" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="afsc-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="afsc-content" onclick="toggleSection(this)">
     <span id="afscReqTitle">AFSC Requirements for Promotion</span>
     <span class="chevron">&#9660;</span>
   </button>
@@ -588,7 +588,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- INTEGRITY FIRST (8 items, 0-3) -->
 <section class="scoring-section" id="sec-integrity" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="integrity-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="integrity-content" onclick="toggleSection(this)">
     <span>Integrity First</span>
     <span class="section-meta">
       <span class="section-score" id="integrityScore" aria-live="polite">0 / 24</span>
@@ -604,7 +604,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- SERVICE BEFORE SELF (8 items, 0-2) -->
 <section class="scoring-section" id="sec-service" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="service-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="service-content" onclick="toggleSection(this)">
     <span>Service Before Self</span>
     <span class="section-meta">
       <span class="section-score" id="serviceScore" aria-live="polite">0 / 16</span>
@@ -620,7 +620,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- EXCELLENCE IN ALL WE DO (8 items, mixed) -->
 <section class="scoring-section" id="sec-excellence" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="excellence-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="excellence-content" onclick="toggleSection(this)">
     <span>Excellence In All We Do</span>
     <span class="section-meta">
       <span class="section-score" id="excellenceScore" aria-live="polite">0 / 12</span>
@@ -636,7 +636,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- BONUS POINTS -->
 <section class="scoring-section" id="sec-bonus" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="bonus-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="bonus-content" onclick="toggleSection(this)">
     <span>Bonus Points</span>
     <span class="section-meta">
       <span class="section-score" id="bonusScore" aria-live="polite">0 / 6</span>
@@ -652,7 +652,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- BEHAVIORAL ASSESSMENT -->
 <section class="scoring-section" id="sec-behavioral" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="behavioral-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="behavioral-content" onclick="toggleSection(this)">
     <span>Behavioral Assessment</span>
     <span class="section-meta"><span class="section-completion" id="behavComp">0/3</span><span class="chevron">&#9660;</span></span>
   </button>
@@ -663,7 +663,7 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 
 <!-- PROMOTION THRESHOLD -->
 <section class="scoring-section" id="sec-threshold" style="scroll-margin-top:1rem">
-  <button class="section-header" aria-expanded="false" aria-controls="threshold-content" onclick="toggleSection(this)">
+  <button type="button" class="section-header" aria-expanded="false" aria-controls="threshold-content" onclick="toggleSection(this)">
     <span>Promotion Threshold Status</span>
     <span class="chevron">&#9660;</span>
   </button>
@@ -691,9 +691,9 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 <!-- BUTTONS -->
 <div id="saveIndicator" class="save-indicator" aria-live="polite"></div>
 <div class="btn-row no-print">
-  <button class="btn btn-primary" onclick="doPrint()">Print / Save PDF</button>
-  <button class="btn btn-secondary" onclick="resetForm()">Reset All</button>
-  <button class="btn btn-danger" onclick="clearSaved()">Clear Saved Data</button>
+  <button type="button" class="btn btn-primary" onclick="doPrint()">Print / Save PDF</button>
+  <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset All</button>
+  <button type="button" class="btn btn-danger" onclick="clearSaved()">Clear Saved Data</button>
 </div>
 
 <!-- Print Summary Table (Page 1) -->
@@ -742,8 +742,8 @@ body{font-family:var(--font-body);background:var(--surface-alt);color:var(--text
 </div>
 
 <!-- Mobile Section Jump -->
-<button class="mobile-jump-fab" id="mobileJumpFab" onclick="document.getElementById('mobileJumpDrawer').classList.toggle('open')" aria-label="Jump to section">&#9776;</button>
-<nav class="mobile-jump-drawer" id="mobileJumpDrawer" role="navigation" aria-label="Section jump">
+<button type="button" class="mobile-jump-fab" id="mobileJumpFab" onclick="document.getElementById('mobileJumpDrawer').classList.toggle('open')" aria-label="Jump to section">&#9776;</button>
+<nav class="mobile-jump-drawer" id="mobileJumpDrawer" aria-label="Section jump">
   <a href="#sec-info" onclick="jumpToSection('sec-info');return false;">Member Info</a>
   <a href="#afscRequirements" onclick="jumpToSection('afscRequirements');return false;">AFSC Requirements</a>
   <a href="#sec-integrity" onclick="jumpToSection('sec-integrity');return false;">Integrity</a>
@@ -1411,7 +1411,7 @@ function buildSection(containerId, items, prefix) {
     if (item.hint) html += '<span class="item-hint">' + item.hint + '</span>';
     html += '</span>' + buildRubricTooltip(item.rubric) + '</div>';
     html += buildScoreControl(radioName, item.max, null, item.text);
-    html += '<button class="waiver-toggle" onclick="toggleWaiver(\'' + item.id + '\')" title="Mark as N/A (waiver)">N/A</button>';
+    html += '<button type="button" class="waiver-toggle" onclick="toggleWaiver(\'' + item.id + '\')" title="Mark as N/A (waiver)">N/A</button>';
     html += '<div class="waiver-reason"><label>Reason:</label><input type="text" placeholder="e.g., Deployed, Medical profile" data-waiver="' + item.id + '" oninput="saveState()"></div>';
     html += '<span class="score-print-value">—</span></div>';
   });
@@ -1454,7 +1454,7 @@ function buildBonusSection(prefix) {
     var radioName = prefix + item.id;
     html += '<div class="scoring-item" data-item-id="' + item.id + '"><div class="item-label"><span class="item-number">' + (i+1) + '.</span><span>' + item.text + '</span>' + buildRubricTooltip(item.rubric) + '</div>';
     html += buildScoreControl(radioName, item.max, item.values, item.text);
-    html += '<button class="waiver-toggle" onclick="toggleWaiver(\'' + item.id + '\')" title="Mark as N/A (waiver)">N/A</button>';
+    html += '<button type="button" class="waiver-toggle" onclick="toggleWaiver(\'' + item.id + '\')" title="Mark as N/A (waiver)">N/A</button>';
     html += '<div class="waiver-reason"><label>Reason:</label><input type="text" placeholder="e.g., Deployed, Medical profile" data-waiver="' + item.id + '" oninput="saveState()"></div>';
     html += '<span class="score-print-value">—</span></div>';
   });
