@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  html-validate:
+    name: HTML Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install html-validate
+        run: npm install -g html-validate
+      - name: Validate HTML files
+        run: |
+          find . -name "*.html" -not -path "./node_modules/*" | xargs html-validate
+        continue-on-error: true
+
+  accessibility:
+    name: Accessibility (axe-core)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install -g http-server @axe-core/cli
+      - name: Start local server
+        run: http-server . -p 8080 &
+      - name: Wait for server
+        run: npx wait-on http://localhost:8080 --timeout 15000
+      - name: Run axe accessibility tests
+        run: axe http://localhost:8080 --exit
+        continue-on-error: true
